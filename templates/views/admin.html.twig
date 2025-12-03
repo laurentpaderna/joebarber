@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title>Page de connection</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<main role="main">
+    <!-- HEADER -->
+    {% include "views/blocks/header.html.twig" with {
+        'title' : 'Bienvenue sur votre page de contact!',
+        'content' : 'Saississez votre identifiant et votre mot de passe pour vous connecter.'
+    } %}
+    <!-- CONTENT LIST -->
+    <article>
+        <div class="is-container">
+            <form method="post" action="">
+                <div class="has-text-center{{ errorClassLogin }}">
+                    <input class="is-input" type="text" id="joe_login" name="joe_login" value="{{ valueLogin }}" placeholder="Votre identifiant..." />
+                    <strong class="is-error-message">{{ emptyLogin }}</strong>
+                    <strong class="is-error-message">{{ wrongLogin }}</strong>
+                </div>
+                <div class="has-text-center{{ errorClassPassword }}">
+                    <input class="is-input" type="password" id="joe_password" name="joe_password" value="{{ valuePassword }}" placeholder="Votre mot de passe..."/>
+                    <strong class="is-error-message">{{ emptyPassword }}</strong>
+                    <strong class="is-error-message">{{ wrongPassword }}</strong>
+                </div>
+                <div class="has-text-center">
+                    <input class="is-button" type="submit" id="joe_submit" name="joe_submit" value="se connecter" />
+                </div>
+            </form>
+        </div>
+    </article>
+    <!-- FOOTER -->
+    <footer></footer>
+</main>
+</body>
+</html>

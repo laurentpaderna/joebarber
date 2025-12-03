@@ -1,0 +1,15 @@
+{% if databaseConnectionError is not empty %}
+    <p class="is-error-notification">{{ "La connection à la base de donnée a échoué:" ~ databaseConnectionError }}</p>
+{% endif %}
+<header class="is-block-title">
+    {% if session["joe_logged"] is same as(true) %}
+        <div class="is-block-connection has-text-right">
+            <a class="is-link has-very-medium-font" href="/logout"><strong>&#9654; Se déconnecter</strong></a>
+        </div>
+    {% endif %}
+    <div class="is-container has-text-center">
+        <h1 class="is-title-very-large has-no-margin">{{ title }}</h1>
+        <p class="is-content has-no-margin">{{ content|raw }}</p>
+    </div>
+</header>
+<hr class="is-separator"/>

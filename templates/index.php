@@ -1,0 +1,95 @@
+<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+
+// Start session for connected pages
+session_start();
+
+// Load our autoloader
+require_once __DIR__."/../vendor/autoload.php";
+
+// Specify our Twig templates location
+$loader = new \Twig\Loader\FilesystemLoader(__DIR__."/");
+$twig = new \Twig\Environment($loader, [
+    "debug" => true
+]);
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+$twig->addGlobal("session", $_SESSION);
+
+// Set global login and password
+$username = "test";
+$password = "1234";
+
+// Get current uri
+$request = $_SERVER["REQUEST_URI"];
+
+// Set url from requested uri
+switch ($request) {
+    case '/' :
+
+        // Main page
+        require __DIR__ . "/views/main.html.twig";
+        break;
+
+    case '' :
+
+        // Redirect to admin dashboard
+        header("Location: /");
+        break;
+
+    case '/joe' :
+
+        // If user is connected
+        if (isset($_SESSION['joe_logged']) and $_SESSION['joe_logged'] == true) {
+
+            // Redirect to admin dashboard
+            header("Location: /dashboard");
+            exit();
+        }
+
+        // Load template for login page
+        $template = $twig->load("/views/admin.html.twig");
+        require __DIR__ . "/login.php";
+
+        break;
+
+    case '/dashboard' :
+
+        // If no user is connected, or disconnected
+        if (!isset($_SESSION['joe_logged']) or $_SESSION['joe_logged'] == false) {
+
+            // Redirect to admin dashboard
+            header("Location: /joe");
+            exit();
+        }
+
+        // Admin dashboard page
+        $template = $twig->load("/views/dashboard.html.twig");
+
+        // render content to template
+        echo $template->render();
+
+        break;
+
+    case '/logout' :
+
+        require __DIR__ . "/logout.php";
+
+        break;
+
+    case '/agenda' :
+
+        // Load template for login page
+        require __DIR__ . "/agenda.php";
+
+        break;
+
+    default:
+
+        // Page not found
+        http_response_code(404);
+        require __DIR__ . '/views/404.html.twig';
+        break;
+
+}

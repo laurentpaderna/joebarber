@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<main role="main" class="is-dashboard">
+    <!-- HEADER -->
+    {% include "views/blocks/header.html.twig" with {
+        'title' : 'Bonjour Johan!',
+        'content' : "Tu as <strong class='has-very-large-font'>3</strong> demandes en attente, et <strong class='has-very-large-font'>1</strong> rendez-vous aujourd'hui."
+    } %}
+    <!-- CONTENT LIST -->
+    <article>
+        <div class="is-container is-block-dashboard">
+            <a class="is-dashboard-link is-dashboard-agenda" href="/agenda">
+                <span class="is-dashboard-content">
+                    <span class="is-dashboard-text">Mon agenda</span>
+                    <span class="is-dashboard-icon">&#9201;</span>
+                </span>
+            </a>
+            <a class="is-dashboard-link is-dashboard-request" href="/agenda">
+                <span class="is-dashboard-content">
+                    <span class="is-dashboard-text">Mes demandes</span>
+                    <span class="is-dashboard-icon">&#9993;</span>
+                </span>
+            </a>
+        </div>
+    </article>
+    <!-- FOOTER -->
+    <footer></footer>
+</main>
+</body>
+</html>

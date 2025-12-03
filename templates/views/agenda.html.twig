@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+<main role="main">
+    <!-- HEADER -->
+    {% include "views/blocks/header.html.twig" with {
+        'title' : 'Voici votre agenda!',
+        'content' : "Gérez votre emploi du temps à partir de ce calendrier."
+    } %}
+    <!-- CONTENT LIST -->
+    <article>
+        <section class="is-container has-agenda">
+            <p class="is-filter-title has-very-medium-font has-no-margin">Filtres d'affichage</p>
+            <a class="is-filter-button" id="display-all" href="#display-all">Tout afficher</a>
+            <a class="is-filter-button" id="display-appointments" href="#display-appointments">Afficher les rendez-vous</a>
+            <a class="is-filter-button" id="display-offs" href="#display-offs">Afficher les absences</a>
+            <a class="is-filter-button" id="display-available" href="#display-available">Afficher les créneaux disponibles</a>
+            <form class="is-agenda-form" method="post">
+                {{ agenda|raw }}
+                <div class="has-inline-block has-text-left has-left-small-margin">
+                    <input class="is-button" type="submit" id="joe_submit" name="joe_submit" value="Valider les absences" />
+                </div>
+                <div class="has-inline-block has-text-left has-left-small-margin">
+                    <input class="is-button" type="submit" id="joe_submit" name="joe_submit" value="Annuler les absences" />
+                </div>
+            </form>
+        </section>
+    </article>
+    <!-- FOOTER -->
+    <footer></footer>
+</main>
+</body>
+</html>

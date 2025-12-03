@@ -1,0 +1,8 @@
+{
+    "require": {
+        "twig/twig": "^3.20",
+        "benhall14/php-calendar": "^2.0",
+        "ext-dom": "*",
+        "ext-pdo": "*"
+    }
+}
