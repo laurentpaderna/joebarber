@@ -300,6 +300,7 @@ html {
     border: solid 1px var(--grey-label);
     border-radius: var(--small-space);
     cursor: pointer;
+    text-align: center;
 }
 .weekly-calendar .is-agenda-card.has-day-off {
     border-color: var(--red);

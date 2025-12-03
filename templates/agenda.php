@@ -4,6 +4,12 @@ require __DIR__."/../vendor/autoload.php";
 
 use benhall14\phpCalendar\Calendar as Calendar;
 
+if (isset($_POST)) {
+    echo "<pre>";
+    var_dump($_POST);
+    echo "</pre>";
+}
+
 // Define new calendar
 $calendar = new Calendar();
 
@@ -34,6 +40,9 @@ $eventsAppointment = [
 // Set events for days off
 $eventDaysOff = ['2025-12-13_08:00_08:30'];
 
+// Set ids for content
+$contentId = 00;
+
 // Set content for every day of the week
 for ($i = 1; $i <= 7; $i++) {
 
@@ -48,11 +57,11 @@ for ($i = 1; $i <= 7; $i++) {
         $eventEndDate = $dateStartWeek->format('Y-m-d') . ' ' . $eventEndDateData;
 
         // Define input content
-        $randomNumberAvailable = rand(100,990);
+        $checkboxAvailableIdentifier = $contentId++;
         $inputCheckboxValue = $dateStartWeek->format('Y-m-d') . '_' . $eventStartDateData . '_' . $eventEndDateData;
-        $inputCheckboxAvailable = '<input id="' . $randomNumberAvailable . '" type="checkbox" name="agenda" value="' . $inputCheckboxValue . '"/><label class="is-agenda-card" for="' . $randomNumberAvailable . '"><span class="is-agenda-card-label"><span class="is-agenda-title">' . $eventStartDateData .' - ' . $eventEndDateData . '</span></span></label>';
-        $randomNumberDayOff = rand(100,990);
-        $inputCheckboxDayOff = '<input id="' . $randomNumberDayOff . '" type="checkbox" name="agenda" value="' . $inputCheckboxValue . '"/><label class="is-agenda-card has-day-off" for="' . $randomNumberDayOff . '"><span class="is-agenda-card-label"><span class="is-agenda-title">' . $eventStartDateData .' - ' . $eventEndDateData . '</span></span></label>';
+        $inputCheckboxAvailable = '<input id="' . $checkboxAvailableIdentifier . '" type="checkbox" name="agenda_' . $checkboxAvailableIdentifier . '" value="' . $inputCheckboxValue . '"/><label class="is-agenda-card" for="' . $checkboxAvailableIdentifier . '"><span class="is-agenda-card-label"><span class="is-agenda-title">' . $eventStartDateData .' - ' . $eventEndDateData . '</span></span></label>';
+        $checkboxDayOffIdentifier = $contentId++;
+        $inputCheckboxDayOff = '<input id="' . $checkboxDayOffIdentifier . '" type="checkbox" name="agenda_' . $checkboxDayOffIdentifier . '" value="' . $inputCheckboxValue . '"/><label class="is-agenda-card has-day-off" for="' . $checkboxDayOffIdentifier . '"><span class="is-agenda-card-label"><span class="is-agenda-title">' . $eventStartDateData .' - ' . $eventEndDateData . '</span></span></label>';
         $appointmentCard = '<div class="is-agenda-card has-appointment"><span class="is-agenda-card-label"><span class="is-agenda-title">' . $eventStartDateData .' - ' . $eventEndDateData . '</span></span><ul class="is-agenda-data-list"><li>DOE</li><li>John</li><li>24 rue de knowhere DOECITY 65420</li><li>0548 96 52 63</li></ul></div>';
         
         // Set event content from dates in array
