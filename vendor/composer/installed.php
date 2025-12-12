@@ -79,6 +79,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'symfony/intl' => array(
+            'pretty_version' => 'v7.4.0',
+            'version' => '7.4.0.0',
+            'reference' => '2fa074de6c7faa6b54f2891fc22708f42245ed5c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/intl',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/polyfill-ctype' => array(
             'pretty_version' => 'v1.31.0',
             'version' => '1.31.0.0',
@@ -129,6 +138,15 @@
             'provided' => array(
                 0 => '2.3|3.0',
             ),
+        ),
+        'twig/intl-extra' => array(
+            'pretty_version' => 'v3.22.1',
+            'version' => '3.22.1.0',
+            'reference' => '93ac31e53cdd3f2e541f42690cd0c54ca8138ab1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twig/intl-extra',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'twig/twig' => array(
             'pretty_version' => 'v3.20.0',

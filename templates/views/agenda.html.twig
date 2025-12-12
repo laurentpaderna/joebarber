@@ -9,6 +9,62 @@
 </head>
 <body>
 <main role="main">
+
+    {% macro items(weekDayName, calendarCollection) %}
+        {% set break = false %}
+        {% for key, event in calendarCollection.events %}
+            {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false %}
+                <div class="is-agenda-row has-text-left">
+                    {% for key, event in calendarCollection.events %}
+                        {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false %}
+                            <p class="is-agenda-row-title">{{ calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') | upper }}</p>
+                            {% set dayIdentifier = calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cc')%}
+                            <input class="is-radio-select has-no-display" id="agenda_{{ dayIdentifier }}_1" name="agenda_{{ dayIdentifier }}" type="radio" value="1" />
+                            <input class="is-radio-no-select has-no-display" id="agenda_{{ dayIdentifier }}_2" name="agenda_{{ dayIdentifier }}" type="radio" value="2" />
+                            <label for="agenda_{{ dayIdentifier }}_1" class="is-agenda-row-button is-agenda-select">Sélectionner ce jour</label>
+                            <label for="agenda_{{ dayIdentifier }}_2" class="is-agenda-row-button is-agenda-no-select">Déselectionner ce jour</label>
+                            {% set break = true %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="is-agenda-card-list">
+                        {% for key, event in calendarCollection.events %}
+                            {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') %}
+                                {% set currentIdentifier = calendarCollection.events[key].summary | split(';')[2] %}
+                                {% set currentContentType = calendarCollection.events[key].summary | split(';')[0] %}
+                                {% set currentContentTitle = calendarCollection.events[key].summary | split(';')[1] | replace({'_':' '}) %}
+                                {% if currentContentType == 'available' or currentContentType == 'off' %}
+                                    <input class="has-no-display" id="{{ currentIdentifier }}" type="checkbox" name="agenda_{{ currentIdentifier }}" value="{{ calendarCollection.events[key].summary | split(';')[3] }}"/>
+                                    <label class="is-agenda-card{{ currentContentType == 'off' ? ' has-day-off' }}" for="{{ currentIdentifier }}">
+                                        <span class="is-agenda-card-label">
+                                            <span class="is-agenda-title">{{ currentContentTitle }}</span>
+                                        </span>
+                                    </label>
+                                {% endif %}
+                                {% if currentContentType == 'appointment' %}
+                                    <div class="is-agenda-card has-appointment">
+                                        <span class="is-agenda-card-label">
+                                            <span class="is-agenda-title">{{ currentContentTitle }}</span>
+                                        </span>
+                                        <ul class="is-agenda-data-list">
+                                            <li>{{ calendarCollection.events[key].summary | split(';')[2] }}</li>
+                                            <li>{{ calendarCollection.events[key].summary | split(';')[3] }}</li>
+                                            <li>{{ calendarCollection.events[key].summary | split(';')[4] }}</li>
+                                            <li>{{ calendarCollection.events[key].summary | split(';')[5] }}</li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                {% set break = true %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% set break = true %}
+            {% endif %}
+        {% endfor %}
+    {% endmacro %}
+
+    {% import _self as agenda %}
+
     <!-- HEADER -->
     {% include "views/blocks/header.html.twig" with {
         'title' : 'Voici votre agenda!',
@@ -23,7 +79,24 @@
             <a class="is-filter-button" id="display-offs" href="#display-offs">Afficher les absences</a>
             <a class="is-filter-button" id="display-available" href="#display-available">Afficher les créneaux disponibles</a>
             <form class="is-agenda-form" method="post">
-                {{ agenda|raw }}
+                <div class="is-agenda-container">
+
+                    {{ agenda.items('lundi', calendar) }}
+
+                    {{ agenda.items('mardi', calendar) }}
+
+                    {{ agenda.items('mercredi', calendar) }}
+
+                    {{ agenda.items('jeudi', calendar) }}
+
+                    {{ agenda.items('vendredi', calendar) }}
+
+                    {{ agenda.items('samedi', calendar) }}
+
+                    {{ agenda.items('dimanche', calendar) }}
+
+                </div>
+
                 <div class="has-inline-block has-text-left has-left-small-margin">
                     <input class="is-button" type="submit" name="agenda_add_submit" value="Valider les absences" />
                 </div>

@@ -3,6 +3,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+// Set translation on calendar
+use Twig\Extra\Intl\IntlExtension;
+
 // Start session for connected pages
 session_start();
 
@@ -15,11 +18,8 @@ $twig = new \Twig\Environment($loader, [
     "debug" => true
 ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
+$twig->addExtension(new IntlExtension());
 $twig->addGlobal("session", $_SESSION);
-
-// Set global login and password
-$username = "test";
-$password = "1234";
 
 // Get current uri
 $request = $_SERVER["REQUEST_URI"];
