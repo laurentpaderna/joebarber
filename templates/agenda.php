@@ -98,7 +98,6 @@ $agenda = $calendar
 // Render content to template
 $template = $twig->load("/views/agenda.html.twig");
 echo $template->render(array(
-    "agenda" => $agenda,
     "calendar" => $calendar
 ));
 

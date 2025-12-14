@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__."/pdo.php";
+
 // Set error content
 $emptyLogin = NULL;
 $emptyPassword = NULL;
@@ -10,24 +12,14 @@ $errorClassPassword = NULL;
 $databaseConnectionError = NULL;
 
 // Retrieve username and password from database
-$servername = "joebarber_db";
-$databaseName = "joebarber_db";
-$username = NULL;
-$password = NULL;
-try {
-    $connection = new PDO("mysql:host=$servername;dbname=$databaseName", "joe", "barber");
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $request = $connection->prepare("SELECT identifier, password FROM users");
-    $request->execute();
-    $result = $request->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($result as $row) {
-        $username = $row["identifier"];
-        $password = $row["password"];
-    }
-} catch(PDOException $e) {
-    $databaseConnectionError = $e->getMessage();
-}
-$connection = null;
+$userName = NULL;
+$passWord = NULL;
+$requestUser = getInformationFromDatabase("joebarber_db","joebarber_db", "joe","barber","SELECT identifier, password FROM users");
+$userName = $requestUser["result"][0]["identifier"];
+$passWord = $requestUser["result"][0]["password"];
+
+// Set error content
+$databaseConnectionError = $requestUser["error"];
 
 // Set input content
 $valueLogin = NULL;
@@ -56,13 +48,13 @@ if(isset($_POST["joe_submit"])) {
     $emptyLogin = ($currentLogin === 0) ? "Veuillez saisir votre identifiant." : "";
 
     // If login is wrong
-    $wrongLogin = ($emptyLogin == "" and $valueLogin != $username) ? "Cet identifiant est inconnu." : "";
+    $wrongLogin = ($emptyLogin == "" and $valueLogin != $userName) ? "Cet identifiant est inconnu." : "";
 
     // If password is empty
     $emptyPassword = ($currentPassword === 0) ? "Veuillez saisir votre mot de passe." : "";
 
     // If password is wrong
-    $wrongPassword = ($emptyPassword == "" and $valuePassword != $password) ? "Ce mot de passe est inconnu." : "";
+    $wrongPassword = ($emptyPassword == "" and $valuePassword != $passWord) ? "Ce mot de passe est inconnu." : "";
 
     // Set error classes
     $errorClassLogin = ($emptyLogin != "" or $wrongLogin != "") ? " has-error" : "";

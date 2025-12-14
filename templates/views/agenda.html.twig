@@ -19,7 +19,7 @@
                         {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false %}
                             <p class="is-agenda-row-title">{{ calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') | upper }}</p>
                             {% set dayIdentifier = calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cc')%}
-                            <input class="is-radio-select has-no-display" id="agenda_{{ dayIdentifier }}_1" name="agenda_{{ dayIdentifier }}" type="radio" value="1" />
+                            <input class="is-radio-select has-no-display" id="agenda_{{ dayIdentifier }}_1" name="agenda_{{ dayIdentifier }}" type="radio" value="{{ calendarCollection.events[key].start.date | format_datetime(pattern: 'Y-MM-d') }}_08:30_19:30" />
                             <input class="is-radio-no-select has-no-display" id="agenda_{{ dayIdentifier }}_2" name="agenda_{{ dayIdentifier }}" type="radio" value="2" />
                             <label for="agenda_{{ dayIdentifier }}_1" class="is-agenda-row-button is-agenda-select">Sélectionner ce jour</label>
                             <label for="agenda_{{ dayIdentifier }}_2" class="is-agenda-row-button is-agenda-no-select">Déselectionner ce jour</label>
@@ -78,7 +78,8 @@
             <a class="is-filter-button" id="display-appointments" href="#display-appointments">Afficher les rendez-vous</a>
             <a class="is-filter-button" id="display-offs" href="#display-offs">Afficher les absences</a>
             <a class="is-filter-button" id="display-available" href="#display-available">Afficher les créneaux disponibles</a>
-            <form class="is-agenda-form" method="post">
+            <hr class="is-separator has-no-margin-left has-big-margin-top has-left-small-margin">
+            <form class="is-agenda-form" action="/mod" method="post">
                 <div class="is-agenda-container">
 
                     {{ agenda.items('lundi', calendar) }}
@@ -97,10 +98,10 @@
 
                 </div>
 
-                <div class="has-inline-block has-text-left has-left-small-margin">
+                <div class="has-inline-block has-text-left has-left-very-medium-margin">
                     <input class="is-button" type="submit" name="agenda_add_submit" value="Valider les absences" />
                 </div>
-                <div class="has-inline-block has-text-left has-left-small-margin">
+                <div class="has-inline-block has-text-left has-left-very-medium-margin">
                     <input class="is-button" type="submit" name="agenda_delete_submit" value="Annuler les absences" />
                 </div>
             </form>
