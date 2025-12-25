@@ -2,14 +2,17 @@
     <p class="is-error-notification">{{ "La connection à la base de donnée a échoué:" ~ databaseConnectionError }}</p>
 {% endif %}
 <header class="is-block-title">
-    {% if session["joe_logged"] is same as(true) %}
-        <div class="is-block-connection has-text-right">
+    <div class="is-block-connection {{ returnLink is empty ? 'has-justify-end' : 'has-justify-between' }}">
+        {% if returnLink is not empty %}
+            <a class="is-link has-very-medium-font" href="{{ returnLink }}"><strong>&#9668; Retour à la page précédente</strong></a>
+        {% endif %}
+        {% if session["joe_logged"] is same as(true) %}
             <a class="is-link has-very-medium-font" href="/logout"><strong>&#9654; Se déconnecter</strong></a>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
     <div class="is-container has-text-center">
         <h1 class="is-title-very-large has-no-margin">{{ title }}</h1>
         <p class="is-content has-no-margin">{{ content|raw }}</p>
     </div>
 </header>
-<hr class="is-separator"/>
+<hr class="is-separator has-big-margin-top"/>

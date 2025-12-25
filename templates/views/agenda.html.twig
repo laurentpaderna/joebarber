@@ -9,11 +9,10 @@
 </head>
 <body>
 <main role="main">
-
     {% macro items(weekDayName, calendarCollection) %}
         {% set break = false %}
         {% for key, event in calendarCollection.events %}
-            {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false %}
+            {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false and calendarCollection.events[key].mask is same as false %}
                 <div class="is-agenda-row has-text-left">
                     {% for key, event in calendarCollection.events %}
                         {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false %}

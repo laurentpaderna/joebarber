@@ -1,14 +1,18 @@
 <?php
 
-require __DIR__."/../vendor/autoload.php";
+require __DIR__.'/../vendor/autoload.php';
 
 use benhall14\phpCalendar\Calendar as Calendar;
 
 // Define new calendar
 $calendar = new Calendar();
 
+// Define return link
+$returnLink = '/dashboard';
+
 // Set style for agenda
 $calendar->addTableClasses('is-agenda');
+$calendar->hideMondays();
 
 // Set list of event to define content on calendar
 $events = array();
@@ -22,20 +26,28 @@ $timestampEnd = strtotime($hourEnd);
 // Set interval per hour
 $hourInterval = 30;
 
-// Set starting day of the agenda
-$dateStartWeek = (new DateTime())->modify('next monday');
+// Set monday of the agenda
+$dateStartWeek = new DateTime('now');
+if ($dateStartWeek->format('l') !== 'Monday') {
+    // Get previous monday
+    $dateStartWeek = new dateTime('@' . strtotime('last Monday'));
+}
+// $dateStartWeek = ((new DateTime())->modify('-1 day'));
 
 // Set events for appointments
 $eventsAppointment = [
-    '2025-12-15_10:00_10:30',
-    '2025-12-18_09:00_09:30',
+    '2025-12-24_10:00_10:30',
+    '2025-12-22_09:00_09:30',
 ];
+$calendar->addDataAttribute($dateStartWeek->format('Y-m-d'), 'data', 'off');
 
 // Set events for days off
 $eventDaysOff = ['2025-12-16_08:00_08:30'];
 
 // Set ids for content
 $contentId = 00;
+
+$currentDate = new dateTime('now');
 
 // Set content for every day of the week
 for ($i = 1; $i <= 7; $i++) {
@@ -48,6 +60,7 @@ for ($i = 1; $i <= 7; $i++) {
         $eventStartDateData = date('H:i',$timestampStart);
         $eventEndDateData = date('H:i', $timestampStart+(60*$hourInterval));
         $eventEndDate = $dateStartWeek->format('Y-m-d') . ' ' . $eventEndDateData;
+        $eventMask = $currentDate->format('Y-m-d') > $dateStartWeek->format('Y-m-d');
 
         // Define input content
         $checkboxAvailableIdentifier = $contentId++;
@@ -73,6 +86,7 @@ for ($i = 1; $i <= 7; $i++) {
             'start' => $eventStartDate,
             'end' => $eventEndDate,
             'summary' => $eventContent,
+            'mask' => $eventMask
         );
 
         // Increment hour by 30 minutes
@@ -96,9 +110,10 @@ $agenda = $calendar
     ->draw(date('Y-m-d',strtotime('next monday')));
 
 // Render content to template
-$template = $twig->load("/views/agenda.html.twig");
+$template = $twig->load('/views/agenda.html.twig');
 echo $template->render(array(
-    "calendar" => $calendar
+    'returnLink' => $returnLink,
+    'calendar' => $calendar
 ));
 
 

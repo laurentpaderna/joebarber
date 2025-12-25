@@ -79,13 +79,11 @@ html {
 }
 /*HEADER*/
 .is-block-connection {
-    padding-right: var(--large-space);
-    padding-bottom: var(--large-space);
-}
-.is-block-title {
-    padding: var(--big-space) 0px var(--large-space);
+    display: flex;
+    padding: 0px var(--big-space) var(--small-space);
 }
 .is-link {
+    padding: var(--small-space) 0px;
     text-decoration: none;
     color: var(--blue-title);
 }
@@ -239,6 +237,7 @@ html {
     padding: 0px;
     visibility: hidden;
     overflow: hidden;
+    border-width: 0px;
 }
 .is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card {
     pointer-events: none;
@@ -451,4 +450,16 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 }
 .has-position-relative {
     position: relative;
+}
+.has-justify-end {
+    justify-content: flex-end;
+}
+.has-justify-between {
+    justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+    .is-block-connection {
+        flex-direction: column-reverse;
+    }
 }
