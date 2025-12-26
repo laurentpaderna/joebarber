@@ -97,6 +97,7 @@ html {
 }
 /* LOGIN */
 .is-button {
+    display: inline-block;
     padding: var(--small-space) var(--very-medium-space);
     margin: var(--small-space) 0px;
     border-style: none;
@@ -104,6 +105,7 @@ html {
     background-color: var(--blue-title);
     color: var(--white);
     font-size: var(--very-medium-font);
+    text-decoration: none;
     cursor: pointer;
 }
 .is-button:hover {
@@ -406,6 +408,9 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     padding-bottom: var(--space);
 }
 /* HELPER */
+.has-width-100 {
+    width: 100%;
+}
 .has-no-margin {
     margin: 0px;
 }
@@ -423,6 +428,9 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 }
 .has-left-very-medium-margin {
     margin-left: var(--very-medium-space);
+}
+.has-right-very-medium-margin {
+    margin-right: var(--very-medium-space);
 }
 .has-left-small-margin {
     margin-left: var(--small-space);

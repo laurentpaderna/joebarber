@@ -27,7 +27,7 @@ $timestampEnd = strtotime($hourEnd);
 $hourInterval = 30;
 
 // Set monday of the agenda
-$dateStartWeek = new DateTime('now');
+$dateStartWeek = isset($_GET) ? new DateTime($_GET['date']) : new DateTime('now');
 if ($dateStartWeek->format('l') !== 'Monday') {
     // Get previous monday
     $dateStartWeek = new dateTime('@' . strtotime('last Monday'));
@@ -113,7 +113,8 @@ $agenda = $calendar
 $template = $twig->load('/views/agenda.html.twig');
 echo $template->render(array(
     'returnLink' => $returnLink,
-    'calendar' => $calendar
+    'calendar' => $calendar,
+    'nextMonday' => $dateStartWeek->format('Y-m-d')
 ));
 
 

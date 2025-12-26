@@ -9,6 +9,11 @@
 </head>
 <body>
 <main role="main">
+
+    {# Get current Monday #}
+    {% set lastMonday = nextMonday | date_modify('-7 day') | date('Y-m-d') %}
+
+    {# Set agenda content per day #}
     {% macro items(weekDayName, calendarCollection) %}
         {% set break = false %}
         {% for key, event in calendarCollection.events %}
@@ -95,13 +100,18 @@
 
                     {{ agenda.items('dimanche', calendar) }}
 
+                    <div class="has-width-100 has-text-left">
+                        {% if lastMonday >= 'now' | date('Y-m-d')  %}
+                            <a class="is-button has-right-very-medium-margin" href="?date={{ lastMonday | date_modify('-7 day') | date('Y-m-d') }}">Semaine précedente</a>
+                        {% endif %}
+                        <a class="is-button" href="?date={{ nextMonday }}">Semaine suivante</a>
+                    </div>
+
                 </div>
 
-                <div class="has-inline-block has-text-left has-left-very-medium-margin">
+                <div class="has-width-100 has-big-margin-top has-text-right has-left-very-medium-margin">
                     <input class="is-button" type="submit" name="agenda_add_submit" value="Valider les absences" />
-                </div>
-                <div class="has-inline-block has-text-left has-left-very-medium-margin">
-                    <input class="is-button" type="submit" name="agenda_delete_submit" value="Annuler les absences" />
+                    <input class="is-button has-left-very-medium-margin" type="submit" name="agenda_delete_submit" value="Annuler les absences" />
                 </div>
             </form>
         </section>

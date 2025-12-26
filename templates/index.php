@@ -23,6 +23,7 @@ $twig->addGlobal("session", $_SESSION);
 
 // Get current uri
 $request = $_SERVER["REQUEST_URI"];
+$currentUrl = parse_url($request, PHP_URL_PATH);
 
 // Set url from requested uri
 switch ($request) {
@@ -78,7 +79,7 @@ switch ($request) {
 
         break;
 
-    case '/agenda' :
+    case (str_contains($currentUrl,'agenda')) :
 
         // Load template for login page
         require __DIR__ . "/agenda.php";
