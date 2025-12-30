@@ -4,6 +4,9 @@ require __DIR__.'/../vendor/autoload.php';
 
 use benhall14\phpCalendar\Calendar as Calendar;
 
+$databaseConnectionError = NULL;
+$eventDaysOff = [];
+
 // Define new calendar
 $calendar = new Calendar();
 
@@ -28,11 +31,69 @@ $hourInterval = 30;
 
 // Set monday of the agenda
 $dateStartWeek = isset($_GET) ? new DateTime($_GET['date']) : new DateTime('now');
+
 if ($dateStartWeek->format('l') !== 'Monday') {
     // Get previous monday
     $dateStartWeek = new dateTime('@' . strtotime('last Monday'));
 }
-// $dateStartWeek = ((new DateTime())->modify('-1 day'));
+
+// Get next sunday for database request
+$nextSunday = new dateTime($dateStartWeek->format('Y-m-d'));
+$nextSunday->modify('next Sunday');
+
+// Get information from database
+$dateStart = $dateStartWeek->format('Y-m-d');
+$dateEnd = $nextSunday->format('Y-m-d');
+$requestDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','SELECT * FROM Dates WHERE DateTime BETWEEN "' . $dateStart . '" AND "' . $dateEnd .'"');
+foreach ($requestDates['result'] as $requestResult) {
+    // Set event for day off
+    if ($requestResult['DateType'] == 'off') {
+        $eventDaysOff[] = $requestResult['DateTime'] . '_' . $requestResult['DatePeriod'];
+    }
+}
+
+// Record user selection
+if (isset($_POST['submit_agenda_add'])) {
+    // Remove useless element from array
+    unset($_POST['submit_agenda_add']);
+
+    foreach ($_POST as $post_data) {
+
+        // Get data from form
+        $dataDate = explode('_', $post_data)[0];
+        $dataPeriod = explode('_', $post_data)[1];
+
+        // Check if entry exist
+        $isDateExist = setDatabaseRequest('joebarber_db','joebarber_db', 'joe', 'barber', 'SELECT DatePeriod, DateTime FROM Dates WHERE DatePeriod = "' . $dataPeriod . '" AND  DateTime = "' . $dataDate . '"');
+
+        if (!count($isDateExist['result'])) {
+            // Insert data into tables
+            $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','INSERT INTO Dates (DateType, DatePeriod, DateTime, ClientID) VALUES ("off","' . $dataPeriod . '","' . $dataDate . '",NULL)');
+
+            // Set error content
+            $databaseConnectionError = $requestInsertDates["error"];
+        }
+    }
+}
+
+// Delete user selection
+if (isset($_POST['submit_agenda_delete'])) {
+    // Remove useless element from array
+    unset($_POST['submit_agenda_delete']);
+
+    foreach ($_POST as $post_data) {
+
+        // Get data from form
+        $dataDate = explode('_', $post_data)[0];
+        $dataPeriod = explode('_', $post_data)[1];
+
+        // Insert data into tables
+        $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','DELETE FROM Dates WHERE DatePeriod = "' . $dataPeriod . '" AND  DateTime = "' . $dataDate . '"');
+
+        // Set error content
+        $databaseConnectionError = $requestInsertDates["error"];
+    }
+}
 
 // Set events for appointments
 $eventsAppointment = [
@@ -40,9 +101,6 @@ $eventsAppointment = [
     '2025-12-22_09:00_09:30',
 ];
 $calendar->addDataAttribute($dateStartWeek->format('Y-m-d'), 'data', 'off');
-
-// Set events for days off
-$eventDaysOff = ['2025-12-16_08:00_08:30'];
 
 // Set ids for content
 $contentId = 00;
@@ -64,7 +122,7 @@ for ($i = 1; $i <= 7; $i++) {
 
         // Define input content
         $checkboxAvailableIdentifier = $contentId++;
-        $inputCheckboxValue = $dateStartWeek->format('Y-m-d') . '_' . $eventStartDateData . '_' . $eventEndDateData;
+        $inputCheckboxValue = $dateStartWeek->format('Y-m-d') . '_' . $eventStartDateData . '-' . $eventEndDateData;
         $inputCheckboxAvailable = 'available;' . $eventStartDateData .'_' . $eventEndDateData . ';' . $checkboxAvailableIdentifier . ';' . $inputCheckboxValue;
         $checkboxDayOffIdentifier = $contentId++;
         $inputCheckboxDayOff = 'off;' . $eventStartDateData .'_' . $eventEndDateData . ';' . $checkboxDayOffIdentifier . ';' . $inputCheckboxValue;
@@ -76,7 +134,13 @@ for ($i = 1; $i <= 7; $i++) {
         $eventContent = ($isAppointment) ? $appointmentCard : $inputCheckboxAvailable;
 
         // Days off
-        $isOff = in_array( $inputCheckboxValue, $eventDaysOff);
+        $isOff = false;
+        foreach ($eventDaysOff as $dayOff) {
+//            echo 'off:' . $dayOff . ' input:' . $inputCheckboxValue . '<br> result:';
+            if ($dayOff === $inputCheckboxValue) {
+                $isOff = true;
+            }
+        }
         if (!$isAppointment) {
             $eventContent = ($isOff) ? $inputCheckboxDayOff : $inputCheckboxAvailable;
         }
@@ -114,7 +178,8 @@ $template = $twig->load('/views/agenda.html.twig');
 echo $template->render(array(
     'returnLink' => $returnLink,
     'calendar' => $calendar,
-    'nextMonday' => $dateStartWeek->format('Y-m-d')
+    'nextMonday' => $dateStartWeek->format('Y-m-d'),
+    'databaseConnectionError' => $databaseConnectionError
 ));
 
 
