@@ -5,7 +5,6 @@ require __DIR__.'/../vendor/autoload.php';
 use benhall14\phpCalendar\Calendar as Calendar;
 
 $databaseConnectionError = NULL;
-$eventDaysOff = [];
 
 // Define new calendar
 $calendar = new Calendar();
@@ -18,7 +17,9 @@ $calendar->addTableClasses('is-agenda');
 $calendar->hideMondays();
 
 // Set list of event to define content on calendar
-$events = array();
+$events = [];
+$eventsDaysOff = [];
+$eventsAllDaysOff = [];
 
 // Set starting hours and finishing hours
 $hourStart = '8:00';
@@ -28,29 +29,6 @@ $timestampEnd = strtotime($hourEnd);
 
 // Set interval per hour
 $hourInterval = 30;
-
-// Set monday of the agenda
-$dateStartWeek = isset($_GET) ? new DateTime($_GET['date']) : new DateTime('now');
-
-if ($dateStartWeek->format('l') !== 'Monday') {
-    // Get previous monday
-    $dateStartWeek = new dateTime('@' . strtotime('last Monday'));
-}
-
-// Get next sunday for database request
-$nextSunday = new dateTime($dateStartWeek->format('Y-m-d'));
-$nextSunday->modify('next Sunday');
-
-// Get information from database
-$dateStart = $dateStartWeek->format('Y-m-d');
-$dateEnd = $nextSunday->format('Y-m-d');
-$requestDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','SELECT * FROM Dates WHERE DateTime BETWEEN "' . $dateStart . '" AND "' . $dateEnd .'"');
-foreach ($requestDates['result'] as $requestResult) {
-    // Set event for day off
-    if ($requestResult['DateType'] == 'off') {
-        $eventDaysOff[] = $requestResult['DateTime'] . '_' . $requestResult['DatePeriod'];
-    }
-}
 
 // Record user selection
 if (isset($_POST['submit_agenda_add'])) {
@@ -64,14 +42,14 @@ if (isset($_POST['submit_agenda_add'])) {
         $dataPeriod = explode('_', $post_data)[1];
 
         // Check if entry exist
-        $isDateExist = setDatabaseRequest('joebarber_db','joebarber_db', 'joe', 'barber', 'SELECT DatePeriod, DateTime FROM Dates WHERE DatePeriod = "' . $dataPeriod . '" AND  DateTime = "' . $dataDate . '"');
+        $isDateExist = setDatabaseRequest('joebarber_db','joebarber_db', 'joe', 'barber', "SELECT DatePeriod, DateTime FROM Dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
 
         if (!count($isDateExist['result'])) {
             // Insert data into tables
-            $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','INSERT INTO Dates (DateType, DatePeriod, DateTime, ClientID) VALUES ("off","' . $dataPeriod . '","' . $dataDate . '",NULL)');
+            $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"INSERT INTO Dates (DateType, DatePeriod, DateTime, ClientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
 
             // Set error content
-            $databaseConnectionError = $requestInsertDates["error"];
+            $databaseConnectionError = $requestInsertDates['error'];
         }
     }
 }
@@ -92,6 +70,31 @@ if (isset($_POST['submit_agenda_delete'])) {
 
         // Set error content
         $databaseConnectionError = $requestInsertDates["error"];
+    }
+}
+
+// Set monday of the agenda
+$dateStartWeek = isset($_GET) ? new DateTime($_GET['date']) : new DateTime('now');
+
+if ($dateStartWeek->format('l') !== 'Monday') {
+    // Get previous monday
+    $dateStartWeek = new dateTime('@' . strtotime('last Monday'));
+}
+
+// Get next sunday for database request
+$nextSunday = new dateTime($dateStartWeek->format('Y-m-d'));
+$nextSunday->modify('next Sunday');
+
+// Get information from database
+$dateStart = $dateStartWeek->format('Y-m-d');
+$dateEnd = $nextSunday->format('Y-m-d');
+
+$requestDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"SELECT * FROM Dates WHERE DateTime BETWEEN '$dateStart' AND '$dateEnd'");
+
+foreach ($requestDates['result'] as $requestResult) {
+    // Set event for day off
+    if ($requestResult['DateType'] == 'off' ) {
+        ($requestResult['DatePeriod'] == '08:00-19:30') ? $eventsAllDaysOff[] = $requestResult['DateTime'] . '_' . $requestResult['DatePeriod'] : $eventsDaysOff[] = $requestResult['DateTime'] . '_' . $requestResult['DatePeriod'];
     }
 }
 
@@ -135,8 +138,7 @@ for ($i = 1; $i <= 7; $i++) {
 
         // Days off
         $isOff = false;
-        foreach ($eventDaysOff as $dayOff) {
-//            echo 'off:' . $dayOff . ' input:' . $inputCheckboxValue . '<br> result:';
+        foreach ($eventsDaysOff as $dayOff) {
             if ($dayOff === $inputCheckboxValue) {
                 $isOff = true;
             }
@@ -176,6 +178,7 @@ $agenda = $calendar
 // Render content to template
 $template = $twig->load('/views/agenda.html.twig');
 echo $template->render(array(
+    'eventsAllDaysOff' => $eventsAllDaysOff,
     'returnLink' => $returnLink,
     'calendar' => $calendar,
     'nextMonday' => $dateStartWeek->format('Y-m-d'),

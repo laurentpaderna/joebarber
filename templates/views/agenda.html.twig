@@ -2,6 +2,7 @@
 <html lang="">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
     <title>Agenda</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,16 +15,20 @@
     {% set lastMonday = nextMonday | date_modify('-7 day') | date('Y-m-d') %}
 
     {# Set agenda content per day #}
-    {% macro items(weekDayName, calendarCollection) %}
+    {% macro items(weekDayName, calendarCollection,daysOffCollection) %}
         {% set break = false %}
         {% for key, event in calendarCollection.events %}
             {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false and calendarCollection.events[key].mask is same as false %}
                 <div class="is-agenda-row has-text-left">
                     {% for key, event in calendarCollection.events %}
                         {% if weekDayName in calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc') and break is same as false %}
-                            <p class="is-agenda-row-title">{{ calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') | upper }}</p>
+                            {% set OffClass = null %}
+                            {% for dateOff in daysOffCollection %}
+                                {% set OffClass = dateOff | split('_')[0] | format_datetime(locale: 'fr', pattern: 'cccc') == weekDayName ? ' has-all-day-off' %}
+                            {% endfor %}
+                            <p class="is-agenda-row-title{{ OffClass }}">{{ calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') | upper }}</p>
                             {% set dayIdentifier = calendarCollection.events[key].start.date | format_datetime(locale: 'fr', pattern: 'cc')%}
-                            <input class="is-radio-select has-no-display" id="agenda_{{ dayIdentifier }}_1" name="agenda_{{ dayIdentifier }}" type="radio" value="{{ calendarCollection.events[key].start.date | format_datetime(pattern: 'Y-MM-d') }}_08:30-19:30" />
+                            <input class="is-radio-select has-no-display" id="agenda_{{ dayIdentifier }}_1" name="agenda_{{ dayIdentifier }}" type="radio" value="{{ calendarCollection.events[key].start.date | format_datetime(pattern: 'Y-MM-d') }}_08:00-19:30" />
                             <input class="is-radio-no-select has-no-display" id="agenda_{{ dayIdentifier }}_2" name="agenda_{{ dayIdentifier }}" type="radio" value="2" />
                             <label for="agenda_{{ dayIdentifier }}_1" class="is-agenda-row-button is-agenda-select">Sélectionner ce jour</label>
                             <label for="agenda_{{ dayIdentifier }}_2" class="is-agenda-row-button is-agenda-no-select">Déselectionner ce jour</label>
@@ -86,19 +91,19 @@
             <form class="is-agenda-form" method="post">
                 <div class="is-agenda-container">
 
-                    {{ agenda.items('lundi', calendar) }}
+                    {{ agenda.items('lundi', calendar, eventsAllDaysOff) }}
 
-                    {{ agenda.items('mardi', calendar) }}
+                    {{ agenda.items('mardi', calendar, eventsAllDaysOff) }}
 
-                    {{ agenda.items('mercredi', calendar) }}
+                    {{ agenda.items('mercredi', calendar, eventsAllDaysOff) }}
 
-                    {{ agenda.items('jeudi', calendar) }}
+                    {{ agenda.items('jeudi', calendar, eventsAllDaysOff) }}
 
-                    {{ agenda.items('vendredi', calendar) }}
+                    {{ agenda.items('vendredi', calendar, eventsAllDaysOff) }}
 
-                    {{ agenda.items('samedi', calendar) }}
+                    {{ agenda.items('samedi', calendar, eventsAllDaysOff) }}
 
-                    {{ agenda.items('dimanche', calendar) }}
+                    {{ agenda.items('dimanche', calendar, eventsAllDaysOff) }}
 
                     <div class="has-width-100 has-text-left">
                         {% if lastMonday >= 'now' | date('Y-m-d')  %}

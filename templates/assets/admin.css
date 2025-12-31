@@ -231,6 +231,9 @@ html {
     border: solid 3px var(--teal);
     border-radius: var(--medium-font);
 }
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list {
+    border-color: var(--red);
+}
 .is-agenda-no-select,
 .is-radio-select:checked ~ .is-agenda-select {
     width: 0px;
@@ -241,7 +244,8 @@ html {
     overflow: hidden;
     border-width: 0px;
 }
-.is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card {
+.is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card,
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card {
     pointer-events: none;
 }
 .is-radio-select:checked ~ .is-agenda-no-select,
@@ -293,6 +297,9 @@ html {
 .is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) {
     border-color: var(--teal);
 }
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) {
+    border-color: var(--red);
+}
 input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) {
     border-color: var(--blue-title);
 }
@@ -302,13 +309,17 @@ input[type="checkbox"]:checked + .is-agenda-card::after {
 .is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment)::after {
     color: var(--teal);
 }
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment)::after {
+    color: var(--red);
+}
 input[type="checkbox"]:checked + .is-agenda-card::after,
 .is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment)::after {
     content: "\2713";
     font-size: var(--very-huge-font);
     text-align: center;
 }
-.is-agenda-card.has-day-off::after {
+.is-agenda-card.has-day-off::after,
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card::after {
     content: "\00D7";
     font-size: var(--very-big-font);
 }
@@ -343,6 +354,11 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 .is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) .is-agenda-card-label::after,
 .is-radio-select:checked ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) .is-agenda-card-label::before {
     background-color: var(--teal);
+}
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) .is-agenda-card-label,
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) .is-agenda-card-label::after,
+.is-agenda-row-title.has-all-day-off ~ .is-agenda-card-list .is-agenda-card:not(.has-appointment) .is-agenda-card-label::before {
+    background-color: var(--red);
 }
 .is-agenda-card.has-appointment {
     width: 200px;
@@ -383,6 +399,10 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     font-size: var(--very-medium-font);
     border-radius: var(--small-font);
     background-color: var(--grey-label);
+}
+.is-agenda-row-title.has-all-day-off {
+    color: var(--white);
+    background-color: var(--red);
 }
 .is-agenda-card-list {
     display: flex;
