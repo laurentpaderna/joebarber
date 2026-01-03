@@ -151,23 +151,26 @@ for ($i = 1; $i <= 7; $i++) {
             $type = ($isOff) ? 'off' : 'available';
         }
 
-        // Push data for appointment
-        if ($isAppointment) {
-            $appointment = [
-                'firstName' => 'DOE',
-                'lastName' => 'John',
-                'address' => '24 rue de knowhere DOECITY 65420',
-                'phoneNumber' => '0548 96 52 63',
-            ];
-            array_push($events[$dayName], $appointment);
-        }
-
         // Push data for events
         $eventCurrent = [
             'period' => $eventPeriod,
             'type' => $type,
             'id' => $contentId,
         ];
+
+        // Push data for appointment
+        //if ($isAppointment) {
+        $eventCurrent = [
+            'period' => $eventPeriod,
+            'type' => $type,
+            'id' => $contentId,
+            'firstName' => 'doe',
+            'lastName' => 'John',
+            'address' => '24 rue de knowhere DOECITY 65420',
+            'phoneNumber' => '0548 96 52 63',
+        ];
+        //}
+
         $event[$dayName]['startDate'] = $eventStartDate;
         $event[$dayName]['mask'] = $eventMask;
         $event[$dayName]['class'] = $isAllDayOff ? 'has-all-day-off' : '';

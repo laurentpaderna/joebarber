@@ -10,6 +10,7 @@
 </head>
 <body>
 <main role="main">
+    <pre>{{ dump(event) }}</pre>
 
     {# Get current Monday #}
     {% set lastMonday = nextMonday | date_modify('-7 day') | date('Y-m-d') %}
@@ -49,6 +50,19 @@
                                                     <span class="is-agenda-title">{{ data.period }}</span>
                                                 </span>
                                             </label>
+                                        {% endif %}
+                                        {% if data.type == 'appointment' %}
+                                            <div class="is-agenda-card has-appointment">
+                                                <span class="is-agenda-card-label">
+                                                    <span class="is-agenda-title">{{ data.period }}</span>
+                                                </span>
+                                                <ul class="is-agenda-data-list">
+                                                    <li>{{ data.lastName | upper }}</li>
+                                                    <li>{{ data.firstName }}</li>
+                                                    <li>{{ data.address }}</li>
+                                                    <li>{{ data.phoneNumber }}</li>
+                                                </ul>
+                                            </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
