@@ -4,10 +4,10 @@
 <header class="is-block-title">
     <div class="is-block-connection {{ returnLink is empty ? 'has-justify-end' : 'has-justify-between' }}">
         {% if returnLink is not empty %}
-            <a class="is-link has-very-medium-font" href="{{ returnLink }}"><strong>&#9668; Retour à la page précédente</strong></a>
+            <a class="is-link has-very-medium-font" href="{{ returnLink }}"><span class="has-arrow has-arrow-left"> Retour à la page précédente</span></a>
         {% endif %}
         {% if session["joe_logged"] is same as(true) %}
-            <a class="is-link has-very-medium-font" href="/logout"><strong>&#9654; Se déconnecter</strong></a>
+            <a class="is-link has-very-medium-font" href="/logout"><span class="has-arrow has-arrow-right"> Se déconnecter</span></a>
         {% endif %}
     </div>
     <div class="is-container has-text-center">

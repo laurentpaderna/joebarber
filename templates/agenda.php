@@ -2,22 +2,16 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use benhall14\phpCalendar\Calendar as Calendar;
+//use benhall14\phpCalendar\Calendar as Calendar;
 
 $databaseConnectionError = NULL;
-
-// Define new calendar
-$calendar = new Calendar();
 
 // Define return link
 $returnLink = '/dashboard';
 
-// Set style for agenda
-$calendar->addTableClasses('is-agenda');
-$calendar->hideMondays();
-
 // Set list of event to define content on calendar
 $events = [];
+$event = [];
 $eventsDaysOff = [];
 $eventsAllDaysOff = [];
 
@@ -103,57 +97,81 @@ $eventsAppointment = [
     '2025-12-24_10:00_10:30',
     '2025-12-22_09:00_09:30',
 ];
-$calendar->addDataAttribute($dateStartWeek->format('Y-m-d'), 'data', 'off');
+//$calendar->addDataAttribute($dateStartWeek->format('Y-m-d'), 'data', 'off');
 
 // Set ids for content
 $contentId = 00;
 
+// Set current date
 $currentDate = new dateTime('now');
+
+// Set class to translate date
+$formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::LONG);
 
 // Set content for every day of the week
 for ($i = 1; $i <= 7; $i++) {
+
+    // Set array for events of the day
+    $dayName = $dateStartWeek->format('l');
+    $event[$dayName] = [];
+    $event[$dayName]['data'] = [];
+    $isAllDayOff = false;
+
+    // Check if current day if off from day name
+    foreach ($eventsAllDaysOff as $allDayOff) {
+        if (explode('_',$allDayOff)[0] == $dateStartWeek->format('Y-m-d')) {
+            $isAllDayOff = true;
+        }
+    }
 
     // Set content for every hour
     while ($timestampStart <= $timestampEnd) {
 
         // Define dates of each event
-        $eventStartDate = $dateStartWeek->format('Y-m-d') . ' ' . date('H:i', $timestampStart);
-        $eventStartDateData = date('H:i',$timestampStart);
-        $eventEndDateData = date('H:i', $timestampStart+(60*$hourInterval));
-        $eventEndDate = $dateStartWeek->format('Y-m-d') . ' ' . $eventEndDateData;
+        $eventStartDate = $dateStartWeek->format('Y-m-d');
+        $eventPeriod = date('H:i',$timestampStart) . '-' . date('H:i', $timestampStart+(60*$hourInterval));
         $eventMask = $currentDate->format('Y-m-d') > $dateStartWeek->format('Y-m-d');
 
-        // Define input content
+        // Define input id
         $checkboxAvailableIdentifier = $contentId++;
-        $inputCheckboxValue = $dateStartWeek->format('Y-m-d') . '_' . $eventStartDateData . '-' . $eventEndDateData;
-        $inputCheckboxAvailable = 'available;' . $eventStartDateData .'_' . $eventEndDateData . ';' . $checkboxAvailableIdentifier . ';' . $inputCheckboxValue;
-        $checkboxDayOffIdentifier = $contentId++;
-        $inputCheckboxDayOff = 'off;' . $eventStartDateData .'_' . $eventEndDateData . ';' . $checkboxDayOffIdentifier . ';' . $inputCheckboxValue;
-        $appointmentCard = 'appointment;' . $eventStartDateData .' - ' . $eventEndDateData . ';DOE;John;24 rue de knowhere DOECITY 65420;0548 96 52 63d';
-        
-        // Set event content from dates in array
-        // Appointments
-        $isAppointment = in_array( $inputCheckboxValue, $eventsAppointment);
-        $eventContent = ($isAppointment) ? $appointmentCard : $inputCheckboxAvailable;
 
-        // Days off
+        // Appointments
+        $isAppointment = in_array( $eventStartDate, $eventsAppointment);
+        $type = ($isAppointment) ? 'appointment' : 'available';
+
+        // If event is day off
         $isOff = false;
         foreach ($eventsDaysOff as $dayOff) {
-            if ($dayOff === $inputCheckboxValue) {
+            if ($dayOff === $eventStartDate . '_' . $eventPeriod) {
                 $isOff = true;
             }
         }
+        // If event is an appointment
         if (!$isAppointment) {
-            $eventContent = ($isOff) ? $inputCheckboxDayOff : $inputCheckboxAvailable;
+            $type = ($isOff) ? 'off' : 'available';
         }
 
-        // Define content of event
-        $events[] = array(
-            'start' => $eventStartDate,
-            'end' => $eventEndDate,
-            'summary' => $eventContent,
-            'mask' => $eventMask
-        );
+        // Push data for appointment
+        if ($isAppointment) {
+            $appointment = [
+                'firstName' => 'DOE',
+                'lastName' => 'John',
+                'address' => '24 rue de knowhere DOECITY 65420',
+                'phoneNumber' => '0548 96 52 63',
+            ];
+            array_push($events[$dayName], $appointment);
+        }
+
+        // Push data for events
+        $eventCurrent = [
+            'period' => $eventPeriod,
+            'type' => $type,
+            'id' => $contentId,
+        ];
+        $event[$dayName]['startDate'] = $eventStartDate;
+        $event[$dayName]['mask'] = $eventMask;
+        $event[$dayName]['class'] = $isAllDayOff ? 'has-all-day-off' : '';
+        array_push($event[$dayName]['data'], $eventCurrent);
 
         // Increment hour by 30 minutes
         $timestampStart = $timestampStart+(60*$hourInterval);
@@ -166,23 +184,14 @@ for ($i = 1; $i <= 7; $i++) {
     $timestampStart = strtotime($hourStart);
 }
 
-// Set calendar, with French language, using view per week, set hour limit
-$calendar->useMondayStartingDate();
-$agenda = $calendar
-    ->addEvents($events)
-    ->setLocale('fr')
-    ->useWeekView()
-    ->setTimeFormat($hourStart, $hourEnd, 30)
-    ->draw(date('Y-m-d',strtotime('next monday')));
-
 // Render content to template
 $template = $twig->load('/views/agenda.html.twig');
-echo $template->render(array(
+echo $template->render([
     'eventsAllDaysOff' => $eventsAllDaysOff,
+    'event' => $event,
     'returnLink' => $returnLink,
-    'calendar' => $calendar,
     'nextMonday' => $dateStartWeek->format('Y-m-d'),
     'databaseConnectionError' => $databaseConnectionError
-));
+]);
 
 
