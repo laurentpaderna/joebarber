@@ -1,17 +1,16 @@
-<!doctype html>
-<html lang="">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Pragma" content="no-cache">
+{% extends 'views/base.html.twig' %}
+
+{% block contentTitle %}
     <title>Page de connection</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block contentStyle %}
     <link rel="stylesheet" href="assets/admin.css">
-</head>
-<body>
-<main role="main">
+{% endblock %}
+
+{% block contentMain %}
     <!-- HEADER -->
-    {% include "views/blocks/header.html.twig" with {
+    {% include 'views/blocks/header.html.twig' with {
         'title' : 'Bienvenue sur votre page de contact!',
         'content' : 'Saississez votre identifiant et votre mot de passe pour vous connecter.'
     } %}
@@ -35,8 +34,4 @@
             </form>
         </div>
     </article>
-    <!-- FOOTER -->
-    <footer></footer>
-</main>
-</body>
-</html>
+{% endblock %}

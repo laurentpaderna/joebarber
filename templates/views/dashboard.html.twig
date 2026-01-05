@@ -1,15 +1,14 @@
-<!doctype html>
-<html lang="">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Pragma" content="no-cache">
+{% extends 'views/base.html.twig' %}
+
+{% block contentTitle %}
     <title>Tableau de bord</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+{% block contentStyle %}
     <link rel="stylesheet" href="assets/admin.css">
-</head>
-<body>
-<main role="main" class="is-dashboard">
+{% endblock %}
+
+{% block contentMain %}
     <!-- HEADER -->
     {% include "views/blocks/header.html.twig" with {
         'title' : 'Bonjour Johan!',
@@ -19,21 +18,17 @@
     <article>
         <div class="is-container is-block-dashboard">
             <a class="is-dashboard-link is-dashboard-agenda" href="/agenda?date={{ 'now' | date('Y-m-d') }}">
-                <span class="is-dashboard-content">
-                    <span class="is-dashboard-text">Mon agenda</span>
-                    <span class="is-dashboard-icon">&#9201;</span>
-                </span>
+                    <span class="is-dashboard-content">
+                        <span class="is-dashboard-text">Mon agenda</span>
+                        <span class="is-dashboard-icon">&#9201;</span>
+                    </span>
             </a>
             <a class="is-dashboard-link is-dashboard-request" href="">
-                <span class="is-dashboard-content">
-                    <span class="is-dashboard-text">Mes demandes</span>
-                    <span class="is-dashboard-icon">&#9993;</span>
-                </span>
+                    <span class="is-dashboard-content">
+                        <span class="is-dashboard-text">Mes demandes</span>
+                        <span class="is-dashboard-icon">&#9993;</span>
+                    </span>
             </a>
         </div>
     </article>
-    <!-- FOOTER -->
-    <footer></footer>
-</main>
-</body>
-</html>
+{% endblock %}

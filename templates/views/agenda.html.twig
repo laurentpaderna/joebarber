@@ -1,17 +1,14 @@
-<!doctype html>
-<html lang="">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Pragma" content="no-cache">
-    <title>Agenda</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/admin.css">
-</head>
-<body>
-<main role="main">
-    <pre>{{ dump(event) }}</pre>
+{% extends 'views/base.html.twig' %}
 
+{% block contentTitle %}
+    <title>Agenda</title>
+{% endblock %}
+
+{% block contentStyle %}
+    <link rel="stylesheet" href="assets/admin.css">
+{% endblock %}
+
+{% block contentMain %}
     {# Get current Monday #}
     {% set lastMonday = nextMonday | date_modify('-7 day') | date('Y-m-d') %}
 
@@ -86,8 +83,4 @@
             </form>
         </section>
     </article>
-    <!-- FOOTER -->
-    <footer></footer>
-</main>
-</body>
-</html>
+{% endblock %}

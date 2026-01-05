@@ -14,10 +14,6 @@ ini_set('display_errors', 'On');
 // Start session for connected pages
 session_start();
 
-// Define table for client entries
-$requestCreateTableClients = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"CREATE TABLE IF NOT EXISTS Clients (RequestID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, LastName VARCHAR(255), Firstname VARCHAR(255), Address VARCHAR(255), PhoneNumber VARCHAR(16))");
-$requestCreateTableDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"CREATE TABLE IF NOT EXISTS Dates (DateID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, DateType VARCHAR(10), DatePeriod VARCHAR(100), DateTime DATE, ClientID INT)");
-
 // Set translation on calendar
 use Twig\Extra\Intl\IntlExtension;
 
