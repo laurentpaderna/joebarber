@@ -84,6 +84,12 @@ switch ($request) {
 
         break;
 
+    case '/requests' :
+
+        require __DIR__ . '/requests.php';
+
+        break;
+
     case (str_contains($currentUrl,'agenda')) :
 
         // Load template for login page

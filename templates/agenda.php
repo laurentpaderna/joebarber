@@ -2,8 +2,6 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-//use benhall14\phpCalendar\Calendar as Calendar;
-
 $databaseConnectionError = NULL;
 
 // Define return link

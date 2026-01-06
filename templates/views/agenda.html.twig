@@ -19,12 +19,12 @@
     } %}
     <!-- CONTENT LIST -->
     <article>
-        <section class="is-container has-agenda">
+        <section class="is-container">
             <p class="is-filter-title has-very-medium-font has-no-margin">Filtres d'affichage</p>
-            <a class="is-filter-button" id="display-all" href="#display-all">Tout afficher</a>
-            <a class="is-filter-button" id="display-appointments" href="#display-appointments">Afficher les rendez-vous</a>
-            <a class="is-filter-button" id="display-offs" href="#display-offs">Afficher les absences</a>
-            <a class="is-filter-button" id="display-available" href="#display-available">Afficher les créneaux disponibles</a>
+            <a class="is-filter-button has-inline-block" id="display-all" href="#display-all">Tout afficher</a>
+            <a class="is-filter-button has-inline-block" id="display-appointments" href="#display-appointments">Afficher les rendez-vous</a>
+            <a class="is-filter-button has-inline-block" id="display-offs" href="#display-offs">Afficher les absences</a>
+            <a class="is-filter-button has-inline-block" id="display-available" href="#display-available">Afficher les créneaux disponibles</a>
             <hr class="is-separator has-no-margin-left has-big-margin-top has-left-small-margin">
             <form class="is-agenda-form" method="post">
                 <div class="is-agenda-container">
@@ -33,27 +33,27 @@
                         {% if list['mask'] is same as false %}
                             {% set identifier = list.startDate | format_datetime(locale: 'fr', pattern: 'cc')%}
                             <div class="is-agenda-row has-text-left {{ list.class }}">
-                                <p class="is-agenda-row-title">{{ list.startDate | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') | upper }}</p>
+                                <p class="is-agenda-row-title has-inline-block">{{ list.startDate | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') | upper }}</p>
                                 <input class="is-radio-select has-no-display" id="agenda_{{ identifier }}_1" name="agenda_{{ identifier }}" type="radio" value="{{ list.startDate | format_datetime(pattern: 'Y-MM-d') }}_08:00-19:30" />
                                 <input class="is-radio-no-select has-no-display" id="agenda_{{ identifier }}_2" name="agenda_{{ identifier }}" type="radio" value="2" />
-                                <label for="agenda_{{ identifier }}_1" class="is-agenda-row-button is-agenda-select">Sélectionner ce jour</label>
-                                <label for="agenda_{{ identifier }}_2" class="is-agenda-row-button is-agenda-no-select">Déselectionner ce jour</label>
-                                <div class="is-agenda-card-list">
+                                <label for="agenda_{{ identifier }}_1" class="is-agenda-row-button has-inline-block has-select">Sélectionner ce jour</label>
+                                <label for="agenda_{{ identifier }}_2" class="is-agenda-row-button has-inline-block has-no-select">Déselectionner ce jour</label>
+                                <div class="is-agenda-card-list has-flex">
                                     {% for data in list.data %}
                                         {% if data.type == 'available' or data.type == 'off' %}
                                             <input class="has-no-display" id="{{ data.id }}" type="checkbox" name="agenda_{{ data.id }}" value="{{ list.startDate ~ '_' ~ data.period }}"/>
-                                            <label class="is-agenda-card{{ data.type == 'off' ? ' has-day-off' }}" for="{{ data.id }}">
+                                            <label class="is-agenda-card has-flex{{ data.type == 'off' ? ' has-day-off' }}" for="{{ data.id }}">
                                                 <span class="is-agenda-card-label">
                                                     <span class="is-agenda-title">{{ data.period }}</span>
                                                 </span>
                                             </label>
                                         {% endif %}
                                         {% if data.type == 'appointment' %}
-                                            <div class="is-agenda-card has-appointment">
+                                            <div class="is-agenda-card has-flex has-appointment">
                                                 <span class="is-agenda-card-label">
                                                     <span class="is-agenda-title">{{ data.period }}</span>
                                                 </span>
-                                                <ul class="is-agenda-data-list">
+                                                <ul class="is-agenda-data-list has-flex">
                                                     <li>{{ data.lastName | upper }}</li>
                                                     <li>{{ data.firstName }}</li>
                                                     <li>{{ data.address }}</li>
@@ -69,16 +69,16 @@
 
                     <div class="has-width-100 has-text-left">
                         {% if lastMonday >= 'now' | date('Y-m-d')  %}
-                            <a class="is-button has-right-very-medium-margin" href="?date={{ lastMonday | date_modify('-7 day') | date('Y-m-d') }}">Semaine précedente</a>
+                            <a class="is-button has-validation has-right-very-medium-margin" href="?date={{ lastMonday | date_modify('-7 day') | date('Y-m-d') }}">Semaine précedente</a>
                         {% endif %}
-                        <a class="is-button" href="?date={{ nextMonday }}">Semaine suivante</a>
+                        <a class="is-button has-validation" href="?date={{ nextMonday }}">Semaine suivante</a>
                     </div>
 
                 </div>
 
                 <div class="has-width-100 has-big-margin-top has-text-right has-left-very-medium-margin">
-                    <input class="is-button" type="submit" name="submit_agenda_add" value="Valider les absences" />
-                    <input class="is-button has-left-very-medium-margin" type="submit" name="submit_agenda_delete" value="Annuler les absences" />
+                    <input class="is-button has-validation" type="submit" name="submit_agenda_add" value="Valider les absences" />
+                    <input class="is-button has-validation has-left-very-medium-margin" type="submit" name="submit_agenda_delete" value="Annuler les absences" />
                 </div>
             </form>
         </section>

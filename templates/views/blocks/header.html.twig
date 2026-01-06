@@ -2,7 +2,7 @@
     <p class="is-error-notification">{{ "La connection à la base de donnée a échoué:" ~ databaseConnectionError }}</p>
 {% endif %}
 <header class="is-block-title">
-    <div class="is-block-connection {{ returnLink is empty ? 'has-justify-end' : 'has-justify-between' }}">
+    <div class="is-block-connection has-flex {{ returnLink is empty ? 'has-justify-end' : 'has-justify-between' }}">
         {% if returnLink is not empty %}
             <a class="is-link has-very-medium-font" href="{{ returnLink }}"><span class="has-arrow has-arrow-left"> Retour à la page précédente</span></a>
         {% endif %}

@@ -79,7 +79,6 @@ html {
 }
 /*HEADER*/
 .is-block-connection {
-    display: flex;
     padding: 0px var(--big-space) var(--small-space);
 }
 .is-link {
@@ -102,11 +101,25 @@ html {
     margin: var(--small-space) 0px;
     border-style: none;
     border-radius: 8px;
-    background-color: var(--blue-title);
-    color: var(--white);
     font-size: var(--very-medium-font);
     text-decoration: none;
     cursor: pointer;
+}
+.has-validation {
+    background-color: var(--blue-title);
+    color: var(--white);
+}
+.has-accepted {
+    color: var(--blue-title);
+}
+.is-button.has-accepted {
+    border: 2px solid var(--blue-title);
+}
+.is-button.has-rejected {
+    border: 2px solid var(--red);
+}
+.has-rejected {
+    color: var(--red);
 }
 .is-button:hover {
     filter: brightness(150%);
@@ -130,8 +143,7 @@ html {
     border-color: var(--red);
 }
 /* DASHBOARD */
-.is-block-dashboard {
-    display: flex;
+.has-block-dashboard {
     flex-wrap: wrap;
     gap: var(--very-medium-space);
     justify-content: center;
@@ -147,17 +159,16 @@ html {
     text-decoration: none;
 }
 .is-dashboard-content,
-.is-block-dashboard > .is-dashboard-link {
+.has-block-dashboard > .is-dashboard-link {
     display: flex;
     flex-direction: column;
 }
-.is-block-dashboard > .is-dashboard-link {
+.has-block-dashboard > .is-dashboard-link {
     flex: none;
     justify-content: left;
     align-items: start;
 }
 .is-dashboard-content {
-    width: 100%;
     height: 120px;
 }
 .is-dashboard-icon {
@@ -181,7 +192,6 @@ html {
     font-weight: 700;
 }
 .is-filter-button {
-    display: inline-block;
     padding: var(--small-space) var(--medium-space);
     margin: var(--small-space);
     border: solid 3px var(--teal);
@@ -219,7 +229,6 @@ html {
     font-size: 0px;
 }
 .is-agenda-row-button {
-    display: inline-block;
     padding: var(--small-space) var(--medium-space);
     margin: 0px var(--very-medium-space) var(--very-medium-space) 0px;
     color: var(--grey-text);
@@ -234,8 +243,8 @@ html {
 .has-all-day-off .is-agenda-card-list {
     border-color: var(--red);
 }
-.is-agenda-no-select,
-.is-radio-select:checked ~ .is-agenda-select {
+.has-no-select,
+.is-radio-select:checked ~ .has-select {
     width: 0px;
     height: 0px;
     margin: 0px;
@@ -248,8 +257,8 @@ html {
 .has-all-day-off .is-agenda-card-list .is-agenda-card {
     pointer-events: none;
 }
-.is-radio-select:checked ~ .is-agenda-no-select,
-.is-radio-no-select:checked ~ .is-agenda-select {
+.is-radio-select:checked ~ .has-no-select,
+.is-radio-no-select:checked ~ .has-select {
     width: initial;
     height: initial;
     padding: var(--small-space);
@@ -272,7 +281,6 @@ html {
     z-index: 2;
 }
 .is-agenda-card {
-    display: flex;
     flex-direction: column;
     flex-shrink: 0;
     width: 130px;
@@ -392,7 +400,6 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     font-family: 'Arial black';
 }
 .is-agenda-row-title {
-    display: inline-block;
     padding: var(--small-space);
     margin: 0px var(--very-medium-space) var(--very-medium-space) 0px;
     color: var(--grey-text);
@@ -405,7 +412,6 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     background-color: var(--red);
 }
 .is-agenda-card-list {
-    display: flex;
     padding: var(--big-space) 0px var(--big-space) var(--big-space);
     margin-bottom: var(--big-space);
     overflow-x: scroll;
@@ -416,7 +422,6 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     display: none;
 }
 .is-agenda-data-list {
-    display: flex;
     flex-direction: column;
     margin-left: var(--small-space);
     padding: var(--small-space);
@@ -426,6 +431,40 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 }
 .is-agenda-data-list li {
     padding-bottom: var(--space);
+}
+/* REQUESTS */
+.is-request {
+    justify-content: space-between;
+    padding: var(--big-space) 0px;
+    font-size: 0px;
+    text-align: left;
+    border-bottom: 2px solid var(--grey-text);
+}
+.is-request > .is-request-content,
+.is-request > .is-request-actions {
+    vertical-align: top;
+    margin-top: var(--medium-space);
+    margin-bottom: var(--medium-space);
+    margin-left: 0px;
+}
+.is-request-content {
+    margin-right: var(--medium-space);
+}
+.is-request-actions {
+    margin-right: 0px;
+}
+.is-request-actions .is-button:not(:last-child) {
+    margin-right: var(--small-space);
+}
+.is-request-actions .is-button {
+    margin-top: 0px;
+    margin-bottom: var(--small-space);
+    margin-left: 0px;
+}
+.is-status {
+    padding: var(--small-space) var(--very-medium-space);
+    margin: var(--small-space) 0px;
+    font-size: var(--very-medium-font);
 }
 /* HELPER */
 .has-width-100 {
@@ -442,6 +481,9 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 }
 .has-inline-block {
     display: inline-block;
+}
+.has-flex {
+    display: flex;
 }
 .has-no-display {
     display: none;
@@ -502,8 +544,11 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     border-top: 2px solid;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
     .is-block-connection {
         flex-direction: column-reverse;
+    }
+    .is-request {
+        flex-direction: column;
     }
 }
