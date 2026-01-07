@@ -48,6 +48,7 @@ body {
     --red: #d54521;
     --grey-label: #dedede;
     --teal: #088f8f;
+    --transparent: #ffffff00;
 }
 /* BASE STYLE */
 html {
@@ -438,6 +439,8 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     padding: var(--big-space) 0px;
     font-size: 0px;
     text-align: left;
+}
+.is-request:not(:last-child) {
     border-bottom: 2px solid var(--grey-text);
 }
 .is-request > .is-request-content,
@@ -517,6 +520,12 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 }
 .has-no-decoration {
     text-decoration: none;
+}
+.has-no-background {
+    background-color: var(--transparent);
+}
+.has-no-border {
+    border-width: 0px;
 }
 .has-position-relative {
     position: relative;

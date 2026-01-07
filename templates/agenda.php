@@ -34,11 +34,11 @@ if (isset($_POST['submit_agenda_add'])) {
         $dataPeriod = explode('_', $post_data)[1];
 
         // Check if entry exist
-        $isDateExist = setDatabaseRequest('joebarber_db','joebarber_db', 'joe', 'barber', "SELECT DatePeriod, DateTime FROM Dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
+        $isDateExist = setDatabaseRequest('joebarber_db','joebarber_db', 'joe', 'barber', "SELECT datePeriod, dateTime FROM dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
 
         if (!count($isDateExist['result'])) {
             // Insert data into tables
-            $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"INSERT INTO Dates (DateType, DatePeriod, DateTime, ClientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
+            $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
 
             // Set error content
             $databaseConnectionError = $requestInsertDates['error'];
@@ -58,7 +58,7 @@ if (isset($_POST['submit_agenda_delete'])) {
         $dataPeriod = explode('_', $post_data)[1];
 
         // Insert data into tables
-        $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','DELETE FROM Dates WHERE DatePeriod = "' . $dataPeriod . '" AND  DateTime = "' . $dataDate . '"');
+        $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','DELETE FROM dates WHERE datePeriod = "' . $dataPeriod . '" AND  dateTime = "' . $dataDate . '"');
 
         // Set error content
         $databaseConnectionError = $requestInsertDates["error"];
@@ -81,12 +81,14 @@ $nextSunday->modify('next Sunday');
 $dateStart = $dateStartWeek->format('Y-m-d');
 $dateEnd = $nextSunday->format('Y-m-d');
 
-$requestDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"SELECT * FROM Dates WHERE DateTime BETWEEN '$dateStart' AND '$dateEnd'");
+$requestDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"SELECT * FROM dates WHERE dateTime BETWEEN '$dateStart' AND '$dateEnd'");
 
-foreach ($requestDates['result'] as $requestResult) {
-    // Set event for day off
-    if ($requestResult['DateType'] == 'off' ) {
-        ($requestResult['DatePeriod'] == '08:00-19:30') ? $eventsAllDaysOff[] = $requestResult['DateTime'] . '_' . $requestResult['DatePeriod'] : $eventsDaysOff[] = $requestResult['DateTime'] . '_' . $requestResult['DatePeriod'];
+if (sizeof($requestDates['result'])) {
+    foreach ($requestDates['result'] as $requestResult) {
+        // Set event for day off
+        if ($requestResult['dateType'] == 'off' ) {
+            ($requestResult['datePeriod'] == '08:00-19:30') ? $eventsAllDaysOff[] = $requestResult['dateTime'] . '_' . $requestResult['datePeriod'] : $eventsDaysOff[] = $requestResult['dateTime'] . '_' . $requestResult['datePeriod'];
+        }
     }
 }
 

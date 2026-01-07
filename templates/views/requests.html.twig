@@ -1,0 +1,46 @@
+{% extends 'views/base.html.twig' %}
+
+{% block contentTitle %}
+    <title>Demandes</title>
+{% endblock %}
+
+{% block contentStyle %}
+    <link rel="stylesheet" href="assets/admin.css">
+{% endblock %}
+
+{% block contentMain %}
+
+    <!-- HEADER -->
+    {% include "views/blocks/header.html.twig" with {
+        'title' : 'Voici vos demandes de rendez-vous!',
+        'content' : "Gérez vos rendez-vous, acceptez ou refusez vos demandes."
+    } %}
+
+    <!-- CONTENT LIST -->
+    <article>
+        <section class="is-container">
+            <form method="post">
+                {% if appointments | length > 0 %}
+                    {% for appointment in appointments %}
+                        {% set appointmentTitle = appointment['lastName'] ~ ' ' ~ appointment['firstName'] | upper ~ ' ' ~ appointment['address'] ~ '<br>' ~ appointment['dateTime'] | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') ~ ' ' ~ appointment['datePeriod'] ~ '<br>' ~ appointment['phoneNumber'] %}
+                        <div class="is-request has-flex has-width-100">
+                            <p class="is-request-content has-very-medium-font">{{ appointmentTitle | raw }}</p>
+                            <div class="is-request-actions">
+                                {% if appointment['appointmentStatus'] == 'pending' %}
+                                    <input class="is-button has-accepted has-no-background" type="submit" name="submit_request_accept-{{ appointment['appointmentID'] }}" value="Accepter" />
+                                    <input class="is-button has-rejected has-no-background" type="submit" name="submit_request_reject-{{ appointment['appointmentID'] }}" value="Refuser" />
+                                {% endif %}
+                                {% if appointment['appointmentStatus'] == 'accepted' %}
+                                    <span class="is-status has-inline-block has-accepted">Validé</span>
+                                {% endif %}
+                                {% if appointment['appointmentStatus'] == 'rejected' %}
+                                    <span class="is-status has-inline-block has-rejected">Refusé</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </section>
+    </article>
+{% endblock %}
