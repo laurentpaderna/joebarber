@@ -16,7 +16,11 @@ if (isset($_POST)) {
             $appointmentID =  explode('-', $key)[1];
             $appointmentStatus = 'rejected';
         }
-        $requestClientData = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"UPDATE appointments SET appointmentStatus = '$appointmentStatus' WHERE appointmentID = '$appointmentID'");
+        if (str_contains($key, 'cancel')) {
+            $appointmentID =  explode('-', $key)[1];
+            $appointmentStatus = 'pending';
+        }
+        $requestClientData = setDatabaseRequest("UPDATE appointments SET appointmentStatus = '$appointmentStatus' WHERE appointmentID = '$appointmentID'");
     }
 }
 
@@ -24,7 +28,7 @@ if (isset($_POST)) {
 $appointments = [];
 
 // Request dates and clients
-$requestClientData = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, appointments.appointmentStatus, clients.clientID, clients.lastName, clients.firstName, clients.address, clients.phoneNumber FROM dates, appointments, clients WHERE dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
+$requestClientData = setDatabaseRequest("SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, appointments.appointmentStatus, clients.clientID, clients.lastName, clients.firstName, clients.address, clients.phoneNumber FROM dates, appointments, clients WHERE dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
 
 if (sizeof($requestClientData['result'])) {
     $appointments = $requestClientData['result'];

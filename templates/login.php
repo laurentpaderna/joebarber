@@ -12,7 +12,7 @@ $databaseConnectionError = NULL;
 // Retrieve username and password from database
 $userName = NULL;
 $passWord = NULL;
-$requestUser = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"SELECT identifier, password FROM users");
+$requestUser = setDatabaseRequest("SELECT identifier, password FROM users");
 $userName = $requestUser['result'][0]['identifier'];
 $passWord = $requestUser['result'][0]['password'];
 

@@ -10,9 +10,16 @@
 
 {% block contentMain %}
     <!-- HEADER -->
+    {#Set appointment message#}
+    {% set plural = appointmentAmount > 1 ? 's' : '' %}
+    {% set appointmentMessage = appointmentAmount > 0 ? 'Tu as <strong class="has-very-large-font">' ~ appointmentAmount ~ '</strong> demande' ~ plural ~ ' en attente' : "Tu n'as aucune demande en attente" %}
+    {#Set date message#}
+    {% set dateMessage = dateAmount > 0 ? " et tu as <strong class='has-very-large-font'>" ~ dateAmount ~ "</strong> rendez-vous aujourd'hui." : offAmount > 0 ? " et tu es en congé aujourd'hui." : " et tu n'as aucun rendez-vous aujourd'hui." %}
+
+    {% set message = appointmentMessage %}
     {% include "views/blocks/header.html.twig" with {
         'title' : 'Bonjour Johan!',
-        'content' : "Tu as <strong class='has-very-large-font'>3</strong> demandes en attente, et <strong class='has-very-large-font'>1</strong> rendez-vous aujourd'hui."
+        'content' : appointmentMessage ~ dateMessage
     } %}
     <!-- CONTENT LIST -->
     <article>

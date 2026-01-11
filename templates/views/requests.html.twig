@@ -23,6 +23,7 @@
                 {% if appointments | length > 0 %}
                     {% for appointment in appointments %}
                         {% set appointmentTitle = appointment['lastName'] ~ ' ' ~ appointment['firstName'] | upper ~ ' ' ~ appointment['address'] ~ '<br>' ~ appointment['dateTime'] | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') ~ ' ' ~ appointment['datePeriod'] ~ '<br>' ~ appointment['phoneNumber'] %}
+                        {% set appointmentStatus = appointment['appointmentStatus'] %}
                         <div class="is-request has-flex has-width-100">
                             <p class="is-request-content has-very-medium-font">{{ appointmentTitle | raw }}</p>
                             <div class="is-request-actions">
@@ -30,11 +31,14 @@
                                     <input class="is-button has-accepted has-no-background" type="submit" name="submit_request_accept-{{ appointment['appointmentID'] }}" value="Accepter" />
                                     <input class="is-button has-rejected has-no-background" type="submit" name="submit_request_reject-{{ appointment['appointmentID'] }}" value="Refuser" />
                                 {% endif %}
-                                {% if appointment['appointmentStatus'] == 'accepted' %}
-                                    <span class="is-status has-inline-block has-accepted">Validé</span>
-                                {% endif %}
-                                {% if appointment['appointmentStatus'] == 'rejected' %}
-                                    <span class="is-status has-inline-block has-rejected">Refusé</span>
+                                {% if appointmentStatus != 'pending' %}
+                                    {% if appointment['appointmentStatus'] == 'accepted' %}
+                                        <span class="is-status has-inline-block has-accepted">Validé</span>
+                                    {% endif %}
+                                    {% if appointment['appointmentStatus'] == 'rejected' %}
+                                        <span class="is-status has-inline-block has-rejected">Refusé</span>
+                                    {% endif %}
+                                    <input class="is-button has-rejected has-no-background" type="submit" name="submit_request_cancel-{{ appointment['appointmentID'] }}" value="Annuler" />
                                 {% endif %}
                             </div>
                         </div>

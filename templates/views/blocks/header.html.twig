@@ -1,5 +1,14 @@
 {% if databaseConnectionError is not empty %}
-    <p class="is-error-notification">{{ "La connection à la base de donnée a échoué:" ~ databaseConnectionError }}</p>
+    <details id="has-error" class="is-notification has-success" open>
+        <p>{{ "La connection à la base de donnée a échoué:" ~ databaseConnectionError }}</p>
+        <summary>✖</summary>
+    </details>
+{% endif %}
+{% if notificationMessage is not empty %}
+    <details id="has-success" class="is-notification has-success" open>
+        <p>{{ notificationMessage }}</p>
+        <summary>✖</summary>
+    </details>
 {% endif %}
 <header class="is-block-title">
     <div class="is-block-connection has-flex {{ returnLink is empty ? 'has-justify-end' : 'has-justify-between' }}">
@@ -12,7 +21,7 @@
     </div>
     <div class="is-container has-text-center">
         <h1 class="is-title-very-large has-no-margin">{{ title }}</h1>
-        <p class="is-content has-no-margin">{{ content|raw }}</p>
+        <p class="is-content has-no-margin">{{ content | raw }}</p>
     </div>
 </header>
 <hr class="is-separator has-big-margin-top"/>

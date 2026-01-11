@@ -3,6 +3,7 @@
 require __DIR__.'/../vendor/autoload.php';
 
 $databaseConnectionError = NULL;
+$notificationMessage = NULL;
 
 // Define return link
 $returnLink = '/dashboard';
@@ -34,14 +35,19 @@ if (isset($_POST['submit_agenda_add'])) {
         $dataPeriod = explode('_', $post_data)[1];
 
         // Check if entry exist
-        $isDateExist = setDatabaseRequest('joebarber_db','joebarber_db', 'joe', 'barber', "SELECT datePeriod, dateTime FROM dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
+        $isDateExist = setDatabaseRequest("SELECT datePeriod, dateTime FROM dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
 
         if (!count($isDateExist['result'])) {
             // Insert data into tables
-            $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
+            $requestInsertDates = setDatabaseRequest("INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
 
             // Set error content
             $databaseConnectionError = $requestInsertDates['error'];
+
+            // Set success message
+            if (empty($databaseConnectionError)) {
+                $notificationMessage = 'Vos absences ont été validées.';
+            }
         }
     }
 }
@@ -57,11 +63,17 @@ if (isset($_POST['submit_agenda_delete'])) {
         $dataDate = explode('_', $post_data)[0];
         $dataPeriod = explode('_', $post_data)[1];
 
-        // Insert data into tables
-        $requestInsertDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber','DELETE FROM dates WHERE datePeriod = "' . $dataPeriod . '" AND  dateTime = "' . $dataDate . '"');
+        // Delete data into tables
+        $requestInsertDates = setDatabaseRequest("DELETE FROM dates WHERE datePeriod = '$dataPeriod' AND  dateTime = '$dataDate'");
 
         // Set error content
         $databaseConnectionError = $requestInsertDates["error"];
+
+        // Set success message
+        $isOffDisabled = setDatabaseRequest("SELECT * FROM dates WHERE datePeriod = '$dataPeriod' AND dateTime = '$dataDate'");
+        if (!count($isOffDisabled['result'])) {
+            $notificationMessage = 'Vos absences ont été annulées.';
+        }
     }
 }
 
@@ -81,7 +93,7 @@ $nextSunday->modify('next Sunday');
 $dateStart = $dateStartWeek->format('Y-m-d');
 $dateEnd = $nextSunday->format('Y-m-d');
 
-$requestDates = setDatabaseRequest('joebarber_db','joebarber_db', 'joe','barber',"SELECT * FROM dates WHERE dateTime BETWEEN '$dateStart' AND '$dateEnd'");
+$requestDates = setDatabaseRequest("SELECT * FROM dates WHERE dateTime BETWEEN '$dateStart' AND '$dateEnd'");
 
 if (sizeof($requestDates['result'])) {
     foreach ($requestDates['result'] as $requestResult) {
@@ -93,11 +105,15 @@ if (sizeof($requestDates['result'])) {
 }
 
 // Set events for appointments
-$eventsAppointment = [
-    '2025-12-24_10:00_10:30',
-    '2025-12-22_09:00_09:30',
-];
-//$calendar->addDataAttribute($dateStartWeek->format('Y-m-d'), 'data', 'off');
+$eventsAppointment = [];
+$requestAppointmentsData = setDatabaseRequest("SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, appointments.appointmentStatus, clients.clientID, clients.lastName, clients.firstName, clients.address, clients.phoneNumber FROM dates, appointments, clients WHERE dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
+
+if (sizeof($requestAppointmentsData['result'])) {
+    foreach ($requestAppointmentsData['result'] as $requestResult) {
+        // Set event for day off
+        array_push($eventsAppointment, $requestResult);
+    }
+}
 
 // Set ids for content
 $contentId = 00;
@@ -135,10 +151,6 @@ for ($i = 1; $i <= 7; $i++) {
         // Define input id
         $checkboxAvailableIdentifier = $contentId++;
 
-        // Appointments
-        $isAppointment = in_array( $eventStartDate, $eventsAppointment);
-        $type = ($isAppointment) ? 'appointment' : 'available';
-
         // If event is day off
         $isOff = false;
         foreach ($eventsDaysOff as $dayOff) {
@@ -146,6 +158,18 @@ for ($i = 1; $i <= 7; $i++) {
                 $isOff = true;
             }
         }
+
+        // Appointments
+        $isAppointment = false;
+        $currentAppointment = [];
+        foreach ($eventsAppointment as $appointmentData) {
+            if ($appointmentData['appointmentStatus'] == 'accepted' && $appointmentData['dateTime'] == $eventStartDate && strpos($appointmentData['datePeriod'], $eventPeriod) !== false) {
+                $isAppointment = true;
+                $currentAppointment = $appointmentData;
+            }
+        }
+        $type = ($isAppointment) ? 'appointment' : 'available';
+
         // If event is an appointment
         if (!$isAppointment) {
             $type = ($isOff) ? 'off' : 'available';
@@ -159,17 +183,12 @@ for ($i = 1; $i <= 7; $i++) {
         ];
 
         // Push data for appointment
-        //if ($isAppointment) {
-        $eventCurrent = [
-            'period' => $eventPeriod,
-            'type' => $type,
-            'id' => $contentId,
-            'firstName' => 'doe',
-            'lastName' => 'John',
-            'address' => '24 rue de knowhere DOECITY 65420',
-            'phoneNumber' => '0548 96 52 63',
-        ];
-        //}
+        if ($isAppointment) {
+            $currentAppointment['period'] = $eventPeriod;
+            $currentAppointment['type'] = $type;
+            $currentAppointment['id'] = $contentId;
+            $eventCurrent = $currentAppointment;
+        }
 
         $event[$dayName]['startDate'] = $eventStartDate;
         $event[$dayName]['mask'] = $eventMask;
@@ -194,7 +213,8 @@ echo $template->render([
     'event' => $event,
     'returnLink' => $returnLink,
     'nextMonday' => $dateStartWeek->format('Y-m-d'),
-    'databaseConnectionError' => $databaseConnectionError
+    'databaseConnectionError' => $databaseConnectionError,
+    'notificationMessage' => $notificationMessage,
 ]);
 
 

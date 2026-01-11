@@ -14,6 +14,16 @@ ini_set('display_errors', 'On');
 // Start session for connected pages
 session_start();
 
+// Check user connection
+function checkConnection(bool $connection, string $url) {
+    $isConnected = isset($_SESSION['joe_logged']) and $_SESSION['joe_logged'] == true;
+    if ($connection) {
+        // Redirect to url
+        header($url);
+        exit();
+    }
+}
+
 // Set translation on calendar
 use Twig\Extra\Intl\IntlExtension;
 
@@ -29,6 +39,10 @@ $twig->addGlobal('session', $_SESSION);
 // Get current uri
 $request = $_SERVER['REQUEST_URI'];
 $currentUrl = parse_url($request, PHP_URL_PATH);
+
+// Connection status
+$isConnected = isset($_SESSION['joe_logged']) and $_SESSION['joe_logged'] == true;
+$isNotConnected = !isset($_SESSION['joe_logged']) or $_SESSION['joe_logged'] == false;
 
 // Set url from requested uri
 switch ($request) {
@@ -47,12 +61,7 @@ switch ($request) {
     case '/joe' :
 
         // If user is connected
-        if (isset($_SESSION['joe_logged']) and $_SESSION['joe_logged'] == true) {
-
-            // Redirect to admin dashboard
-            header('Location: /dashboard');
-            exit();
-        }
+        checkConnection($isConnected,'Location: /dashboard');
 
         // Load template for login page
         $template = $twig->load('/views/admin.html.twig');
@@ -63,18 +72,10 @@ switch ($request) {
     case '/dashboard' :
 
         // If no user is connected, or disconnected
-        if (!isset($_SESSION['joe_logged']) or $_SESSION['joe_logged'] == false) {
-
-            // Redirect to admin dashboard
-            header('Location: /joe');
-            exit();
-        }
+        checkConnection($isNotConnected,'Location: /joe');
 
         // Admin dashboard page
-        $template = $twig->load('/views/dashboard.html.twig');
-
-        // render content to template
-        echo $template->render();
+        require __DIR__ . '/dashboard.php';
 
         break;
 
@@ -86,11 +87,17 @@ switch ($request) {
 
     case '/requests' :
 
+        // If no user is connected, or disconnected
+        checkConnection($isNotConnected,'Location: /joe');
+
         require __DIR__ . '/requests.php';
 
         break;
 
     case (str_contains($currentUrl,'agenda')) :
+
+        // If no user is connected, or disconnected
+        checkConnection($isNotConnected,'Location: /joe');
 
         // Load template for login page
         require __DIR__ . '/agenda.php';

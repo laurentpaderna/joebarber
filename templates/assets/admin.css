@@ -87,13 +87,35 @@ html {
     text-decoration: none;
     color: var(--blue-title);
 }
-.is-error-notification {
+/* NOTIFICATION */
+.is-notification {
+    display: flex;
+    border-radius: 8px;
     margin: var(--space);
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+.is-notification p,
+.is-notification summary {
+    margin: 0px;
     padding: var(--small-space);
     color: var(--white);
-    background-color: var(--red);
     font-size: var(--medium-font);
-    border-radius: 8px;
+}
+.is-notification > summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: var(--very-medium-font);
+}
+.has-error {
+    background-color: var(--red);
+}
+.has-success {
+    background-color: var(--blue-title);
+}
+.is-notification:not([open]) summary {
+    display: none;
 }
 /* LOGIN */
 .is-button {
