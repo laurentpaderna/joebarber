@@ -2,8 +2,8 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-$databaseConnectionError = NULL;
-$notificationMessage = NULL;
+$messageErrorDatabaseConnection = NULL;
+$messageNotification = NULL;
 
 // Define return link
 $returnLink = '/dashboard';
@@ -42,11 +42,11 @@ if (isset($_POST['submit_agenda_add'])) {
             $requestInsertDates = setDatabaseRequest("INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
 
             // Set error content
-            $databaseConnectionError = $requestInsertDates['error'];
+            $messageErrorDatabaseConnection = $requestInsertDates['error'];
 
             // Set success message
-            if (empty($databaseConnectionError)) {
-                $notificationMessage = 'Vos absences ont été validées.';
+            if (empty($messageErrorDatabaseConnection)) {
+                $messageNotification = 'Vos absences ont été validées.';
             }
         }
     }
@@ -67,18 +67,18 @@ if (isset($_POST['submit_agenda_delete'])) {
         $requestInsertDates = setDatabaseRequest("DELETE FROM dates WHERE datePeriod = '$dataPeriod' AND  dateTime = '$dataDate'");
 
         // Set error content
-        $databaseConnectionError = $requestInsertDates["error"];
+        $messageErrorDatabaseConnection = $requestInsertDates["error"];
 
         // Set success message
         $isOffDisabled = setDatabaseRequest("SELECT * FROM dates WHERE datePeriod = '$dataPeriod' AND dateTime = '$dataDate'");
         if (!count($isOffDisabled['result'])) {
-            $notificationMessage = 'Vos absences ont été annulées.';
+            $messageNotification = 'Vos absences ont été annulées.';
         }
     }
 }
 
 // Set monday of the agenda
-$dateStartWeek = isset($_GET) ? new DateTime($_GET['date']) : new DateTime('now');
+$dateStartWeek = isset($_GET) ? new DateTime($_GET['date'], new DateTimeZone('Europe/Paris')) : new DateTime('now', new DateTimeZone('Europe/Paris'));
 
 if ($dateStartWeek->format('l') !== 'Monday') {
     // Get previous monday
@@ -86,7 +86,7 @@ if ($dateStartWeek->format('l') !== 'Monday') {
 }
 
 // Get next sunday for database request
-$nextSunday = new dateTime($dateStartWeek->format('Y-m-d'));
+$nextSunday = new DateTime($dateStartWeek->format('Y-m-d'));
 $nextSunday->modify('next Sunday');
 
 // Get information from database
@@ -106,7 +106,7 @@ if (sizeof($requestDates['result'])) {
 
 // Set events for appointments
 $eventsAppointment = [];
-$requestAppointmentsData = setDatabaseRequest("SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, appointments.appointmentStatus, clients.clientID, clients.lastName, clients.firstName, clients.address, clients.phoneNumber FROM dates, appointments, clients WHERE dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
+$requestAppointmentsData = setDatabaseRequest("SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, appointments.appointmentStatus, clients.clientID, clients.lastName, clients.firstName, clients.address, clients.phoneNumber, clients.email FROM dates, appointments, clients WHERE dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
 
 if (sizeof($requestAppointmentsData['result'])) {
     foreach ($requestAppointmentsData['result'] as $requestResult) {
@@ -120,9 +120,6 @@ $contentId = 00;
 
 // Set current date
 $currentDate = new dateTime('now');
-
-// Set class to translate date
-$formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::LONG);
 
 // Set content for every day of the week
 for ($i = 1; $i <= 7; $i++) {
@@ -207,14 +204,14 @@ for ($i = 1; $i <= 7; $i++) {
 }
 
 // Render content to template
-$template = $twig->load('/views/agenda.html.twig');
+$template = $GLOBALS['twig']->load('/views/agenda.html.twig');
 echo $template->render([
     'eventsAllDaysOff' => $eventsAllDaysOff,
     'event' => $event,
     'returnLink' => $returnLink,
     'nextMonday' => $dateStartWeek->format('Y-m-d'),
-    'databaseConnectionError' => $databaseConnectionError,
-    'notificationMessage' => $notificationMessage,
+    'messageErrorDatabaseConnection' => $messageErrorDatabaseConnection,
+    'messageNotification' => $messageNotification,
 ]);
 
 

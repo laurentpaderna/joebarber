@@ -1,40 +1,57 @@
 <?php
 
+// Set enf file and variable
+$envFile = __DIR__ . '/../.env';
+
+// Set detection on .env file
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($key, $value) = explode('=', $line, 2);
+        $key = trim($key);
+        $value = trim($value);
+        putenv("$key=$value");
+        $_ENV[$key] = $value;
+        $_SERVER[$key] = $value;
+    }
+}
+
+try {
+    // Set utilities functions
+    require_once __DIR__ . '/utilities.php';
+    // Load our autoloader
+    require_once __DIR__.'/../vendor/autoload.php';
+    // Clean entries from database
+    require __DIR__.'/pdo.php';
+} catch (\Error $e) {
+    echo $e->getMessage();
+}
+
+// Set translation on calendar
+use Twig\Extra\Intl\IntlExtension;
+
+// Remove cache on client side
 header('Cache-Control: no-cache');
 header('Pragma: no-cache');
+//date_default_timezone_set('Europe/Paris');
 
-require __DIR__.'/pdo.php';
-
-// Load our autoloader
-require_once __DIR__.'/../vendor/autoload.php';
-
+// Set error reporting level
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 // Start session for connected pages
 session_start();
 
-// Check user connection
-function checkConnection(bool $connection, string $url) {
-    $isConnected = isset($_SESSION['joe_logged']) and $_SESSION['joe_logged'] == true;
-    if ($connection) {
-        // Redirect to url
-        header($url);
-        exit();
-    }
-}
-
-// Set translation on calendar
-use Twig\Extra\Intl\IntlExtension;
-
 // Specify our Twig templates location
+global $twig;
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__."/");
-$twig = new \Twig\Environment($loader, [
+$GLOBALS['twig'] = new \Twig\Environment($loader, [
     "debug" => true
 ]);
-$twig->addExtension(new \Twig\Extension\DebugExtension());
-$twig->addExtension(new IntlExtension());
-$twig->addGlobal('session', $_SESSION);
+$GLOBALS['twig']->addExtension(new \Twig\Extension\DebugExtension());
+$GLOBALS['twig']->addExtension(new IntlExtension());
+$GLOBALS['twig']->addGlobal('session', $_SESSION);
 
 // Get current uri
 $request = $_SERVER['REQUEST_URI'];
@@ -64,7 +81,7 @@ switch ($request) {
         checkConnection($isConnected,'Location: /dashboard');
 
         // Load template for login page
-        $template = $twig->load('/views/admin.html.twig');
+        $template = $GLOBALS['twig']->load('/views/admin.html.twig');
         require __DIR__ . '/login.php';
 
         break;
@@ -101,6 +118,13 @@ switch ($request) {
 
         // Load template for login page
         require __DIR__ . '/agenda.php';
+
+        break;
+
+    case (str_contains($currentUrl,'appointment')) :
+
+        // Load template for login page
+        require __DIR__ . '/email.php';
 
         break;
 

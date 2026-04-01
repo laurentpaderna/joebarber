@@ -2,10 +2,10 @@
 html {
     font-size: 62.5%;
     font-size: calc(1em * 62.5%);
-    font-family: 'Arial', sans-serif;
+    font-family: 'Geist', sans-serif;
 }
 html * {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Geist', sans-serif;
 }
 ul {
     padding: 0;
@@ -108,7 +108,7 @@ html {
     cursor: pointer;
     font-size: var(--very-medium-font);
 }
-.has-error {
+.has-error-notification {
     background-color: var(--red);
 }
 .has-success {
@@ -195,9 +195,11 @@ html {
     height: 120px;
 }
 .is-dashboard-icon {
+    font-size: var(--very-huge-font);
+}
+.is-dashboard-text {
     margin-top: auto;
     text-align: right;
-    font-size: var(--very-huge-font);
 }
 .is-dashboard-agenda{
     background-color: var(--teal);
@@ -231,8 +233,8 @@ html {
 #display-appointments:target ~ .is-agenda-form .is-agenda-row:not(:has(.has-appointment)) {
     display: none;
 }
-#display-offs:target ~ .is-agenda-form .is-agenda-card:not(.has-day-off),
-#display-offs:target ~ .is-agenda-form .is-agenda-row:not(:has(.has-day-off)) {
+#display-offs:target ~ .is-agenda-form .is-agenda-row:not(:has(.has-day-off)):not(.has-all-day-off),
+#display-offs:target ~ .is-agenda-form .is-agenda-row:not(.has-all-day-off) .is-agenda-card:not(.has-day-off) {
     display: none;
 }
 #display-available:target ~ .is-agenda-form .is-agenda-card.has-day-off,
@@ -310,11 +312,11 @@ html {
     min-width: 0px;
     border: solid 1px var(--grey-label);
     border-radius: var(--small-space);
-    cursor: pointer;
     text-align: center;
 }
 .is-agenda-card:not(.has-appointment) {
     height: 130px;
+    cursor: pointer;
 }
 .is-agenda-card:not(:last-child) {
     margin-right: var(--very-medium-space);
@@ -392,7 +394,7 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     background-color: var(--red);
 }
 .is-agenda-card.has-appointment {
-    width: 200px;
+    width: auto;
 }
 .is-agenda-card.has-appointment .is-agenda-card-label {
     background-color: var(--blue-primary);
@@ -573,6 +575,28 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     margin-right: 3px;
     border-right: 2px solid;
     border-top: 2px solid;
+}
+
+.is-no-result {
+    margin: var(--medium-space) 0px var(--big-space);
+}
+
+#display-appointments:target ~ .is-agenda-form .is-agenda-container:not(:has(.has-appointment)) ~ .is-no-result,
+#display-offs:target ~ .is-agenda-form .is-agenda-container:not(:has(.has-day-off)):not(.has-all-day-off) ~ .is-no-result,
+#display-available:target ~ .is-agenda-form .is-agenda-container:not(:has(.is-agenda-card:not(.has-appointment):not(.has-day-off))) ~ .is-no-result {
+    display: block;
+}
+
+#display-appointments:target ~ .is-agenda-form .is-agenda-container ~ .is-no-result::before {
+    content: "Il n'y a pas de rendez-vous pour cette semaine.";
+}
+
+#display-offs:target ~ .is-agenda-form .is-agenda-container ~ .is-no-result::before {
+    content: "Il n'y a pas d'absences pour cette semaine.";
+}
+
+#display-available:target ~ .is-agenda-form .is-agenda-container ~ .is-no-result::before {
+    content: "Il n'y a aucun créneau disponible pour cette semaine.";
 }
 
 @media (max-width: 900px) {

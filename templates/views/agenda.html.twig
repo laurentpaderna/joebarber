@@ -58,6 +58,7 @@
                                                     <li>{{ data.firstName }}</li>
                                                     <li>{{ data.address }}</li>
                                                     <li>{{ data.phoneNumber }}</li>
+                                                    <li>{{ data.email }}</li>
                                                 </ul>
                                             </div>
                                         {% endif %}
@@ -67,13 +68,15 @@
                         {% endif %}
                     {% endfor %}
 
-                    <div class="has-width-100 has-text-left">
-                        {% if lastMonday >= 'now' | date('Y-m-d')  %}
-                            <a class="is-button has-validation has-right-very-medium-margin" href="?date={{ lastMonday | date_modify('-7 day') | date('Y-m-d') }}">Semaine précedente</a>
-                        {% endif %}
-                        <a class="is-button has-validation" href="?date={{ nextMonday }}">Semaine suivante</a>
-                    </div>
+                </div>
 
+                <p class="has-no-display is-no-result has-text-left has-very-medium-font"></p>
+
+                <div class="has-width-100 has-text-left">
+                    {% if lastMonday >= 'now' | date('Y-m-d')  %}
+                        <a class="is-button has-validation has-right-very-medium-margin" href="?date={{ lastMonday | date_modify('-7 day') | date('Y-m-d') }}">Semaine précedente</a>
+                    {% endif %}
+                    <a class="is-button has-validation" href="?date={{ nextMonday }}">Semaine suivante</a>
                 </div>
 
                 <div class="has-width-100 has-big-margin-top has-text-right has-left-very-medium-margin">

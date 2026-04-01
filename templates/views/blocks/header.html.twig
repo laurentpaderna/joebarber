@@ -1,12 +1,24 @@
-{% if databaseConnectionError is not empty %}
-    <details id="has-error" class="is-notification has-success" open>
-        <p>{{ "La connection à la base de donnée a échoué:" ~ databaseConnectionError }}</p>
+{% if messageErrorDatabaseConnection is not empty %}
+    <details id="has-error" class="is-notification has-error-notification" open>
+        <p>{{ "La connection à la base de donnée a échoué:" ~ messageErrorDatabaseConnection }}</p>
         <summary>✖</summary>
     </details>
 {% endif %}
-{% if notificationMessage is not empty %}
+{% if messageNotification is not empty %}
     <details id="has-success" class="is-notification has-success" open>
-        <p>{{ notificationMessage }}</p>
+        <p>{{ messageNotification }}</p>
+        <summary>✖</summary>
+    </details>
+{% endif %}
+{% if messageMailSuccess is not empty %}
+    <details id="has-success" class="is-notification has-success" open>
+        <p>{{ messageMailSuccess | raw }}</p>
+        <summary>✖</summary>
+    </details>
+{% endif %}
+{% if messageMailError is not empty %}
+    <details id="has-success" class="is-notification has-error-notification" open>
+        <p>{{ messageMailError | raw }}</p>
         <summary>✖</summary>
     </details>
 {% endif %}

@@ -9,7 +9,7 @@ $requestDatesData = setDatabaseRequest("SELECT count(*) FROM dates WHERE dates.d
 $requestOffData = setDatabaseRequest("SELECT count(*) FROM dates WHERE dates.dateTime = '$currentDate' AND dates.datePeriod = '08:30-19:30'");
 
 // Render content to template
-$template = $twig->load('/views/dashboard.html.twig');
+$template = $GLOBALS['twig']->load('/views/dashboard.html.twig');
 echo $template->render([
     'appointmentAmount' => $requestAppointmentData['result'][0]['count(*)'],
     'dateAmount' => $requestDatesData['result'][0]['count(*)'],
