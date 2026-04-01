@@ -1,0 +1,185 @@
+SERVER -> CLIENT: 220 smtp-relay.brevo.com ESMTP Service Ready
+CLIENT -> SERVER: EHLO joebarber.local.com
+SERVER -> CLIENT: 250-Hello joebarber.local.com
+250-PIPELINING
+250-8BITMIME
+250-ENHANCEDSTATUSCODES
+250-CHUNKING
+250-STARTTLS
+250-AUTH PLAIN LOGIN CRAM-MD5
+250 SIZE 20971520
+CLIENT -> SERVER: STARTTLS
+SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+CLIENT -> SERVER: EHLO joebarber.local.com
+SERVER -> CLIENT: 250-Hello joebarber.local.com
+250-PIPELINING
+250-8BITMIME
+250-ENHANCEDSTATUSCODES
+250-CHUNKING
+250-AUTH PLAIN LOGIN CRAM-MD5
+250 SIZE 20971520
+CLIENT -> SERVER: AUTH CRAM-MD5
+SERVER -> CLIENT: 334 PDEuMjQzNjMyNzg2QGpvZWJhcmJlci5sb2NhbC5jb20+
+CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 235 2.0.0 Authentication succeeded
+CLIENT -> SERVER: MAIL FROM:<hyauhn@gmail.com>
+SERVER -> CLIENT: 250 2.0.0 Roger, accepting mail from <hyauhn@gmail.com>
+CLIENT -> SERVER: RCPT TO:<phpstorm202604@outlook.fr>
+SERVER -> CLIENT: 250 2.0.0 I'll make sure <phpstorm202604@outlook.fr> gets this
+CLIENT -> SERVER: DATA
+SERVER -> CLIENT: 354 Go ahead. End your data with <CR><LF>.<CR><LF>
+CLIENT -> SERVER: Date: Wed, 1 Apr 2026 22:40:13 +0000
+CLIENT -> SERVER: To: destination <phpstorm202604@outlook.fr>
+CLIENT -> SERVER: From: laurent <hyauhn@gmail.com>
+CLIENT -> SERVER: Subject: Vous allez vous mettre sur votre 31 !
+CLIENT -> SERVER: Message-ID: <HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY@joebarber.local.com>
+CLIENT -> SERVER: X-Mailer: PHPMailer 7.0.2 (https://github.com/PHPMailer/PHPMailer)
+CLIENT -> SERVER: MIME-Version: 1.0
+CLIENT -> SERVER: Content-Type: multipart/alternative;
+CLIENT -> SERVER:  boundary="b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY"
+CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+CLIENT -> SERVER: 
+CLIENT -> SERVER: --b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY
+CLIENT -> SERVER: Content-Type: text/plain; charset=us-ascii
+CLIENT -> SERVER: 
+CLIENT -> SERVER: This is the test 6 email alt
+CLIENT -> SERVER: 
+CLIENT -> SERVER: --b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY
+CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
+CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
+CLIENT -> SERVER: 
+CLIENT -> SERVER: <!DOCTYPE html>
+CLIENT -> SERVER: <html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+CLIENT -> SERVER: <head>
+CLIENT -> SERVER:   <title>Jo'barber newsletter</title>
+CLIENT -> SERVER:   <!--[if !mso]><!-->
+CLIENT -> SERVER:   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+CLIENT -> SERVER:   <!--<![endif]-->
+CLIENT -> SERVER:   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+CLIENT -> SERVER:   <meta name="viewport" content="width=device-width, initial-scale=1">
+CLIENT -> SERVER:   <style type="text/css">
+CLIENT -> SERVER:     #outlook a {
+CLIENT -> SERVER:       padding: 0;
+CLIENT -> SERVER:     }
+CLIENT -> SERVER:     body {
+CLIENT -> SERVER:       margin: 0;
+CLIENT -> SERVER:       padding: 0;
+CLIENT -> SERVER:       -webkit-text-size-adjust: 100%;
+CLIENT -> SERVER:       -ms-text-size-adjust: 100%;
+CLIENT -> SERVER:     }
+CLIENT -> SERVER:     table,
+CLIENT -> SERVER:     td {
+CLIENT -> SERVER:       border-collapse: collapse;
+CLIENT -> SERVER:       mso-table-lspace: 0pt;
+CLIENT -> SERVER:       mso-table-rspace: 0pt;
+CLIENT -> SERVER:     }
+CLIENT -> SERVER:     img {
+CLIENT -> SERVER:       border: 0;
+CLIENT -> SERVER:       height: auto;
+CLIENT -> SERVER:       line-height: 100%;
+CLIENT -> SERVER:       outline: none;
+CLIENT -> SERVER:       text-decoration: none;
+CLIENT -> SERVER:       -ms-interpolation-mode: bicubic;
+CLIENT -> SERVER:     }
+CLIENT -> SERVER:   </style>
+CLIENT -> SERVER:   <!--[if mso]>
+CLIENT -> SERVER:     <noscript>
+CLIENT -> SERVER:       <xml>
+CLIENT -> SERVER:         <o:officedocumentsettings>
+CLIENT -> SERVER:           <o:allowpng></o:allowpng>
+CLIENT -> SERVER:           <o:pixelsperinch>96</o:pixelsperinch>
+CLIENT -> SERVER:         </o:officedocumentsettings>
+CLIENT -> SERVER:       </xml>
+CLIENT -> SERVER:     </noscript>
+CLIENT -> SERVER:   <![endif]-->
+CLIENT -> SERVER: </head>
+CLIENT -> SERVER: <body style="margin: 0 auto; min-width: 100%; background-color: #ffffff; padding: 0;">
+CLIENT -> SERVER:   <table cellpadding="0" cellspacing="0" border="0" width="600" align="center" style="width: 100%; max-width: 600px; background-color: #ffffff;" role="none">
+CLIENT -> SERVER:     <tr>
+CLIENT -> SERVER:       <td style="background-color: #fffffe; text-align: center;">
+CLIENT -> SERVER:         <!--[if mso | IE]>
+CLIENT -> SERVER:         <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr><td>
+CLIENT -> SERVER:         <![endif]-->
+CLIENT -> SERVER:         <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #ffffff;" role="none">
+CLIENT -> SERVER:                       <tr>
+CLIENT -> SERVER:             <td>
+CLIENT -> SERVER:               <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%;" role="none">
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="center" style="padding: 12px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 20px; color: #000000;">Si tu as des difficultés pour visualiser ce message, <a href="https://joebarber.local.com/appointment?template=accept&amp;datePeriod=08%3A00+%C3%A0+08%3A30&amp;dateTime=mardi+28+avril+2026" style="color: #000000; text-decoration: underline;">clique ici</a></td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:               </table>
+CLIENT -> SERVER:             </td>
+CLIENT -> SERVER:           </tr>
+CLIENT -> SERVER:                       <tr>
+CLIENT -> SERVER:             <td align="center" style="text-align: center;">
+CLIENT -> SERVER:               <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%;" role="none">
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="center" style="text-align: center;">
+CLIENT -> SERVER:                     <img width="600" src="https://iili.io/BKK77hG.md.png" alt="Jo'barber hero" style="display: block; height: auto; width: 100%; border-width: 0px;" height="auto">
+CLIENT -> SERVER:                   </td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:               </table>
+CLIENT -> SERVER:             </td>
+CLIENT -> SERVER:           </tr>
+CLIENT -> SERVER:           <tr>
+CLIENT -> SERVER:             <td>
+CLIENT -> SERVER:               <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%;" role="none">
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="center" style="padding: 24px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 24px; line-height: 24px; font-weight: 700; color: #000000;">Ta demande de rendez-vous<br> a été acceptée!</td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:               </table>
+CLIENT -> SERVER:             </td>
+CLIENT -> SERVER:           </tr>
+CLIENT -> SERVER:           <tr>
+CLIENT -> SERVER:             <td>
+CLIENT -> SERVER:               <!--[if mso | IE]>
+CLIENT -> SERVER:       <table width="500" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr><td>
+CLIENT -> SERVER:       <![endif]-->
+CLIENT -> SERVER:               <table align="center" cellpadding="0" cellspacing="0" border="0" width="500" style="width: 500px; max-width: 100%;" role="none">
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Nous te remercions d'avoir réservé ta coupe de cheveux. Nous te confirmons ton rendez-vous:</td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;"><span>●</span> Le mardi 28 avril 2026<br><span>●</span> 08:00 à 08:30<br></td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 24px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Si tu veux annuler ton rendez-vous, <a href="#" style="font-weight: 700; color: #000000; text-decoration: underline;">clique ici</a>.</td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:               </table>
+CLIENT -> SERVER:               <!--[if mso | IE]>
+CLIENT -> SERVER:       </td></tr></table>
+CLIENT -> SERVER:       <![endif]-->
+CLIENT -> SERVER:             </td>
+CLIENT -> SERVER:           </tr>
+CLIENT -> SERVER:           <tr>
+CLIENT -> SERVER:             <td>
+CLIENT -> SERVER:               <table cellpadding="0" cellspacing="0" border="0" align="center" style="width:100%;max-width:600px;padding-top:20px;" role="none">
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="center">
+CLIENT -> SERVER:                     <a href="#href" target="_blank">
+CLIENT -> SERVER:                       <img width="600" src="https://iili.io/BKK7ukX.md.png" alt="Jo'barber" style="display: block; height: auto; width: 100%; border-width: 0px;" height="auto">
+CLIENT -> SERVER:                     </a>
+CLIENT -> SERVER:                   </td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:                 <tr>
+CLIENT -> SERVER:                   <td align="center" style="padding: 8px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 20px; color: #000000;">© Copyright 2026 Jo'barber</td>
+CLIENT -> SERVER:                 </tr>
+CLIENT -> SERVER:               </table>
+CLIENT -> SERVER:             </td>
+CLIENT -> SERVER:           </tr>
+CLIENT -> SERVER:         </table>
+CLIENT -> SERVER:         <!--[if mso | IE]>
+CLIENT -> SERVER:         </td></tr></table>
+CLIENT -> SERVER:         <![endif]-->
+CLIENT -> SERVER:       </td>
+CLIENT -> SERVER:     </tr>
+CLIENT -> SERVER:   </table>
+CLIENT -> SERVER: </body>
+CLIENT -> SERVER: </html>
+CLIENT -> SERVER: 
+CLIENT -> SERVER: 
+CLIENT -> SERVER: --b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY--
+CLIENT -> SERVER: 
+CLIENT -> SERVER: .
+SERVER -> CLIENT: 250 2.0.0 OK: queued as <HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY@joebarber.local.com>
+CLIENT -> SERVER: QUIT
+SERVER -> CLIENT: 221 2.0.0 Bye

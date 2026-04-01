@@ -19,10 +19,10 @@
     <!-- CONTENT LIST -->
     <article>
         <section class="is-container">
-            <form method="post">
-                {% if appointments | length > 0 %}
+            {% if appointments | length > 0 %}
+                <form method="post">
                     {% for appointment in appointments %}
-                        {% set appointmentTitle = appointment['lastName'] ~ ' ' ~ appointment['firstName'] | upper ~ ' ' ~ appointment['address'] ~ '<br>' ~ appointment['dateTime'] | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') ~ ' ' ~ appointment['datePeriod'] ~ '<br>' ~ appointment['phoneNumber'] %}
+                        {% set appointmentTitle = appointment['lastName'] ~ ' ' ~ appointment['firstName'] | upper ~ ' ' ~ appointment['address'] ~ '<br>' ~ appointment['dateTime'] | format_datetime(locale: 'fr', pattern: 'cccc d MMMM Y') ~ ' ' ~ appointment['datePeriod'] ~ '<br>' ~ appointment['phoneNumber'] ~ '<br>' ~ appointment['email'] %}
                         {% set appointmentStatus = appointment['appointmentStatus'] %}
                         <div class="is-request has-flex has-width-100">
                             <p class="is-request-content has-very-medium-font">{{ appointmentTitle | raw }}</p>
@@ -43,8 +43,11 @@
                             </div>
                         </div>
                     {% endfor %}
-                {% endif %}
-            </form>
+                </form>
+            {% endif %}
+            {% if appointments | length == 0 %}
+                <p class="has-very-medium-font">Vous n'avez pas de demandes en attente.</p>
+            {% endif %}
         </section>
     </article>
 {% endblock %}

@@ -7,17 +7,20 @@ $wrongLogin = NULL;
 $wrongPassword = NULL;
 $errorClassLogin = NULL;
 $errorClassPassword = NULL;
-$databaseConnectionError = NULL;
+$messageErrorDatabaseConnection = NULL;
 
 // Retrieve username and password from database
 $userName = NULL;
 $passWord = NULL;
 $requestUser = setDatabaseRequest("SELECT identifier, password FROM users");
-$userName = $requestUser['result'][0]['identifier'];
-$passWord = $requestUser['result'][0]['password'];
+$hasRequestUserResult = sizeof($requestUser['result']);
+if ($hasRequestUserResult > 0) {
+    $userName = multiDimensionalArrayKeyExists($requestUser,'identifier') ? $requestUser['result'][0]['identifier'] : '';
+    $passWord = multiDimensionalArrayKeyExists($requestUser,'password') ? $requestUser['result'][0]['password'] : '';
+}
 
 // Set error content
-$databaseConnectionError = $requestUser['error'];
+$messageErrorDatabaseConnection = $requestUser['error'];
 
 // Set input content
 $valueLogin = NULL;
@@ -68,7 +71,7 @@ if(isset($_POST['joe_submit'])) {
 
 // render content to template
 echo $template->render(array(
-    'databaseConnectionError' => $databaseConnectionError,
+    'messageErrorDatabaseConnection' => $messageErrorDatabaseConnection,
     'emptyLogin' => $emptyLogin,
     'emptyPassword' => $emptyPassword,
     'wrongLogin' => $wrongLogin,
