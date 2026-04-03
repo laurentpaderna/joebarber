@@ -24,9 +24,10 @@ if ($templateType != NULL) {
             $templatePath = '/views/emails/appointment_accepted.html.twig';
             break;
 
-        default:
 
-            // Email
+        case 'reject' :
+
+            // Email template for accepted appointment
             $templatePath = '/views/emails/appointment_refused.html.twig';
             break;
     }

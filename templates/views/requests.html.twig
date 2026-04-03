@@ -26,7 +26,7 @@
                         {% set appointmentStatus = appointment['appointmentStatus'] %}
                         <div class="is-request has-flex has-width-100">
                             <p class="is-request-content has-very-medium-font">{{ appointmentTitle | raw }}</p>
-                            <div class="is-request-actions">
+                            <div class="is-request-actions has-text-right">
                                 {% if appointment['appointmentStatus'] == 'pending' %}
                                     <input class="is-button has-accepted has-no-background" type="submit" name="submit_request_accept-{{ appointment['appointmentID'] }}" value="Accepter" />
                                     <input class="is-button has-rejected has-no-background" type="submit" name="submit_request_reject-{{ appointment['appointmentID'] }}" value="Refuser" />
@@ -39,6 +39,9 @@
                                         <span class="is-status has-inline-block has-rejected">Refusé</span>
                                     {% endif %}
                                     <input class="is-button has-rejected has-no-background" type="submit" name="submit_request_cancel-{{ appointment['appointmentID'] }}" value="Annuler" />
+                                    {% if appointment['appointmentStatus'] == 'rejected' %}
+                                        <input class="is-button has-deleted has-no-background" type="submit" name="submit_request_delete-{{ appointment['appointmentID'] }}-{{ appointment['dateID'] }}" value="Supprimer" />
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>

@@ -2,7 +2,7 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-$messageErrorDatabaseConnection = NULL;
+$messageDatabaseConnectionError = NULL;
 $messageNotification = NULL;
 
 // Define return link
@@ -42,10 +42,10 @@ if (isset($_POST['submit_agenda_add'])) {
             $requestInsertDates = setDatabaseRequest("INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
 
             // Set error content
-            $messageErrorDatabaseConnection = $requestInsertDates['error'];
+            $messageDatabaseConnectionError = $requestInsertDates['error'];
 
             // Set success message
-            if (empty($messageErrorDatabaseConnection)) {
+            if (empty($messageDatabaseConnectionError)) {
                 $messageNotification = 'Vos absences ont été validées.';
             }
         }
@@ -67,7 +67,7 @@ if (isset($_POST['submit_agenda_delete'])) {
         $requestInsertDates = setDatabaseRequest("DELETE FROM dates WHERE datePeriod = '$dataPeriod' AND  dateTime = '$dataDate'");
 
         // Set error content
-        $messageErrorDatabaseConnection = $requestInsertDates["error"];
+        $messageDatabaseConnectionError = $requestInsertDates["error"];
 
         // Set success message
         $isOffDisabled = setDatabaseRequest("SELECT * FROM dates WHERE datePeriod = '$dataPeriod' AND dateTime = '$dataDate'");
@@ -210,7 +210,7 @@ echo $template->render([
     'event' => $event,
     'returnLink' => $returnLink,
     'nextMonday' => $dateStartWeek->format('Y-m-d'),
-    'messageErrorDatabaseConnection' => $messageErrorDatabaseConnection,
+    'messageDatabaseConnectionError' => $messageDatabaseConnectionError,
     'messageNotification' => $messageNotification,
 ]);
 

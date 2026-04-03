@@ -1,6 +1,6 @@
-{% if messageErrorDatabaseConnection is not empty %}
+{% if messageDatabaseConnectionError is not empty %}
     <details id="has-error" class="is-notification has-error-notification" open>
-        <p>{{ "La connection à la base de donnée a échoué:" ~ messageErrorDatabaseConnection }}</p>
+        <p>{{ "La connection à la base de donnée a échoué:" ~ messageDatabaseConnectionError }}</p>
         <summary>✖</summary>
     </details>
 {% endif %}

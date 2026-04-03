@@ -51,15 +51,17 @@
         <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr><td>
         <![endif]-->
         <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #ffffff;" role="none">
+          {% if newsletter is same as true %}
           <tr>
-            <td>
-              <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%;" role="none">
-                <tr>
-                  <td align="center" style="padding: 12px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 20px; color: #000000;">Si tu as des difficultés pour visualiser ce message, <a href="#" style="color: #000000; text-decoration: underline;">clique ici</a></td>
-                </tr>
-              </table>
-            </td>
+              <td>
+                  <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%;" role="none">
+                      <tr>
+                          <td align="center" style="padding: 12px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 20px; color: #000000;">Si tu as des difficultés pour visualiser ce message, <a href="{{ desktopLink }}" style="color: #000000; text-decoration: underline;">clique ici</a></td>
+                      </tr>
+                  </table>
+              </td>
           </tr>
+          {% endif %}
           <tr>
             <td align="center" style="text-align: center;">
               <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%;" role="none">
@@ -78,7 +80,7 @@
                   <td align="center" style="padding: 24px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 24px; line-height: 24px; font-weight: 700; color: #000000;">Votre demande de rendez-vous<br> a été refusée.</td>
                 </tr>
                 <tr>
-                  <td align="center" style="padding-bottom: 24px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Malheureusement, votre coiffeur n'est pas disponible le<br><strong>{{ dateTime}} de {{ datePeriod }}.</strong><br> Mais rien n'est perdu! Essayez donc à nouveau à partir de notre site.</td>
+                  <td align="center" style="padding-bottom: 24px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Malheureusement, votre coiffeur n'est pas disponible le<br><strong>{{ dateTime}} de {{ datePeriod }}.</strong><br> Mais rien n'est perdu!<br/> Essayez donc à nouveau de prendre rendez-vous à partir de notre site.</td>
                 </tr>
               </table>
             </td>

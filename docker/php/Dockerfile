@@ -72,13 +72,10 @@ mcrypt \
 nano \
 rsync \
 vim \
-wget
-
-#add necessary library for memcached
-#RUN apt-get install -y \
-#pkg-config \
-#libmemcached-dev \
-#zlib1g-dev
+wget \
+curl \
+ca-certificates \
+gpg
 
 RUN apt-get install locales
 RUN locale-gen fr_FR.UTF-8
@@ -100,17 +97,6 @@ RUN chgrp -R www-data /var/www
 RUN find /var/www -type d -exec chmod 775 {} +
 RUN find /var/www -type f -exec chmod 664 {} +
 
-# install memcached
-#RUN apt-get install \
-#memcached \
-#zlib1g-dev
-#RUN pecl install memcached-3.1.5
-
-# Add mcrypt
-#RUN apt-get update \
-#  && apt-get install -y libmcrypt-dev
-#RUN apt-get install -y mcrypt
-
 # add mysql & mysqlpackage
 RUN apt-get update \
 	&& apt-get -y install mysql-server
@@ -125,38 +111,41 @@ RUN cd ~ \
 	&& mv composer.phar /usr/local/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# add chrome
-#RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-#    && apt-get install -y ./google-chrome-stable_current_amd64.deb
+# Install sendmail and required tools
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    sendmail \
+    mailutils \
+    && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# add npm
-#RUN cd ~ \
-#	&& curl -sL https://deb.nodesource.com/setup_20.x | bash - \
-#	&& apt-get install -y nodejs
-#RUN apt-get -y install bzip2
+# Configure sendmail to use bytemark/smtp
+#RUN echo "sendmail_path = /usr/sbin/sendmail -t -i" > /usr/local/etc/php/conf.d/sendmail.ini
 
-# Install Lighthouse CI
-#RUN npm install -g @lhci/cli@0.14.0
-#RUN npm install -g lighthouse
-
-# Install puppeteer
-#RUN npm install -g puppeteer
-
-# Setup a user to avoid doing everything as root
-#RUN groupadd --system lhci && \
-#  useradd --system --create-home --gid lhci lhci && \
-#  mkdir --parents /home/lhci/reports && \
-#  chown --recursive lhci:lhci /home/lhci
-
-#RUN cd /home/lhci/reports && npm link puppeteer
+#set local mail account
+RUN apt-get update && apt-get install -y msmtp mailutils
 
 RUN rm -rf /etc/apache2/sites-enabled/*
 
 #add current host to apache
 COPY vhost.conf /etc/apache2/sites-available/joebarber.local.com.conf
 
+#backup original Virtual Host conf
+RUN cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf.bak
+
+#set custom SSL Virtual Host && https certificate
+COPY vhost.conf /etc/apache2/sites-available/vhost.conf
+COPY joebarber.local.com.crt /etc/ssl/certs/joebarber.local.com.crt
+COPY joebarber.local.com.key /etc/ssl/private/joebarber.local.com.key
+
 #set custom SSL Virtual Host
 COPY vhost.conf /etc/apache2/sites-available/vhost.conf
+
+#enable module for https
+RUN a2enmod headers \
+  && a2enmod expires \
+  && a2enmod ssl
 
 #enable custom site configuration
 RUN a2ensite joebarber.local.com
@@ -169,8 +158,13 @@ VOLUME /var/www/html
 
 WORKDIR /var/www/html
 
-#expose ports for normal & http host
+#expose ports for normal host & http host
 EXPOSE 80
+EXPOSE 443
+
+#expose port for mail through smtp
+EXPOSE 25
+EXPOSE 2525
 
 # start Apache2 on image start
 CMD ["/usr/sbin/apache2ctl","-DFOREGROUND"]

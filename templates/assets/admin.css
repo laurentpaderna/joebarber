@@ -138,9 +138,11 @@ html {
 .is-button.has-accepted {
     border: 2px solid var(--blue-title);
 }
+.is-button.has-deleted,
 .is-button.has-rejected {
     border: 2px solid var(--red);
 }
+.has-deleted,
 .has-rejected {
     color: var(--red);
 }
@@ -478,15 +480,10 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     margin-right: var(--medium-space);
 }
 .is-request-actions {
-    margin-right: 0px;
-}
-.is-request-actions .is-button:not(:last-child) {
     margin-right: var(--small-space);
 }
 .is-request-actions .is-button {
-    margin-top: 0px;
-    margin-bottom: var(--small-space);
-    margin-left: 0px;
+    margin: 0px var(--small-space) var(--small-space) 0px;
 }
 .is-status {
     padding: var(--small-space) var(--very-medium-space);

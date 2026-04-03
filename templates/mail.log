@@ -19,7 +19,7 @@ SERVER -> CLIENT: 250-Hello joebarber.local.com
 250-AUTH PLAIN LOGIN CRAM-MD5
 250 SIZE 20971520
 CLIENT -> SERVER: AUTH CRAM-MD5
-SERVER -> CLIENT: 334 PDEuMjQzNjMyNzg2QGpvZWJhcmJlci5sb2NhbC5jb20+
+SERVER -> CLIENT: 334 PDEuNjc2NzA2NDQxQGpvZWJhcmJlci5sb2NhbC5jb20+
 CLIENT -> SERVER: [credentials hidden]SERVER -> CLIENT: 235 2.0.0 Authentication succeeded
 CLIENT -> SERVER: MAIL FROM:<hyauhn@gmail.com>
 SERVER -> CLIENT: 250 2.0.0 Roger, accepting mail from <hyauhn@gmail.com>
@@ -27,23 +27,24 @@ CLIENT -> SERVER: RCPT TO:<phpstorm202604@outlook.fr>
 SERVER -> CLIENT: 250 2.0.0 I'll make sure <phpstorm202604@outlook.fr> gets this
 CLIENT -> SERVER: DATA
 SERVER -> CLIENT: 354 Go ahead. End your data with <CR><LF>.<CR><LF>
-CLIENT -> SERVER: Date: Wed, 1 Apr 2026 22:40:13 +0000
-CLIENT -> SERVER: To: destination <phpstorm202604@outlook.fr>
-CLIENT -> SERVER: From: laurent <hyauhn@gmail.com>
+CLIENT -> SERVER: Date: Fri, 3 Apr 2026 22:44:27 +0000
+CLIENT -> SERVER: To: John <phpstorm202604@outlook.fr>
+CLIENT -> SERVER: From: Jo'barber <hyauhn@gmail.com>
 CLIENT -> SERVER: Subject: Vous allez vous mettre sur votre 31 !
-CLIENT -> SERVER: Message-ID: <HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY@joebarber.local.com>
+CLIENT -> SERVER: Message-ID: <4iw00gBCfXNuP4KfAPd45zGJD31wq364W8nfaE2uLo@joebarber.local.com>
 CLIENT -> SERVER: X-Mailer: PHPMailer 7.0.2 (https://github.com/PHPMailer/PHPMailer)
 CLIENT -> SERVER: MIME-Version: 1.0
 CLIENT -> SERVER: Content-Type: multipart/alternative;
-CLIENT -> SERVER:  boundary="b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY"
+CLIENT -> SERVER:  boundary="b1=_4iw00gBCfXNuP4KfAPd45zGJD31wq364W8nfaE2uLo"
 CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
 CLIENT -> SERVER: 
-CLIENT -> SERVER: --b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY
-CLIENT -> SERVER: Content-Type: text/plain; charset=us-ascii
+CLIENT -> SERVER: --b1=_4iw00gBCfXNuP4KfAPd45zGJD31wq364W8nfaE2uLo
+CLIENT -> SERVER: Content-Type: text/plain; charset=iso-8859-1
+CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
 CLIENT -> SERVER: 
-CLIENT -> SERVER: This is the test 6 email alt
+CLIENT -> SERVER: Nous te remercions d'avoir réservé ta coupe de cheveux. Nous te confirmons ton rendez-vous le mardi 28 avril 2026 de 08h00 à 08h30
 CLIENT -> SERVER: 
-CLIENT -> SERVER: --b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY
+CLIENT -> SERVER: --b1=_4iw00gBCfXNuP4KfAPd45zGJD31wq364W8nfaE2uLo
 CLIENT -> SERVER: Content-Type: text/html; charset=iso-8859-1
 CLIENT -> SERVER: Content-Transfer-Encoding: 8bit
 CLIENT -> SERVER: 
@@ -100,16 +101,16 @@ CLIENT -> SERVER:         <!--[if mso | IE]>
 CLIENT -> SERVER:         <table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr><td>
 CLIENT -> SERVER:         <![endif]-->
 CLIENT -> SERVER:         <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto; width: 100%; max-width: 600px; background-color: #ffffff;" role="none">
-CLIENT -> SERVER:                       <tr>
+CLIENT -> SERVER:                     <tr>
 CLIENT -> SERVER:             <td>
 CLIENT -> SERVER:               <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%;" role="none">
 CLIENT -> SERVER:                 <tr>
-CLIENT -> SERVER:                   <td align="center" style="padding: 12px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 20px; color: #000000;">Si tu as des difficultés pour visualiser ce message, <a href="https://joebarber.local.com/appointment?template=accept&amp;datePeriod=08%3A00+%C3%A0+08%3A30&amp;dateTime=mardi+28+avril+2026" style="color: #000000; text-decoration: underline;">clique ici</a></td>
+CLIENT -> SERVER:                   <td align="center" style="padding: 12px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; line-height: 20px; color: #000000;">Si tu as des difficultés pour visualiser ce message, <a href="https://joebarber.local.com/appointment?template=accept&amp;datePeriod=08h00+%C3%A0+08h30&amp;dateTime=mardi+28+avril+2026" style="color: #000000; text-decoration: underline;">clique ici</a></td>
 CLIENT -> SERVER:                 </tr>
 CLIENT -> SERVER:               </table>
 CLIENT -> SERVER:             </td>
 CLIENT -> SERVER:           </tr>
-CLIENT -> SERVER:                       <tr>
+CLIENT -> SERVER:                     <tr>
 CLIENT -> SERVER:             <td align="center" style="text-align: center;">
 CLIENT -> SERVER:               <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%;" role="none">
 CLIENT -> SERVER:                 <tr>
@@ -139,7 +140,7 @@ CLIENT -> SERVER:                 <tr>
 CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Nous te remercions d'avoir réservé ta coupe de cheveux. Nous te confirmons ton rendez-vous:</td>
 CLIENT -> SERVER:                 </tr>
 CLIENT -> SERVER:                 <tr>
-CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;"><span>●</span> Le mardi 28 avril 2026<br><span>●</span> 08:00 à 08:30<br></td>
+CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;"><span>●</span> Le mardi 28 avril 2026<br><span>●</span> 08h00 à 08h30<br></td>
 CLIENT -> SERVER:                 </tr>
 CLIENT -> SERVER:                 <tr>
 CLIENT -> SERVER:                   <td align="left" style="padding-bottom: 24px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Si tu veux annuler ton rendez-vous, <a href="#" style="font-weight: 700; color: #000000; text-decoration: underline;">clique ici</a>.</td>
@@ -177,9 +178,9 @@ CLIENT -> SERVER: </body>
 CLIENT -> SERVER: </html>
 CLIENT -> SERVER: 
 CLIENT -> SERVER: 
-CLIENT -> SERVER: --b1=_HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY--
+CLIENT -> SERVER: --b1=_4iw00gBCfXNuP4KfAPd45zGJD31wq364W8nfaE2uLo--
 CLIENT -> SERVER: 
 CLIENT -> SERVER: .
-SERVER -> CLIENT: 250 2.0.0 OK: queued as <HqH1NEEFDcFpo2lMK991omt3Egi2xHeKQBDjdv0vY@joebarber.local.com>
+SERVER -> CLIENT: 250 2.0.0 OK: queued as <4iw00gBCfXNuP4KfAPd45zGJD31wq364W8nfaE2uLo@joebarber.local.com>
 CLIENT -> SERVER: QUIT
 SERVER -> CLIENT: 221 2.0.0 Bye

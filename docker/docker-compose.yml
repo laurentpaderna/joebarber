@@ -1,29 +1,34 @@
 services:
-  joebarber_app:
+  joebarberapp:
     build:
       context: ./php
       dockerfile: Dockerfile
-    container_name: joebarber_app
+    container_name: joebarberapp
     restart: always
     volumes:
       - ../:/var/www/html
     ports:
       - "80:80"
+      - "443:80"
     extra_hosts:
       - "joebarber.local.com:127.0.0.1"
 
-  db:
-    image: mariadb
-    container_name: joebarber_db
-    volumes:
-      - ./joebarber_data:/var/lib/mysql
-    restart: always
-    command: --innodb-use-native-aio=0 --max_allowed_packet=32505856
+  joebarberdb:
+    build:
+      context: mysql
+      dockerfile: DockerfileMysql
+    image: mysql:8.0
+    container_name: joebarberdb
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: joebarber_db
+      MYSQL_DATABASE: joebarberdb
       MYSQL_USER: joe
       MYSQL_PASSWORD: barber
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    restart: always
 
 volumes:
-  joebarber_data:
+    mysql-data:
