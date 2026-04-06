@@ -1,9 +1,9 @@
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
-
+// Set current date
 $currentDate = (new DateTime('now'))->format('Y-m-d');
 
+// Gather data on dates and appointments
 $requestAppointmentData = setDatabaseRequest("SELECT count(*) FROM appointments WHERE appointments.appointmentStatus = 'pending'");
 $requestDatesData = setDatabaseRequest("SELECT count(*) FROM dates WHERE dates.dateTime = '$currentDate' AND dates.dateType = 'appointment'");
 $requestOffData = setDatabaseRequest("SELECT count(*) FROM dates WHERE dates.dateTime = '$currentDate' AND dates.datePeriod = '08:30-19:30'");

@@ -28,6 +28,14 @@ try {
     echo $e->getMessage();
 }
 
+// Set php mailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+// Set global mail variable
+$GLOBALS['mail'] = new PHPMailer(true);
+
 // Set translation on calendar
 use Twig\Extra\Intl\IntlExtension;
 
@@ -44,7 +52,6 @@ ini_set('display_errors', 'On');
 session_start();
 
 // Specify our Twig templates location
-global $twig;
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__."/");
 $GLOBALS['twig'] = new \Twig\Environment($loader, [
     "debug" => true
@@ -66,13 +73,15 @@ switch ($request) {
     case '/' :
 
         // Main page
-        require __DIR__ . '/views/main.html.twig';
+        require __DIR__ . '/main.php';
+
         break;
 
     case '' :
 
         // Redirect to admin dashboard
-        header('Location: /');
+        require __DIR__ . '/main.php';
+
         break;
 
     case '/joe' :
@@ -125,6 +134,13 @@ switch ($request) {
 
         // Load template for login page
         require __DIR__ . '/email.php';
+
+        break;
+
+    case (str_contains($currentUrl,'cancel')) :
+
+        // Load template for login page
+        require __DIR__ . '/cancel.php';
 
         break;
 

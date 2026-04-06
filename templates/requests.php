@@ -1,12 +1,5 @@
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
-
-// Set php mailer
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-
 // Set class to translate date
 $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::LONG);
 $formatter->setPattern('EEEE d MMMM yyyy');
@@ -28,7 +21,6 @@ $returnLink = '/dashboard';
 
 $resultMail = [];
 
-$GLOBALS['mail'] = new PHPMailer(true);
 if (isset($_POST)) {
 
     $keys = array_keys($_POST);
@@ -61,10 +53,13 @@ if (isset($_POST)) {
         }
         $appointmentID = explode('-', $key)[1];
 
+        // Generate token for cancel appointment
+        $currentToken = bin2hex(random_bytes(16));
+
         // If the appointment is deleted
         if (str_contains($key, 'delete')) {
             // Delete lines from dates and appointment
-            $requestDeleteAppointmentData = setDatabaseRequest("DELETE a, d FROM appointments AS a JOIN dates AS d ON a.dateID = d.dateID WHERE a.appointmentID = '$appointmentID' AND d.dateID = '$dateID';");
+            $requestDeleteAppointmentData = setDatabaseRequest("DELETE appointments, dates FROM appointments INNER JOIN dates WHERE appointments.appointmentID = '$appointmentID' AND dates.dateID = '$dateID';");
 
             // Set error content
             $messageDatabaseConnectionError = $requestDeleteAppointmentData['error'];
@@ -74,8 +69,14 @@ if (isset($_POST)) {
                 $messageNotification = 'La demande a été supprimée.';
             }
         } else {
+
+            // reset token if the status is cancel
+            if (str_contains($key, 'cancel')) {
+                $currentToken = NULL;
+            }
+
             // Update appointment status
-            $requestUpdateAppointmentData = setDatabaseRequest("UPDATE appointments SET appointmentStatus = '$appointmentStatus' WHERE appointmentID = '$appointmentID'");
+            $requestUpdateAppointmentData = setDatabaseRequest("UPDATE appointments SET appointmentStatus = '$appointmentStatus', appointmentToken = '$currentToken' WHERE appointmentID = '$appointmentID'");
 
             // Set error content
             $messageDatabaseConnectionError = $requestUpdateAppointmentData['error'];
@@ -107,11 +108,12 @@ if (isset($_POST)) {
                 $replacePeriod = [' à ','h'];
                 $currentDatePeriod = str_replace($searchPeriod, $replacePeriod, $appointment['datePeriod']);
                 $desktopLink .= '&datePeriod=' . urlencode($currentDatePeriod) . '&dateTime=' . urlencode($currentDateTime);
+                $linkCancel = 'https://joebarber.local.com/cancel?token=' . $currentToken . '&id=' . $appointment['dateID'];
 
                 // Get email template
-                $templateEmail = $GLOBALS['twig']->load($templatePath)->render(['newsletter' => true, 'dateTime' => $currentDateTime, 'datePeriod' => $currentDatePeriod, 'desktopLink' => $desktopLink]);
+                $templateEmail = $GLOBALS['twig']->load($templatePath)->render(['newsletter' => true, 'dateTime' => $currentDateTime, 'datePeriod' => $currentDatePeriod, 'desktopLink' => $desktopLink, 'linkCancel' => $linkCancel]);
 
-                    // Send notification to user
+                // Send notification to user
                 $resultMail = sendHtmlEmail(
                     mail: $GLOBALS['mail'],
 //                    fromAddress: 'jocoiff77@gmail.com',
