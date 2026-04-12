@@ -39,11 +39,7 @@ if (isset($_GET)) {
             // Send notification to user
             $resultMail = sendHtmlEmail(
                 mail: $GLOBALS['mail'],
-//                    fromAddress: 'jocoiff77@gmail.com',
-                fromAddress: 'hyauhn@gmail.com',
-                fromName: "Jo'barber",
                 toAddress: 'phpstorm202604@outlook.fr',
-//                    toAddress: 'phpstorm202604@outlook.fr',
                 toName: "Jo'barber",
                 emailSubject: $emailSubject,
                 emailBody: $templateEmail,

@@ -116,11 +116,7 @@ if (isset($_POST)) {
                 // Send notification to user
                 $resultMail = sendHtmlEmail(
                     mail: $GLOBALS['mail'],
-//                    fromAddress: 'jocoiff77@gmail.com',
-                    fromAddress: 'hyauhn@gmail.com',
-                    fromName: "Jo'barber",
                     toAddress: $appointment['email'],
-//                    toAddress: 'phpstorm202604@outlook.fr',
                     toName: $appointment['lastName'],
                     emailSubject: $emailSubject,
                     emailBody: $templateEmail,

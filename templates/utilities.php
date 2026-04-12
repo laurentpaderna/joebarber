@@ -79,8 +79,6 @@ function beautifyVarDump($data): void {
  * Beautify dumped data from var_dump function
  *
  * @param PHPMailer\PHPMailer\PHPMailer $mail instance of the PHPMailer class
- * @param string $fromAddress address used for the from parameter
- * @param string $fromName name used for the from parameter
  * @param string $toAddress address used for the target parameter
  * @param string $toName name used for the target parameter
  * @param int $port number of SMTP port
@@ -89,7 +87,7 @@ function beautifyVarDump($data): void {
  * @param string $emailAlt text version of the email
  */
 $currentHost = $_SERVER['HTTP_HOST'];
-function sendHtmlEmail(PHPMailer\PHPMailer\PHPMailer $mail, string $fromAddress, string $fromName, string $toAddress, string $toName, string $emailSubject, string $emailBody, string $emailAlt): array {
+function sendHtmlEmail(PHPMailer\PHPMailer\PHPMailer $mail, string $toAddress, string $toName, string $emailSubject, string $emailBody, string $emailAlt): array {
     try {
         $debugOutput = '';
         // Empty log file
@@ -111,10 +109,8 @@ function sendHtmlEmail(PHPMailer\PHPMailer\PHPMailer $mail, string $fromAddress,
         };
 
         // Sending parameters
-        $mail->setFrom($fromAddress, $fromName);
-//        $mail->addReplyTo('hyauhn@gmail.com', 'laurent');
+        $mail->setFrom($_ENV['APP_USER_USER_EMAIL'], $_ENV['APP_USER']);
         $mail->addAddress($toAddress, $toName);
-//        $mail->addAddress('hyauhn@gmail.com', 'proprio');
 
         // CC and BCC
 //        $mail->addCC('cc1@exemple.com', 'Elena');
