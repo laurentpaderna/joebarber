@@ -2,22 +2,18 @@ FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=newt
 
-#install git
-#RUN apt-get update && \
-#apt-get install -y git
-
-#install development tools
+# Install development tools
 RUN apt-get update && \
 apt-get install -y build-essential
 
-#install tool for checking repository
+# Install tool for checking repository
 RUN apt-get install -y software-properties-common
 
-#set repository for php
+# Set repository for php
 RUN apt-add-repository ppa:ondrej/php && \
 apt-get update
 
-#install php and extensions
+# Install php and extensions
 RUN apt-get -y update && \
 apt-get install -y \
 php8.2 \
@@ -40,10 +36,8 @@ php8.2-intl \
 php8.2-fpm \
 libapache2-mod-php8.2 \
 php8.2-mysql
-#php8.2-mcrypt \
-#php8.2-sqlite \
 
-# set extra php.ini settings for php
+# Set extra php.ini settings for php
 RUN { \
 echo 'date.timezone = Europe/Paris'; \
 echo 'upload_max_filesize = 1024M'; \
@@ -57,14 +51,14 @@ echo 'smtp_port 1025'; \
 } > /etc/php/8.2/apache2/php.in
 COPY php.ini /etc/php/8.2/cli/php.ini
 
-#switch to preferred version of php
+# Switch to preferred version of php
 RUN update-alternatives --set php /usr/bin/php8.2
 
-#install apache
+# Install apache
 RUN apt-get -y update && \
 apt-get install -y apache2
 
-#install editing tool
+# Install editing tool
 RUN apt-get -y update && \
 apt-get install -y \
 sudo \
@@ -82,13 +76,10 @@ RUN locale-gen fr_FR.UTF-8
 RUN locale-gen en_US.UTF-8
 RUN locale-gen de_DE.UTF-8
 
-# to be able to use "nano" with shell on "docker exec -it [CONTAINER ID] bash"
-#ENV TERM xterm
-
-# allow .htaccess with RewriteEngine
+# Allow .htaccess with RewriteEngine
 RUN a2enmod rewrite
 
-# autorize .htaccess files
+# Autorize .htaccess files
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 #RUN chown -R www-data:www-data /var/www
@@ -97,13 +88,13 @@ RUN chgrp -R www-data /var/www
 RUN find /var/www -type d -exec chmod 775 {} +
 RUN find /var/www -type f -exec chmod 664 {} +
 
-# add mysql & mysqlpackage
+# Add mysql & mysqlpackage
 RUN apt-get update \
 	&& apt-get -y install mysql-server
 RUN apt-get update \
 	&& apt-get -y install mysql-client
 
-# add composer
+# Add composer
 RUN cd ~ \
 	&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php \
@@ -120,51 +111,58 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Add nodejs tailwindcss typescript
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update -y
+RUN apt-get install -y nodejs
+RUN npm install --global typescript
+RUN npm install --global tailwindcss postcss-cli autoprefixer
+
 # Configure sendmail to use bytemark/smtp
 #RUN echo "sendmail_path = /usr/sbin/sendmail -t -i" > /usr/local/etc/php/conf.d/sendmail.ini
 
-#set local mail account
+# Set local mail account
 RUN apt-get update && apt-get install -y msmtp mailutils
 
 RUN rm -rf /etc/apache2/sites-enabled/*
 
-#add current host to apache
+# Add current host to apache
 COPY vhost.conf /etc/apache2/sites-available/joebarber.local.com.conf
 
-#backup original Virtual Host conf
+# Backup original Virtual Host conf
 RUN cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf.bak
 
-#set custom SSL Virtual Host && https certificate
+# Set custom SSL Virtual Host && https certificate
 COPY vhost.conf /etc/apache2/sites-available/vhost.conf
 COPY joebarber.local.com.crt /etc/ssl/certs/joebarber.local.com.crt
 COPY joebarber.local.com.key /etc/ssl/private/joebarber.local.com.key
 
-#set custom SSL Virtual Host
+# Set custom SSL Virtual Host
 COPY vhost.conf /etc/apache2/sites-available/vhost.conf
 
-#enable module for https
+# Enable module for https
 RUN a2enmod headers \
   && a2enmod expires \
   && a2enmod ssl
 
-#enable custom site configuration
+# Enable custom site configuration
 RUN a2ensite joebarber.local.com
 
-#USER lhci
-#WORKDIR /home/lhci/reports
+# Set apache2 user
 RUN chown root:users /var/log/apache2
 
 VOLUME /var/www/html
 
 WORKDIR /var/www/html
 
-#expose ports for normal host & http host
+# Expose ports for normal host & http host
 EXPOSE 80
 EXPOSE 443
 
-#expose port for mail through smtp
+# Expose port for mail through smtp
 EXPOSE 25
 EXPOSE 2525
 
-# start Apache2 on image start
+# Start Apache2 on image start
 CMD ["/usr/sbin/apache2ctl","-DFOREGROUND"]

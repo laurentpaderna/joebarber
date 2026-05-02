@@ -15,10 +15,9 @@ services:
 
   joebarberdb:
     build:
-      context: mysql
-      dockerfile: DockerfileMysql
-    image: mysql:8.0
+      context: ./mysql
     container_name: joebarberdb
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: joebarberdb

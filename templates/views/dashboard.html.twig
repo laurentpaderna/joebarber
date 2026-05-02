@@ -23,16 +23,20 @@
     } %}
     <!-- CONTENT LIST -->
     <article>
-        <div class="is-container has-flex has-block-dashboard">
+        <div class="is-container has-flex has-block-dashboard has-bottom-big-space-margin">
             <a class="is-dashboard-link is-dashboard-agenda" href="/agenda?date={{ 'now' | date('Y-m-d') }}">
                 <span class="is-dashboard-content has-width-100">
-                    <span class="is-dashboard-icon">&#9201;</span>
+                    <span class="is-dashboard-icon">
+                        {% include "views/blocks/icon-agenda.html.twig" %}
+                    </span>
                     <span class="is-dashboard-text has-inline-block">Mon agenda</span>
                 </span>
             </a>
             <a class="is-dashboard-link is-dashboard-request" href="/requests">
                 <span class="is-dashboard-content has-width-100">
-                    <span class="is-dashboard-icon">&#9993;</span>
+                    <span class="is-dashboard-icon">
+                        {% include "views/blocks/icon-request.html.twig" %}
+                    </span>
                     <span class="is-dashboard-text has-inline-block">Mes demandes</span>
                 </span>
             </a>

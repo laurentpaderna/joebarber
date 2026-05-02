@@ -199,6 +199,10 @@ html {
 .is-dashboard-icon {
     font-size: var(--very-huge-font);
 }
+.is-dashboard-icon svg {
+    width: 64px;
+    height: auto;
+}
 .is-dashboard-text {
     margin-top: auto;
     text-align: right;
@@ -472,15 +476,7 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 .is-request > .is-request-content,
 .is-request > .is-request-actions {
     vertical-align: top;
-    margin-top: var(--medium-space);
-    margin-bottom: var(--medium-space);
-    margin-left: 0px;
-}
-.is-request-content {
-    margin-right: var(--medium-space);
-}
-.is-request-actions {
-    margin-right: var(--small-space);
+    margin: var(--medium-space);
 }
 .is-request-actions .is-button {
     margin: 0px var(--small-space) var(--small-space) 0px;
@@ -512,11 +508,17 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
 .has-no-display {
     display: none;
 }
+.has-very-medium-margin {
+    margin: var(--very-medium-space);
+}
 .has-left-very-medium-margin {
     margin-left: var(--very-medium-space);
 }
 .has-right-very-medium-margin {
     margin-right: var(--very-medium-space);
+}
+.has-bottom-big-space-margin {
+    margin-bottom: var(--big-space);
 }
 .has-left-small-margin {
     margin-left: var(--small-space);
@@ -602,5 +604,8 @@ input[type="checkbox"]:checked + .is-agenda-card:not(.has-day-off) .is-agenda-ca
     }
     .is-request {
         flex-direction: column;
+    }
+    .is-container {
+        max-width: initial;
     }
 }
