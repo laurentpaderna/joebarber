@@ -18,11 +18,14 @@ services:
       context: ./mysql
     container_name: joebarberdb
     image: mysql:8.0
+    env_file:
+      - ./.env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: joebarberdb
-      MYSQL_USER: joe
-      MYSQL_PASSWORD: barber
+      MYSQL_ROOT_USER: ${APP_ROOT_USER}
+      MYSQL_ROOT_PASSWORD: ${APP_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${APP_DATABASE}
+      MYSQL_USER: ${APP_USER}
+      MYSQL_PASSWORD: ${APP_PASSWORD}
     ports:
       - "3306:3306"
     volumes:

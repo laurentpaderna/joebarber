@@ -4,7 +4,48 @@
     <title>Jo'barber</title>
 {% endblock %}
 
+{% block contentStyle %}
+    <link rel="stylesheet" href="assets/output.css">
+{% endblock %}
+
 {% block contentMain %}
-    <!-- CONTENT LIST -->
-    <article>PAGE PRINCIPALE</article>
+    <!-- LOGO -->
+    <section>
+        <header class="w-full lg:mb-20 mb-12 bg-jodark overflow-hidden relative bg-logo bg-no-repeat bg-center bg-size-[130%_auto]">
+            <h1 class="py-[5%] lg:text-6xl md:text-4xl text-3xl text-center text-joyellow font-logo">JOE BARBER</h1>
+        </header>
+    </section>
+    <section>
+        <div class="w-full max-w-[80vw] my-0 mx-auto">
+            <div class="flex flex-wrap justify-center items-center my-4">
+                <div class="lg:w-3/5 sm:w-full relative z-1">
+                    <div class="p-4 lg:pb-4 pb-12">
+                        <h1 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">LA COUPE DE CHEVEUX À DOMICILE, C’EST MON DOMAINE&nbsp;!</h1>
+                        <p class="lg:w-[70%] w-full mb-8 text-left font-400 text-2xl font-ano">Laissez-moi m’occuper de vos cheveux, vous ne le regretterez pas&nbsp;!</p>
+                        <div class="w-full text-right">
+                            <button class="lg:-mr-[25%] lg:py-8 py-4 lg:px-24 px-8 uppercase font-anobold lg:text-2xl text-xl text-black rounded-tl-full rounded-tr-none rounded-br-full rounded-bl-full bg-jobutton-yellow cursor-pointer">réservez votre coupe!</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-8 lg:w-2/5 sm:w-full relative">
+                    <ul class="slides flex overflow-x-auto scroll-smooth snap-x snap-mandatory">
+                        <li id="slide-1" class="w-full flex justify-center items-center shrink-0 snap-start">
+                            <img class="w-full h-auto rounded-2xl" src="../assets/images/slider1.png" alt=""/>
+                        </li>
+                        <li id="slide-2" class="w-full flex justify-center items-center shrink-0 snap-start">
+                            <img class="w-full h-auto rounded-2xl" src="../assets/images/slider2.png" alt=""/>
+                        </li>
+                        <li id="slide-3" class="w-full flex justify-center items-center shrink-0 snap-start">
+                            <img class="w-full h-auto rounded-2xl" src="../assets/images/slider3.png" alt=""/>
+                        </li>
+                        <li class="slide-items flex absolute left-1/2 bottom-0 -translate-x-1/2">
+                            <a href="#slide-1" class="w-6 h-6 mr-4 border-2 border-black rounded-full relative"></a>
+                            <a href="#slide-2" class="w-6 h-6 mr-4 border-2 border-black rounded-full relative"></a>
+                            <a href="#slide-3" class="w-6 h-6 mr-4 border-2 border-black rounded-full relative"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

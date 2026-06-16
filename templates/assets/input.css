@@ -1,0 +1,62 @@
+@import "tailwindcss";
+@layer base {
+    @font-face {
+        font-family: "bookbag";
+        src: url('font/bookbag.woff2') format('woff2'),
+        url('font/bookbag.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "ano";
+        src: url('font/ano.woff2') format('woff2'),
+        url('font/ano.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "anobold";
+        src: url('font/anobold.woff2') format('woff2'),
+        url('font/anobold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @keyframes autoplay-slider {
+        0% {transform: translateX(0%);}
+        33% {transform: translateX(0%);}
+        36% {transform: translateX(-100%)}
+        66% {transform: translateX(-100%);}
+        68% {transform: translateX(-200%);}
+        96% {transform: translateX(-200%);}
+        100% {transform: translateX(0%);}
+    }
+}
+@theme {
+    --color-joyellow: #f4c76e;
+    --color-jodark: #434648;
+    --color-jobutton-yellow: #f9b303;
+    --font-logo: "bookbag", sans-serif;
+    --font-ano: "ano", sans-serif;
+    --font-anobold: "anobold", sans-serif;
+    --background-image-logo: url('images/headerPatches.png');
+    --autoplay-slider: autoplay-slider 6s linear infinite;
+}
+@layer utilities {
+    #slide-1:target ~ .slide-items [href="#slide-1"]::before,
+    #slide-2:target ~ .slide-items [href="#slide-2"]::before,
+    #slide-3:target ~ .slide-items [href="#slide-3"]::before {
+        content: '';
+        display: block;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+        background-color: var(--color-black);
+        border-radius: 50%;
+        position: absolute;
+        left: 2px;
+        top: 2px;
+    }
+    .slides li[id^="slide-"] {
+        animation: var(--autoplay-slider);
+    }
+}
+@source "../views";

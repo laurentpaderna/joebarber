@@ -1,7 +1,7 @@
 <?php
 
-// Set enf file and variable
-$envFile = __DIR__ . '/../.env';
+// Set env file and variable
+$envFile = __DIR__ . '/../docker/.env';
 
 // Set detection on .env file
 if (file_exists($envFile)) {

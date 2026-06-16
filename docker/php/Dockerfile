@@ -117,7 +117,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 RUN apt-get update -y
 RUN apt-get install -y nodejs
 RUN npm install --global typescript
-RUN npm install --global tailwindcss postcss-cli autoprefixer
+RUN npm install tailwindcss @tailwindcss/postcss --global
 
 # Configure sendmail to use bytemark/smtp
 #RUN echo "sendmail_path = /usr/sbin/sendmail -t -i" > /usr/local/etc/php/conf.d/sendmail.ini
