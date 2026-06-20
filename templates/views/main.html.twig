@@ -18,14 +18,64 @@
     <section>
         <div class="w-full max-w-[80vw] my-0 mx-auto">
             <div class="flex flex-wrap justify-center items-center my-4">
-                <div class="lg:w-3/5 sm:w-full relative z-1">
-                    <div class="p-4 lg:pb-4 pb-12">
-                        <h1 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">LA COUPE DE CHEVEUX À DOMICILE, C’EST MON DOMAINE&nbsp;!</h1>
-                        <p class="lg:w-[70%] w-full mb-8 text-left font-400 text-2xl font-ano">Laissez-moi m’occuper de vos cheveux, vous ne le regretterez pas&nbsp;!</p>
-                        <div class="w-full text-right">
-                            <button class="lg:-mr-[25%] lg:py-8 py-4 lg:px-24 px-8 uppercase font-anobold lg:text-2xl text-xl text-black rounded-tl-full rounded-tr-none rounded-br-full rounded-bl-full bg-jobutton-yellow cursor-pointer">réservez votre coupe!</button>
+                <div class="lg:w-3/5 w-full relative z-1">
+                    <form class="flex relative">
+                        <label for="step-1" class="hidden">Première étape de la réservation</label>
+                        <input id="step-1" class="hidden" type="radio" name="form-step" checked />
+                        <div class="step-form hidden p-4 lg:pb-4 pb-12">
+                            <h1 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">LA COUPE DE CHEVEUX À DOMICILE, C’EST MON DOMAINE&nbsp;!</h1>
+                            <p class="lg:w-[70%] w-full mb-8 text-left font-400 text-2xl font-ano">Laissez-moi m’occuper de vos cheveux, vous ne le regretterez pas&nbsp;!</p>
+                            <div class="w-full text-right">
+                                <label for="step-2" class="lg:-mr-[25%] lg:py-8 py-4 lg:px-24 px-8 uppercase font-anobold lg:text-2xl text-xl text-black rounded-tl-full rounded-tr-none rounded-br-full rounded-bl-full bg-jobutton-yellow cursor-pointer">réservez votre coupe!</label>
+                            </div>
                         </div>
-                    </div>
+                        <input id="step-2" class="hidden" type="radio" name="form-step" />
+                        <div class="step-form w-full hidden p-4 lg:pb-4 pb-12">
+                            <div class="form-inputs w-full flex justify-start items-center lg:flex-row flex-col">
+                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-firstname" placeholder="Votre nom..." required />
+                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-lastname" placeholder="Votre prénom..." required />
+                            </div>
+                            <div class="form-inputs w-full flex justify-start items-center lg:flex-row flex-col">
+                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-address" placeholder="Votre adresse..." required />
+                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="date" name="customer-date" required />
+                            </div>
+                            <div class="form-inputs w-full text-left">
+                                <label for="customer-hours" class="w-full block lg:mx-4 mx-0 font-ano">Sélectionnez votre créneau horaire</label>
+                                <select id="customer-hours" class="lg:w-[40%] w-full lg:mx-4 mx-0 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" name="customer-hours">
+                                    <option value="08h00-08h30">08h00-08h30</option>
+                                    <option value="08h00-08h30">08h30-09h00</option>
+                                    <option value="08h00-08h30">09h00-09h30</option>
+                                    <option value="08h00-08h30">09h30-10h00</option>
+                                    <option value="08h00-08h30">10h00-10h30</option>
+                                    <option value="08h00-08h30">10h30-11h00</option>
+                                    <option value="08h00-08h30">11h00-11h30</option>
+                                    <option value="08h00-08h30">11h30-12h00</option>
+                                    <option value="08h00-08h30">12h00-12h30</option>
+                                    <option value="08h00-08h30">12h30-13h00</option>
+                                    <option value="08h00-08h30">13h00-13h30</option>
+                                    <option value="08h00-08h30">13h30-14h00</option>
+                                    <option value="08h00-08h30">14h00-14h30</option>
+                                    <option value="08h00-08h30">14h30-15h00</option>
+                                    <option value="08h00-08h30">15h00-15h30</option>
+                                    <option value="08h00-08h30">15h30-16h00</option>
+                                    <option value="08h00-08h30">16h00-16h30</option>
+                                    <option value="08h00-08h30">16h30-17h00</option>
+                                    <option value="08h00-08h30">17h00-17h30</option>
+                                    <option value="08h00-08h30">17h30-18h00</option>
+                                    <option value="08h00-08h30">18h00-18h30</option>
+                                    <option value="08h00-08h30">18h30-19h00</option>
+                                </select>
+                            </div>
+                            <div class="form-submit w-full flex justify-start items-center">
+                                <input class="lg:mx-4 mx-0 my-6 px-6 py-4 bg-gray-700 text-white rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-anobold cursor-pointer" value="PRENDRE RENDEZ-VOUS" type="submit" />
+                            </div>
+                        </div>
+                        <input id="step-3" class="hidden" type="radio" name="form-step" />
+                        <div class="step-form w-full hidden p-4 lg:pb-4 pb-12">
+                            <h3 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">MERCI D'AVOIR PRIS<br/>RENDEZ-VOUS&nbsp;!</h3>
+                            <label for="step-2" class="inline-block mb-6 px-6 py-4 bg-jobutton-yellow text-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-anobold cursor-pointer">RÉSERVER UNE AUTRE COUPE DE CHEVEUX</label>
+                        </div>
+                    </form>
                 </div>
                 <div class="pb-8 lg:w-2/5 sm:w-full relative">
                     <ul class="slides flex overflow-x-auto scroll-smooth snap-x snap-mandatory">

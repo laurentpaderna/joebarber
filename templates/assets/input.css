@@ -26,7 +26,7 @@
         33% {transform: translateX(0%);}
         36% {transform: translateX(-100%)}
         66% {transform: translateX(-100%);}
-        68% {transform: translateX(-200%);}
+        69% {transform: translateX(-200%);}
         96% {transform: translateX(-200%);}
         100% {transform: translateX(0%);}
     }
@@ -39,24 +39,25 @@
     --font-ano: "ano", sans-serif;
     --font-anobold: "anobold", sans-serif;
     --background-image-logo: url('images/headerPatches.png');
-    --autoplay-slider: autoplay-slider 6s linear infinite;
+    --autoplay-slider: autoplay-slider 8s linear infinite;
 }
 @layer utilities {
     #slide-1:target ~ .slide-items [href="#slide-1"]::before,
     #slide-2:target ~ .slide-items [href="#slide-2"]::before,
     #slide-3:target ~ .slide-items [href="#slide-3"]::before {
         content: '';
-        display: block;
         width: calc(100% - 4px);
         height: calc(100% - 4px);
-        background-color: var(--color-black);
-        border-radius: 50%;
-        position: absolute;
-        left: 2px;
-        top: 2px;
+        @apply block absolute left-0.5 top-0.5 bg-black rounded-full;
     }
-    .slides li[id^="slide-"] {
+    .slides:not(:has(:target)) li[id^="slide-"] {
         animation: var(--autoplay-slider);
+    }
+    [name="form-step"]:checked + .step-form {
+        @apply block;
+    }
+    .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-submit input {
+        @apply text-black bg-jobutton-yellow;
     }
 }
 @source "../views";
