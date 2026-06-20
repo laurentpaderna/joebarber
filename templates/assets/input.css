@@ -57,7 +57,7 @@
         @apply block;
     }
     .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-submit input {
-        @apply text-black bg-jobutton-yellow;
+        @apply text-black bg-jobutton-yellow cursor-pointer pointer-events-auto;
     }
 }
 @source "../views";

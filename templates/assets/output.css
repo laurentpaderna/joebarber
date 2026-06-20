@@ -21,7 +21,6 @@
     --text-4xl--line-height: calc(2.5 / 2.25);
     --text-6xl: 3.75rem;
     --text-6xl--line-height: 1;
-    --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
@@ -184,6 +183,9 @@
   }
 }
 @layer utilities {
+  .pointer-events-none {
+    pointer-events: none;
+  }
   .absolute {
     position: absolute;
   }
@@ -208,14 +210,14 @@
   .mx-auto {
     margin-inline: auto;
   }
-  .my-0 {
-    margin-block: 0;
-  }
   .my-4 {
     margin-block: calc(var(--spacing) * 4);
   }
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
+  }
+  .mt-0 {
+    margin-top: 0;
   }
   .mr-4 {
     margin-right: calc(var(--spacing) * 4);
@@ -265,6 +267,9 @@
   .-translate-x-1\/2 {
     --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .cursor-not-allowed {
+    cursor: not-allowed;
   }
   .cursor-pointer {
     cursor: pointer;
@@ -320,26 +325,17 @@
   .rounded-tr-none {
     border-top-right-radius: 0;
   }
-  .rounded-tr-xl {
-    border-top-right-radius: var(--radius-xl);
-  }
   .rounded-br-2xl {
     border-bottom-right-radius: var(--radius-2xl);
   }
   .rounded-br-full {
     border-bottom-right-radius: calc(infinity * 1px);
   }
-  .rounded-br-xl {
-    border-bottom-right-radius: var(--radius-xl);
-  }
   .rounded-bl-2xl {
     border-bottom-left-radius: var(--radius-2xl);
   }
   .rounded-bl-full {
     border-bottom-left-radius: calc(infinity * 1px);
-  }
-  .rounded-bl-xl {
-    border-bottom-left-radius: var(--radius-xl);
   }
   .border {
     border-style: var(--tw-border-style);
@@ -400,6 +396,9 @@
   }
   .pb-12 {
     padding-bottom: calc(var(--spacing) * 12);
+  }
+  .pb-16 {
+    padding-bottom: calc(var(--spacing) * 16);
   }
   .text-center {
     text-align: center;
@@ -597,6 +596,8 @@
     display: block;
   }
   .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-submit input {
+    pointer-events: auto;
+    cursor: pointer;
     background-color: var(--color-jobutton-yellow);
     color: var(--color-black);
   }
