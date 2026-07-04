@@ -109,7 +109,7 @@ function sendHtmlEmail(PHPMailer\PHPMailer\PHPMailer $mail, string $toAddress, s
         };
 
         // Sending parameters
-        $mail->setFrom($_ENV['APP_USER_USER_EMAIL'], $_ENV['APP_USER']);
+        $mail->setFrom($_ENV['APP_USER_EMAIL'], $_ENV['APP_USER']);
         $mail->addAddress($toAddress, $toName);
 
         // CC and BCC
@@ -137,4 +137,15 @@ function sendHtmlEmail(PHPMailer\PHPMailer\PHPMailer $mail, string $toAddress, s
             'error' => "La notification n'a pu être envoyé: <br/>$mail->ErrorInfo <br> $debugOutput"
         );
     }
+}
+
+/**
+ * Check if string is a valid date
+ *
+ * @param string $date string to verify
+ * @param string $dateFormat date format to check string
+ */function validateDate($date, $dateFormat = 'Y-m-d') {
+    $currentDate = DateTime::createFromFormat($dateFormat, $date);
+    // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+    return $currentDate && strtolower($currentDate->format($dateFormat)) === strtolower($date);
 }

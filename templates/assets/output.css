@@ -1,4 +1,4 @@
-/*! tailwindcss v4.3.1 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -7,6 +7,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-600: oklch(57.7% 0.245 27.325);
     --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-black: #000;
     --color-white: #fff;
@@ -22,6 +23,7 @@
     --text-6xl: 3.75rem;
     --text-6xl--line-height: 1;
     --radius-2xl: 1rem;
+    --radius-4xl: 2rem;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
     --color-joyellow: #f4c76e;
@@ -31,6 +33,7 @@
     --font-ano: "ano", sans-serif;
     --font-anobold: "anobold", sans-serif;
     --background-image-logo: url('images/headerPatches.png');
+    --background-image-price: url('images/priceBackground.png');
     --autoplay-slider: autoplay-slider 8s linear infinite;
   }
 }
@@ -183,9 +186,6 @@
   }
 }
 @layer utilities {
-  .pointer-events-none {
-    pointer-events: none;
-  }
   .absolute {
     position: absolute;
   }
@@ -207,6 +207,9 @@
   .mx-4 {
     margin-inline: calc(var(--spacing) * 4);
   }
+  .mx-8 {
+    margin-inline: calc(var(--spacing) * 8);
+  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -219,8 +222,14 @@
   .mt-0 {
     margin-top: 0;
   }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
   .mr-4 {
     margin-right: calc(var(--spacing) * 4);
+  }
+  .mb-4 {
+    margin-bottom: calc(var(--spacing) * 4);
   }
   .mb-6 {
     margin-bottom: calc(var(--spacing) * 6);
@@ -283,6 +292,9 @@
   .snap-start {
     scroll-snap-align: start;
   }
+  .list-disc {
+    list-style-type: disc;
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -313,6 +325,9 @@
   .rounded-full {
     border-radius: calc(infinity * 1px);
   }
+  .rounded-tl-4xl {
+    border-top-left-radius: var(--radius-4xl);
+  }
   .rounded-tl-full {
     border-top-left-radius: calc(infinity * 1px);
   }
@@ -321,6 +336,9 @@
   }
   .rounded-tr-2xl {
     border-top-right-radius: var(--radius-2xl);
+  }
+  .rounded-tr-4xl {
+    border-top-right-radius: var(--radius-4xl);
   }
   .rounded-tr-none {
     border-top-right-radius: 0;
@@ -331,8 +349,14 @@
   .rounded-br-full {
     border-bottom-right-radius: calc(infinity * 1px);
   }
+  .rounded-br-none {
+    border-bottom-right-radius: 0;
+  }
   .rounded-bl-2xl {
     border-bottom-left-radius: var(--radius-2xl);
+  }
+  .rounded-bl-4xl {
+    border-bottom-left-radius: var(--radius-4xl);
   }
   .rounded-bl-full {
     border-bottom-left-radius: calc(infinity * 1px);
@@ -352,6 +376,9 @@
   .border-black {
     border-color: var(--color-black);
   }
+  .border-red-600 {
+    border-color: var(--color-red-600);
+  }
   .bg-gray-700 {
     background-color: var(--color-gray-700);
   }
@@ -361,14 +388,29 @@
   .bg-jodark {
     background-color: var(--color-jodark);
   }
+  .bg-white\/50 {
+    background-color: color-mix(in srgb, #fff 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 50%, transparent);
+    }
+  }
   .bg-logo {
     background-image: var(--background-image-logo);
+  }
+  .bg-price {
+    background-image: var(--background-image-price);
+  }
+  .bg-cover {
+    background-size: cover;
   }
   .bg-size-\[130\%_auto\] {
     background-size: 130% auto;
   }
   .bg-center {
     background-position: center;
+  }
+  .bg-right {
+    background-position: right;
   }
   .bg-no-repeat {
     background-repeat: no-repeat;
@@ -385,11 +427,23 @@
   .px-8 {
     padding-inline: calc(var(--spacing) * 8);
   }
+  .px-16 {
+    padding-inline: calc(var(--spacing) * 16);
+  }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
   }
+  .py-24 {
+    padding-block: calc(var(--spacing) * 24);
+  }
   .py-\[5\%\] {
     padding-block: 5%;
+  }
+  .pt-4 {
+    padding-top: calc(var(--spacing) * 4);
+  }
+  .pt-16 {
+    padding-top: calc(var(--spacing) * 16);
   }
   .pb-8 {
     padding-bottom: calc(var(--spacing) * 8);
@@ -399,6 +453,9 @@
   }
   .pb-16 {
     padding-bottom: calc(var(--spacing) * 16);
+  }
+  .pl-4 {
+    padding-left: calc(var(--spacing) * 4);
   }
   .text-center {
     text-align: center;
@@ -440,6 +497,9 @@
   .text-joyellow {
     color: var(--color-joyellow);
   }
+  .text-red-600 {
+    color: var(--color-red-600);
+  }
   .text-white {
     color: var(--color-white);
   }
@@ -453,6 +513,11 @@
   .sm\:w-full {
     @media (width >= 40rem) {
       width: 100%;
+    }
+  }
+  .md\:w-\[80\%\] {
+    @media (width >= 48rem) {
+      width: 80%;
     }
   }
   .md\:text-4xl {
@@ -476,6 +541,11 @@
       margin-bottom: calc(var(--spacing) * 20);
     }
   }
+  .lg\:ml-8 {
+    @media (width >= 64rem) {
+      margin-left: calc(var(--spacing) * 8);
+    }
+  }
   .lg\:w-2\/5 {
     @media (width >= 64rem) {
       width: calc(2 / 5 * 100%);
@@ -484,6 +554,11 @@
   .lg\:w-3\/5 {
     @media (width >= 64rem) {
       width: calc(3 / 5 * 100%);
+    }
+  }
+  .lg\:w-\[33\%\] {
+    @media (width >= 64rem) {
+      width: 33%;
     }
   }
   .lg\:w-\[40\%\] {
@@ -506,6 +581,11 @@
       flex-direction: row;
     }
   }
+  .lg\:items-start {
+    @media (width >= 64rem) {
+      align-items: flex-start;
+    }
+  }
   .lg\:px-24 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 24);
@@ -516,9 +596,19 @@
       padding-block: calc(var(--spacing) * 8);
     }
   }
+  .lg\:pt-8 {
+    @media (width >= 64rem) {
+      padding-top: calc(var(--spacing) * 8);
+    }
+  }
   .lg\:pb-4 {
     @media (width >= 64rem) {
       padding-bottom: calc(var(--spacing) * 4);
+    }
+  }
+  .lg\:pl-8 {
+    @media (width >= 64rem) {
+      padding-left: calc(var(--spacing) * 8);
     }
   }
   .lg\:text-2xl {
@@ -596,7 +686,6 @@
     display: block;
   }
   .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-submit input {
-    pointer-events: auto;
     cursor: pointer;
     background-color: var(--color-jobutton-yellow);
     color: var(--color-black);

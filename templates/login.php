@@ -61,7 +61,7 @@ if(isset($_POST['joe_submit'])) {
     $errorClassLogin = ($emptyLogin != '' or $wrongLogin != '') ? ' has-error' : '';
     $errorClassPassword = ($emptyPassword != '' or $wrongPassword != '') ? ' has-error' : '';
 
-    // If login and password are good
+    // If login and password are correct
     if ($emptyLogin == '' and $wrongLogin == '' and $emptyPassword == '' and $wrongPassword == '') {
         $_SESSION['joe_logged'] = true;
         header('Location: /dashboard');

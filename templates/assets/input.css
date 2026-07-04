@@ -39,6 +39,7 @@
     --font-ano: "ano", sans-serif;
     --font-anobold: "anobold", sans-serif;
     --background-image-logo: url('images/headerPatches.png');
+    --background-image-price: url('images/priceBackground.png');
     --autoplay-slider: autoplay-slider 8s linear infinite;
 }
 @layer utilities {
@@ -57,7 +58,7 @@
         @apply block;
     }
     .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-submit input {
-        @apply text-black bg-jobutton-yellow cursor-pointer pointer-events-auto;
+        @apply text-black bg-jobutton-yellow cursor-pointer;
     }
 }
 @source "../views";

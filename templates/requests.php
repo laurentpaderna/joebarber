@@ -75,8 +75,9 @@ if (isset($_POST)) {
                 $currentToken = NULL;
             }
 
-            // Update appointment status
+            // Update appointment status and date type
             $requestUpdateAppointmentData = setDatabaseRequest("UPDATE appointments SET appointmentStatus = '$appointmentStatus', appointmentToken = '$currentToken' WHERE appointmentID = '$appointmentID'");
+            $requestUpdateDateType = setDatabaseRequest("UPDATE dates d INNER JOIN appointments a ON d.dateID = a.dateID SET dateType = 'appointment' WHERE d.dateID = a.dateID");
 
             // Set error content
             $messageDatabaseConnectionError = $requestUpdateAppointmentData['error'];
@@ -89,7 +90,7 @@ if (isset($_POST)) {
         }
 
         // Request data from current update
-        $requestUpdateData = setDatabaseRequest("SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, clients.clientID, clients.email, clients.lastName FROM dates, appointments, clients WHERE appointments.appointmentID = '$appointmentID' AND dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
+        $requestUpdateData = setDatabaseRequest("SELECT dates.dateID, dates.dateTime, dates.datePeriod, appointments.appointmentID, appointments.dateID, appointments.clientID, clients.clientID, clients.email, clients.lastName, clients.address FROM dates, appointments, clients WHERE appointments.appointmentID = '$appointmentID' AND dates.dateID = appointments.dateID AND clients.clientID = appointments.clientID;");
 
         if ($requestUpdateData['result'] != NULL and sizeof($requestUpdateData['result']) and $appointmentStatus != 'pending') {
 
@@ -99,19 +100,35 @@ if (isset($_POST)) {
             // Send mail to user
             foreach ($currentAppointment as $appointment) {
 
-                // Get user email address
+                // Get user email appointment time
                 $currentEmailDate = new DateTime($appointment['dateTime']);
+
+                // Get user information
+                $currentAddress = $appointment['address'];
 
                 // Get formatted time and period
                 $currentDateTime = $formatter->format($currentEmailDate);
                 $searchPeriod = ['-',':'];
                 $replacePeriod = [' à ','h'];
                 $currentDatePeriod = str_replace($searchPeriod, $replacePeriod, $appointment['datePeriod']);
-                $desktopLink .= '&datePeriod=' . urlencode($currentDatePeriod) . '&dateTime=' . urlencode($currentDateTime);
+                $desktopLink .= '&datePeriod=' . urlencode($currentDatePeriod) . '&dateTime=' . urlencode($currentDateTime) . '&address=' . urlencode($currentAddress);
                 $linkCancel = 'https://joebarber.local.com/cancel?token=' . $currentToken . '&id=' . $appointment['dateID'];
 
                 // Get email template
-                $templateEmail = $GLOBALS['twig']->load($templatePath)->render(['newsletter' => true, 'dateTime' => $currentDateTime, 'datePeriod' => $currentDatePeriod, 'desktopLink' => $desktopLink, 'linkCancel' => $linkCancel]);
+                $templateEmail = $GLOBALS['twig']->load($templatePath)->render([
+                    'newsletter' => true,
+                    'imgSrc' => 'https://iili.io/BKK77hG.md.png',
+                    'title' => 'Ta demande de rendez-vous<br> a été acceptée!',
+                    'introText' => "Nous te remercions d'avoir réservé ta coupe de cheveux. Nous te confirmons ton rendez-vous:",
+                    'address' => $currentAddress,
+                    'dateTime' => $currentDateTime,
+                    'datePeriod' => $currentDatePeriod,
+                    'desktopLink' => $desktopLink,
+                    'linkCancel' => $linkCancel,
+                    'hasCancel' => true,
+                    'hasAdmin' => false,
+                    'hasRequest' => false,
+                ]);
 
                 // Send notification to user
                 $resultMail = sendHtmlEmail(

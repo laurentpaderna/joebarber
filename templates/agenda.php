@@ -4,6 +4,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 $messageDatabaseConnectionError = NULL;
 $messageNotification = NULL;
+$messageNotificationError = NULL;
 
 // Define return link
 $returnLink = '/dashboard';
@@ -35,19 +36,23 @@ if (isset($_POST['submit_agenda_add'])) {
         $dataPeriod = explode('_', $post_data)[1];
 
         // Check if entry exist
-        $isDateExist = setDatabaseRequest("SELECT datePeriod, dateTime FROM dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
+        $isDateExist = setDatabaseRequest("SELECT dateID, datePeriod, dateTime FROM dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
+        $isDateExistMatch = count($isDateExist['result']);
 
-        if (!count($isDateExist['result'])) {
-            // Insert data into tables
-            $requestInsertDates = setDatabaseRequest("INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)");
+        // Get ID from existing entry
+        if ($isDateExistMatch) {
+            $currentDateID = $isDateExist['result'][0]['dateID'];
+        }
 
-            // Set error content
-            $messageDatabaseConnectionError = $requestInsertDates['error'];
+        // Insert data into tables
+        $requestInsertDates = !$isDateExistMatch ? setDatabaseRequest("INSERT INTO dates (dateType, datePeriod, dateTime, clientID) VALUES ('off','$dataPeriod','$dataDate',NULL)") : setDatabaseRequest("UPDATE dates SET dateType = 'off' WHERE dateID = '$currentDateID'");
 
-            // Set success message
-            if (empty($messageDatabaseConnectionError)) {
-                $messageNotification = 'Vos absences ont été validées.';
-            }
+        // Set error content
+        $messageDatabaseConnectionError = $requestInsertDates['error'];
+
+        // Set success message
+        if (empty($messageDatabaseConnectionError)) {
+            $messageNotification = 'Vos absences ont été validées.';
         }
     }
 }
@@ -63,14 +68,18 @@ if (isset($_POST['submit_agenda_delete'])) {
         $dataDate = explode('_', $post_data)[0];
         $dataPeriod = explode('_', $post_data)[1];
 
+        // Check if date is appointment
+        $requestCheckDateClient = setDatabaseRequest("SELECT clientID FROM dates WHERE DatePeriod = '$dataPeriod' AND DateTime = '$dataDate'");
+
         // Delete data into tables
-        $requestInsertDates = setDatabaseRequest("DELETE FROM dates WHERE datePeriod = '$dataPeriod' AND  dateTime = '$dataDate'");
+        $requestRestoreDates = $requestCheckDateClient['result'][0]['clientID'] == NULL ? setDatabaseRequest("DELETE FROM dates WHERE datePeriod = '$dataPeriod' AND  dateTime = '$dataDate'") : setDatabaseRequest("UPDATE dates SET dateType = 'appointment' WHERE datePeriod = '$dataPeriod' AND  dateTime = '$dataDate'");
 
         // Set error content
-        $messageDatabaseConnectionError = $requestInsertDates["error"];
+        $messageDatabaseConnectionError = $requestRestoreDates["error"];
 
         // Set success message
-        $isOffDisabled = setDatabaseRequest("SELECT * FROM dates WHERE datePeriod = '$dataPeriod' AND dateTime = '$dataDate'");
+        $isOffDisabled = setDatabaseRequest("SELECT * FROM dates WHERE datePeriod = '$dataPeriod' AND dateTime = '$dataDate' AND dateType = 'off'");
+
         if (!count($isOffDisabled['result'])) {
             $messageNotification = 'Vos absences ont été annulées.';
         }
@@ -212,6 +221,7 @@ echo $template->render([
     'nextMonday' => $dateStartWeek->format('Y-m-d'),
     'messageDatabaseConnectionError' => $messageDatabaseConnectionError,
     'messageNotification' => $messageNotification,
+    'messageNotificationError' => $messageNotificationError,
 ]);
 
 

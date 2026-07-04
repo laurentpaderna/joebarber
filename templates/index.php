@@ -79,7 +79,7 @@ switch ($request) {
 
     case '' :
 
-        // Redirect to admin dashboard
+        // Main page
         require __DIR__ . '/main.php';
 
         break;

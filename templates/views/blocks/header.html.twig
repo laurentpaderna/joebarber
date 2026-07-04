@@ -10,6 +10,12 @@
         <summary>✖</summary>
     </details>
 {% endif %}
+{% if messageNotificationError is not empty %}
+    <details id="has-success" class="is-notification has-error-notification" open>
+        <p>{{ messageNotificationError }}</p>
+        <summary>✖</summary>
+    </details>
+{% endif %}
 {% if messageMailSuccess is not empty %}
     <details id="has-success" class="is-notification has-success" open>
         <p>{{ messageMailSuccess | raw }}</p>

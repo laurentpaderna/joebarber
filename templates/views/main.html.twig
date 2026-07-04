@@ -17,13 +17,41 @@
     </section>
     <section>
         <div class="w-full max-w-[80vw] mt-0 lg:mb-20 mb-12 mx-auto">
+            {% if hasError is same as true %}
+                <div class="w-full flex flex-col lg:pl-8 pl-4 mb-4">
+                    <p class="lg:pt-8 pt-4 font-ano text-red-600">{{ errorMessage }}</p>
+                    <ul class="block list-disc">
+                        {% if wrongFirstName is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongFirstName }}</li>
+                        {% endif %}
+                        {% if wrongLastName is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongLastName }}</li>
+                        {% endif %}
+                        {% if wrongAddress is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongAddress }}</li>
+                        {% endif %}
+                        {% if wrongEmail is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongEmail }}</li>
+                        {% endif %}
+                        {% if wrongDate is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongDate }}</li>
+                        {% endif %}
+                        {% if wrongPhone is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongPhone }}</li>
+                        {% endif %}
+                        {% if wrongPeriod is not empty %}
+                            <li class="font-ano mb-4 text-red-600">{{ wrongPeriod }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
             <div class="flex flex-wrap justify-center items-center my-4">
                 <div class="lg:w-3/5 w-full relative z-1">
-                    <form class="flex relative">
+                    <form class="flex relative" method="post">
                         <label for="step-1" class="hidden">Première étape de la réservation</label>
-                        <input id="step-1" class="hidden" type="radio" name="form-step" checked />
+                        <input id="step-1" class="hidden" type="radio" name="form-step"{{ formSubmitted is same as false ? ' checked' }} />
                         <div class="step-form hidden p-4 lg:pb-4 pb-16">
-                            <h1 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">LA COUPE DE CHEVEUX À DOMICILE, C’EST MON DOMAINE&nbsp;!</h1>
+                            <h2 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">LA COUPE DE CHEVEUX À DOMICILE, C’EST MON DOMAINE&nbsp;!</h2>
                             <p class="lg:w-[70%] w-full mb-8 text-left font-400 text-2xl font-ano">Laissez-moi m’occuper de vos cheveux, vous ne le regretterez pas&nbsp;!</p>
                             <div class="w-full text-right">
                                 <label for="step-2" class="inline-block lg:-mr-[25%] lg:py-8 py-4 lg:px-24 px-8 uppercase font-anobold lg:text-2xl text-xl text-black rounded-tl-full rounded-tr-none rounded-br-full rounded-bl-full bg-jobutton-yellow cursor-pointer">réservez votre coupe!</label>
@@ -32,45 +60,59 @@
                         <input id="step-2" class="hidden" type="radio" name="form-step" />
                         <div class="step-form w-full hidden p-4 lg:pb-4 pb-12">
                             <div class="form-inputs w-full flex justify-start items-center lg:flex-row flex-col">
-                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-firstname" placeholder="Votre nom..." required />
-                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-lastname" placeholder="Votre prénom..." required />
+                                <label for="customer-firstname" class="hidden">Insérez votre nom</label>
+                                <input id="customer-firstname" value="{{ currentFirstName }}" class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid {{ wrongFirstName is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-firstname" placeholder="Votre nom..." required />
+                                <label for="customer-lastname" class="hidden">Insérez votre prénom</label>
+                                <input id="customer-lastname" value="{{ currentLastName }}" class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid {{ wrongLastName is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-lastname" placeholder="Votre prénom..." required />
                             </div>
                             <div class="form-inputs w-full flex justify-start items-center lg:flex-row flex-col">
-                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-address" placeholder="Votre adresse..." required />
-                                <input class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="date" name="customer-date" required />
+                                <label for="customer-address" class="hidden">Insérez l'addresse du rendez-vous</label>
+                                <input id="customer-address" value="{{ currentAddress }}" class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid {{ wrongAddress is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="text" name="customer-address" placeholder="L'adresse du rendez-vous..." required />
+                                <label for="customer-email" class="hidden">Insérez votre addresse e-mail</label>
+                                <input id="customer-email" value="{{ currentEmail }}" class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid {{ wrongEmail is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="email" name="customer-email" placeholder="Votre adresse e-mail..." required />
                             </div>
-                            <div class="form-inputs w-full text-left">
-                                <label for="customer-hours" class="w-full block lg:mx-4 mx-0 font-ano">Sélectionnez votre créneau horaire</label>
-                                <select id="customer-hours" class="lg:w-[40%] w-full lg:mx-4 mx-0 my-6 p-2 border-2 border-solid border-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" name="customer-hours">
-                                    <option value="08h00-08h30">08h00-08h30</option>
-                                    <option value="08h00-08h30">08h30-09h00</option>
-                                    <option value="08h00-08h30">09h00-09h30</option>
-                                    <option value="08h00-08h30">09h30-10h00</option>
-                                    <option value="08h00-08h30">10h00-10h30</option>
-                                    <option value="08h00-08h30">10h30-11h00</option>
-                                    <option value="08h00-08h30">11h00-11h30</option>
-                                    <option value="08h00-08h30">11h30-12h00</option>
-                                    <option value="08h00-08h30">12h00-12h30</option>
-                                    <option value="08h00-08h30">12h30-13h00</option>
-                                    <option value="08h00-08h30">13h00-13h30</option>
-                                    <option value="08h00-08h30">13h30-14h00</option>
-                                    <option value="08h00-08h30">14h00-14h30</option>
-                                    <option value="08h00-08h30">14h30-15h00</option>
-                                    <option value="08h00-08h30">15h00-15h30</option>
-                                    <option value="08h00-08h30">15h30-16h00</option>
-                                    <option value="08h00-08h30">16h00-16h30</option>
-                                    <option value="08h00-08h30">16h30-17h00</option>
-                                    <option value="08h00-08h30">17h00-17h30</option>
-                                    <option value="08h00-08h30">17h30-18h00</option>
-                                    <option value="08h00-08h30">18h00-18h30</option>
-                                    <option value="08h00-08h30">18h30-19h00</option>
-                                </select>
+                            <div class="form-inputs w-full flex justify-start items-center lg:flex-row flex-col">
+                                <label for="customer-phone" class="hidden">Insérez le numéro de téléphone</label>
+                                <input id="customer-phone" value="{{ currentPhone }}" class="lg:w-[40%] w-full mx-4 my-6 p-2 border-2 border-solid {{ wrongPhone is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="tel" name="customer-phone" placeholder="Votre numéro de téléphone..." required />
+                            </div>
+                            <div class="form-inputs w-full flex lg:flex-row flex-col text-left">
+                                <div class="lg:w-[40%] w-full">
+                                    <label for="customer-date" class="mt-2 mb-6 lg:mx-4 mx-0 block font-ano">Insérez la date de votre rendez-vous</label>
+                                    <input id="customer-date" value="{{ currentDate }}" min="{{ "now"|date_modify("+1 day")|date("Y-m-d") }}" class="w-full lg:mx-4 mx-0 mb-6 p-2 border-2 border-solid {{ wrongDate is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" type="date" name="customer-date" required />
+                                </div>
+                                <div class="lg:w-[40%] w-full lg:ml-8">
+                                    <label for="customer-period" class="mt-2 mb-6 lg:mx-4 mx-0 block font-ano">Sélectionnez votre créneau horaire</label>
+                                    <select id="customer-period" class="w-full lg:mx-4 mx-0 mb-6 p-2 border-2 border-solid {{ wrongPeriod is not empty ? 'border-red-600' :' border-black' }} rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-ano" name="customer-period">
+                                        <option value="08:00-08:30" {{ currentPeriod == '08:00-08:30' ? 'selected' }}>08:00-08:30</option>
+                                        <option value="08:30-09:00" {{ currentPeriod == '08:30-09:00' ? 'selected' }}>08:30-09:00</option>
+                                        <option value="09:00-09:30" {{ currentPeriod == '09:00-09:30' ? 'selected' }}>09:00-09:30</option>
+                                        <option value="09:30-10:00" {{ currentPeriod == '>09:30-10:00' ? 'selected' }}>09:30-10:00</option>
+                                        <option value="10:00-10:30" {{ currentPeriod == '10:00-10:30' ? 'selected' }}>10:00-10:30</option>
+                                        <option value="10:30-11:00" {{ currentPeriod == '10:30-11:00' ? 'selected' }}>10:30-11:00</option>
+                                        <option value="11:00-11:30" {{ currentPeriod == '11:00-11:30' ? 'selected' }}>11:00-11:30</option>
+                                        <option value="11:30-12:00" {{ currentPeriod == '11:30-12:00' ? 'selected' }}>11:30-12:00</option>
+                                        <option value="12:00-12:30" {{ currentPeriod == '12:00-12:30' ? 'selected' }}>12:00-12:30</option>
+                                        <option value="12:30-13:00" {{ currentPeriod == '12:30-13:00' ? 'selected' }}>12:30-13:00</option>
+                                        <option value="13:00-13:30" {{ currentPeriod == '13:00-13:30' ? 'selected' }}>13:00-13:30</option>
+                                        <option value="13:30-14:00" {{ currentPeriod == '13:30-14:00' ? 'selected' }}>13:30-14:00</option>
+                                        <option value="14:00-14:30" {{ currentPeriod == '14:00-14:30' ? 'selected' }}>14:00-14:30</option>
+                                        <option value="14:30-15:00" {{ currentPeriod == '14:30-15:00' ? 'selected' }}>14:30-15:00</option>
+                                        <option value="15:00-15:30" {{ currentPeriod == '15:00-15:30' ? 'selected' }}>15:00-15:30</option>
+                                        <option value="15:30-16:00" {{ currentPeriod == '15:30-16:00' ? 'selected' }}>15:30-16:00</option>
+                                        <option value="16:00-16:30" {{ currentPeriod == '16:00-16:30' ? 'selected' }}>16:00-16:30</option>
+                                        <option value="16:30-17:00" {{ currentPeriod == '16:30-17:00' ? 'selected' }}>16:30-17:00</option>
+                                        <option value="17:00-17:30" {{ currentPeriod == '17:00-17:30' ? 'selected' }}>17:00-17:30</option>
+                                        <option value="17:30-18:00" {{ currentPeriod == '17:30-18:00' ? 'selected' }}>17:30-18:00</option>
+                                        <option value="18:00-18:30" {{ currentPeriod == '18:00-18:30' ? 'selected' }}>18:00-18:30</option>
+                                        <option value="18:30-19:00" {{ currentPeriod == '18:30-19:00' ? 'selected' }}>18:30-19:00</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-submit w-full flex justify-start items-center">
-                                <input class="lg:mx-4 mx-0 my-6 px-6 py-4 bg-gray-700 text-white rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-anobold pointer-events-none" value="PRENDRE RENDEZ-VOUS" type="submit" />
+                                <input class="lg:mx-4 mx-0 my-6 px-6 py-4 bg-gray-700 text-white rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-anobold cursor-not-allowed" value="PRENDRE RENDEZ-VOUS" name="customer-submit" type="submit" />
                             </div>
                         </div>
-                        <input id="step-3" class="hidden" type="radio" name="form-step" />
+                        <input id="step-3" class="hidden" type="radio" name="form-step"{{ formSubmitted is same as true ? ' checked' }} />
                         <div class="step-form w-full hidden p-4 lg:pb-4 pb-12">
                             <h3 class="lg:w-[60%] w-full pb-8 text-left text-4xl font-anobold">MERCI D'AVOIR PRIS<br/>RENDEZ-VOUS&nbsp;!</h3>
                             <label for="step-2" class="inline-block mb-6 px-6 py-4 bg-jobutton-yellow text-black rounded-tl-none rounded-tr-2xl rounded-br-2xl rounded-bl-2xl font-anobold cursor-pointer">RÉSERVER UNE AUTRE COUPE DE CHEVEUX</label>
@@ -94,6 +136,25 @@
                             <a href="#slide-3" class="w-6 h-6 mr-4 border-2 border-black rounded-full relative"></a>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-price bg-no-repeat bg-right bg-cover">
+        <div class="w-full max-w-[80vw] mt-0 lg:mb-20 mb-12 mx-auto">
+            <h3 class="py-24 font-anobold text-4xl text-white text-center">MES TARIFS</h3>
+            <div class="pb-16 flex justify-center lg:items-start items-center lg:flex-row flex-col">
+                <div class="lg:w-[33%] md:w-[80%] mx-8 mb-8 w-full bg-white/50 rounded-tl-4xl rounded-tr-4xl rounded-br-none rounded-bl-4xl text-center">
+                    <p class="px-16 pt-16 pb-16 text-2xl text-black font-anobold">COUPE<br/>ENFANT</p>
+                    <p class="px-16 pb-16 text-2xl text-black font-anobold">XX€</p>
+                </div>
+                <div class="lg:w-[33%] md:w-[80%] mx-8 mb-8 w-full bg-white/50 rounded-tl-4xl rounded-tr-4xl rounded-br-none rounded-bl-4xl text-center">
+                    <p class="px-16 pt-16 pb-16 text-2xl text-black font-anobold">COUPE<br/>ADULTE</p>
+                    <p class="px-16 pb-16 text-2xl text-black font-anobold">XX€</p>
+                </div>
+                <div class="lg:w-[33%] md:w-[80%] mx-8 mb-8 w-full bg-white/50 rounded-tl-4xl rounded-tr-4xl rounded-br-none rounded-bl-4xl text-center">
+                    <p class="px-16 pt-16 pb-16 text-2xl text-black font-anobold">DESSIN,<br/>COULEUR</p>
+                    <p class="px-16 pb-16 text-2xl text-black font-anobold">XX€</p>
                 </div>
             </div>
         </div>

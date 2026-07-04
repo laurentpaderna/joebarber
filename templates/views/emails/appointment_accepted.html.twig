@@ -67,7 +67,7 @@
               <table cellpadding="0" cellspacing="0" border="0" align="center" style="width: 100%;" role="none">
                 <tr>
                   <td align="center" style="text-align: center;">
-                    <img width="600" src="https://iili.io/BKK77hG.md.png" alt="Jo'barber hero" style="display: block; height: auto; width: 100%; border-width: 0px;" height="auto">
+                    <img width="600" src="{{ imgSrc }}" alt="Jo'barber hero" style="display: block; height: auto; width: 100%; border-width: 0px;" height="auto">
                   </td>
                 </tr>
               </table>
@@ -77,30 +77,43 @@
             <td>
               <table align="center" cellpadding="0" cellspacing="0" border="0" width="600" style="width: 100%;" role="none">
                 <tr>
-                  <td align="center" style="padding: 24px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 24px; line-height: 24px; font-weight: 700; color: #000000;">Ta demande de rendez-vous<br> a été acceptée!</td>
+                  <td align="center" style="padding: 24px 20px; text-align: center; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 24px; line-height: 24px; font-weight: 700; color: #000000;">{{ title | raw }}</td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td>
+            {% set bottomPadding = hasCancel is same as false or hasAdmin is same as false or hasRequest is same as false ? ' style="padding-bottom: 20px;"' %}
+            <td{{ bottomPadding }}>
               <!--[if mso | IE]>
-      <table width="500" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr><td>
-      <![endif]-->
+              <table width="500" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr><td>
+              <![endif]-->
               <table align="center" cellpadding="0" cellspacing="0" border="0" width="500" style="width: 500px; max-width: 100%;" role="none">
                 <tr>
-                  <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Nous te remercions d'avoir réservé ta coupe de cheveux. Nous te confirmons ton rendez-vous:</td>
+                  <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">{{ introText }}</td>
                 </tr>
                 <tr>
-                  <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;"><span>●</span> Le {{ dateTime }}<br><span>●</span> {{ datePeriod }}<br></td>
+                  <td align="left" style="padding-bottom: 16px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;"><span>●</span> Le {{ dateTime }}<br><span>●</span> {{ datePeriod }}<br><span>●</span> {{ address }}<br></td>
                 </tr>
-                <tr>
-                  <td align="left" style="padding-bottom: 24px; text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Si tu veux annuler ton rendez-vous, <a href="{{ linkCancel }}" style="font-weight: 700; color: #000000; text-decoration: underline;">clique ici</a>.</td>
-                </tr>
+                {% if hasCancel is same as true %}
+                    <tr>
+                        <td align="left" style="padding-bottom: 36px;text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Si tu veux annuler ton rendez-vous, <a href="{{ linkCancel }}" style="font-weight: 700; color: #000000; text-decoration: underline;">clique ici</a>.</td>
+                    </tr>
+                {% endif %}
+                {% if hasAdmin is same as true %}
+                    <tr>
+                        <td align="left" style="padding-bottom: 36px;text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;"><a href="{{ adminLink }}" style="font-weight: 700; color: #000000; text-decoration: underline;">Cliquez ici</a> pour vous rendre dans votre espace sécurisé et traiter la demande.</td>
+                    </tr>
+                {% endif %}
+                {% if hasRequest is same as true %}
+                    <tr>
+                        <td align="left" style="padding-bottom: 36px;text-align: left; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 20px; color: #000000;">Ton coiffeur te confirmera ta demande dans les plus brefs délais.</td>
+                    </tr>
+                {% endif %}
               </table>
               <!--[if mso | IE]>
-      </td></tr></table>
-      <![endif]-->
+              </td></tr></table>
+              <![endif]-->
             </td>
           </tr>
           <tr>
