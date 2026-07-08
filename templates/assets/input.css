@@ -40,6 +40,7 @@
     --font-anobold: "anobold", sans-serif;
     --background-image-logo: url('images/headerPatches.png');
     --background-image-price: url('images/priceBackground.png');
+    --background-image-location: url('images/location.png');
     --autoplay-slider: autoplay-slider 8s linear infinite;
 }
 @layer utilities {
@@ -59,6 +60,10 @@
     }
     .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-inputs:not(:has(:invalid)) + .form-submit input {
         @apply text-black bg-jobutton-yellow cursor-pointer;
+    }
+    .location-item::before {
+        @apply absolute bottom-[-52px] left-1/2 -translate-x-1/2 text-white text-6xl;
+        content: "\1F893";
     }
 }
 @source "../views";
