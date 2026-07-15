@@ -233,9 +233,6 @@
   .mr-4 {
     margin-right: calc(var(--spacing) * 4);
   }
-  .mr-24 {
-    margin-right: calc(var(--spacing) * 24);
-  }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
   }
@@ -309,6 +306,9 @@
   .snap-start {
     scroll-snap-align: start;
   }
+  .\[scrollbar-width\:none\] {
+    scrollbar-width: none;
+  }
   .list-disc {
     list-style-type: disc;
   }
@@ -320,9 +320,6 @@
   }
   .items-center {
     align-items: center;
-  }
-  .justify-between {
-    justify-content: space-between;
   }
   .justify-center {
     justify-content: center;
@@ -405,6 +402,9 @@
   .border-red-600 {
     border-color: var(--color-red-600);
   }
+  .bg-black {
+    background-color: var(--color-black);
+  }
   .bg-gray-700 {
     background-color: var(--color-gray-700);
   }
@@ -482,6 +482,9 @@
   }
   .pt-16 {
     padding-top: calc(var(--spacing) * 16);
+  }
+  .pr-2 {
+    padding-right: calc(var(--spacing) * 2);
   }
   .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
@@ -561,6 +564,11 @@
       width: 80%;
     }
   }
+  .md\:flex-row {
+    @media (width >= 48rem) {
+      flex-direction: row;
+    }
+  }
   .md\:text-4xl {
     @media (width >= 48rem) {
       font-size: var(--text-4xl);
@@ -582,6 +590,11 @@
       margin-right: calc(20% * -1);
     }
   }
+  .lg\:mr-24 {
+    @media (width >= 64rem) {
+      margin-right: calc(var(--spacing) * 24);
+    }
+  }
   .lg\:mb-20 {
     @media (width >= 64rem) {
       margin-bottom: calc(var(--spacing) * 20);
@@ -590,6 +603,11 @@
   .lg\:-ml-\[5\%\] {
     @media (width >= 64rem) {
       margin-left: calc(5% * -1);
+    }
+  }
+  .lg\:ml-0 {
+    @media (width >= 64rem) {
+      margin-left: 0;
     }
   }
   .lg\:ml-8 {
@@ -647,6 +665,11 @@
       justify-content: space-around;
     }
   }
+  .lg\:justify-between {
+    @media (width >= 64rem) {
+      justify-content: space-between;
+    }
+  }
   .lg\:px-24 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 24);
@@ -660,6 +683,11 @@
   .lg\:pt-8 {
     @media (width >= 64rem) {
       padding-top: calc(var(--spacing) * 8);
+    }
+  }
+  .lg\:pr-24 {
+    @media (width >= 64rem) {
+      padding-right: calc(var(--spacing) * 24);
     }
   }
   .lg\:pb-4 {
@@ -682,6 +710,11 @@
     @media (width >= 64rem) {
       font-size: var(--text-6xl);
       line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+  .\[\&\:\:-webkit-scrollbar\]\:hidden {
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }

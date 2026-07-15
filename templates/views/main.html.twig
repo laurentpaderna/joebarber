@@ -120,7 +120,7 @@
                     </form>
                 </div>
                 <div class="pb-8 lg:w-2/5 sm:w-full relative">
-                    <ul class="slides flex overflow-x-auto scroll-smooth snap-x snap-mandatory">
+                    <ul class="slides flex overflow-x-auto scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         <li id="slide-1" class="w-full flex justify-center items-center shrink-0 snap-start">
                             <img class="w-full h-auto rounded-2xl" src="../assets/images/slider1.png" alt=""/>
                         </li>
@@ -172,21 +172,29 @@
         <div class="w-full max-w-[80vw] mt-0 mx-auto">
             <h3 class="mx-auto py-20 max-w-[600px] font-anobold text-4xl text-white text-center">LES ZONES DANS LESQUELLES JE TRAVAILLE</h3>
             <div class="pb-12">
-                <div class="flex flex-wrap justify-between ">
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">SAINT-JUST</p>
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">AIRION</p>
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">CAUFFRY</p>
+                <div class="flex flex-wrap lg:justify-between justify-center">
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">SAINT-JUST</p>
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">AIRION</p>
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">CAUFFRY</p>
                 </div>
-                <div class="flex flex-wrap lg:justify-around justify-between">
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">FITZ-JAMES</p>
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">AGNETZ</p>
+                <div class="flex flex-wrap lg:justify-around justify-center">
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">FITZ-JAMES</p>
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">AGNETZ</p>
                 </div>
-                <div class="flex flex-wrap justify-between">
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">BREUIL-LE-VERT</p>
-                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-white rounded-xl">CLERMONT</p>
-                    <p class="lg:block hidden relative max-w-[170px] w-full p-4 mb-24 mr-24 text-center text-black text-md bg-transparent rounded-xl"></p>
+                <div class="flex flex-wrap lg:justify-between justify-center">
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">BREUIL-LE-VERT</p>
+                    <p class="location-item relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-white rounded-xl">CLERMONT</p>
+                    <p class="lg:block hidden relative max-w-[170px] w-full p-4 mb-24 lg:ml-0 lg:mr-24 mx-8 text-center text-black text-md bg-transparent rounded-xl"></p>
                 </div>
             </div>
         </div>
+    </section>
+    <section class="bg-black">
+        <footer class="w-full max-w-[80vw] mt-0 mx-auto">
+            <div class="flex justify-start items-center lg:flex-row md:flex-row flex-col">
+                <a class="flex items-center font-ano text-white text-md lg:pr-24 p-4" href="tel:+330761785066"><span class="inline-block pr-2 text-2xl">&#9990;</span><spaspnn>0761 78 50 66</spaspnn></a>
+                <a class="flex items-center font-ano text-white text-md p-4" href="mailto:jocoiff77@gmail.com"><span class="inline-block pr-2 text-2xl">&#9993;</span><span></span>jocoiff77@gmail.com</a></a>
+            </div>
+        </footer>
     </section>
 {% endblock %}
